@@ -1,5 +1,23 @@
 @extends('layouts.app')
 
+@section('title')
+        <title>Curricular Developer Dash Board</title>
+@stop
+
+@section('navBarHeader')
+        <a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Registration </a>
+@stop
+
+
+@section('bodyHeader')
+        <h1>
+            
+            CD Dash Board
+        </h1>
+@stop
+
+
+
 @section('content')
 <div class="row">
    <div class="col-md-8 col-md-offset-2">

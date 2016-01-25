@@ -1,3 +1,3 @@
-userID,lName,educationalInstitution,type,email
-Pro001,Mark,beitel,siast,test,m.beitel@test.com
-Pro002,Tim ,jim,siast,t,sdfrewsr
+id,,fName,lName,educationalInstitution,areaOfStudy,type,email,created_at,updated_at
+,Pro001,Mark,beitel,,siast,test,m.bl@test.com,,
+,Pro002,Tim ,jim,,siast,t,sdfrewsr,,

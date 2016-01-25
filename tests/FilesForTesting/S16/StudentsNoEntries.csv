@@ -1,1 +1,1 @@
-userID,age,areaOfStudy,fName,lName,educationalInstitution,email
+id,userID,age,areaOfStudy,fName,lName,educationalInstitution,email,created_at,updated_at

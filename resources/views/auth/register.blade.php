@@ -1,5 +1,24 @@
 @extends('layouts.app')
 
+
+
+@section('title')
+        <title> Register </title>
+@stop
+
+@section('navBarHeader')
+        <a class="navbar-brand" href="{{ url('/home') }}">Curricular Densitometer   </a>
+@stop
+
+@section('bodyHeader')
+<div>
+    
+    <h1 class="page-header"> Register </h1>
+    
+</div>
+
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">

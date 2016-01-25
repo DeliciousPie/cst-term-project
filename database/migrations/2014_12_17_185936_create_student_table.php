@@ -23,7 +23,7 @@ class CreateStudentTable extends Migration
             $table->string('lName', 25);
             $table->string('educationalInstitution', 30);
             $table->string('email', 50);
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
         
         Schema::table('Student', function ($table) {

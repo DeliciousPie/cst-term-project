@@ -21,12 +21,10 @@ class CreateProfessorTable extends Migration
             $table->string('educationalInstitution', 30);
             $table->string('areaOfStudy', 20);
             $table->string('email', 50);
-            $table->timestamps();
+            $table->nullableTimestamps();	
         });
         
         Schema::table('Professor', function ($table) {
-            
-            
             $table->foreign('id')
                     ->references('id')
                     ->on('users')
