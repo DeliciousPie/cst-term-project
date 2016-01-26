@@ -1,4 +1,4 @@
-courseID,courseName,description
-MEDC 100.0,medicine,apply medicine something
-MEDC 101.0,medicineNext,apply more medicine
-MEDC 111.0,medicineDoctor, description 
+courseID,courseName,areaOfStudy,description
+MEDC 100.0,medicine,MED,apply medicine something
+MEDC 101.0,medicineNext,MED,apply more medicine
+MEDC 111.0,medicineDoctor,MED, description 

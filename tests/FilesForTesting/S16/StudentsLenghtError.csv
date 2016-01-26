@@ -1,3 +1,3 @@
-id,userID,age,areaOfStudy,fName,lName,educationalInstitution,email,created_at,updated_at
-,Stu001,25,CST,Mark,beitel,siast,m.beitel@test.com,,
-,Stu002,45,cst,bob ,bill ,sisat ,wow that description is way to long and will not be able to be inserted into the database and will give an error when you try to upload this file its not good good thing we build the site to be able to stop this from braking the website!,,
+userID,age,areaOfStudy,fName,lName,educationalInstitution,email
+Stu001,25,CST,Mark,beitel,siast,m.beitel@test.com
+Stu002,45,cst,bob ,bill ,sisat ,wow that description is way to long and will not be able to be inserted into the database and will give an error when you try to upload this file its not good good thing we build the site to be able to stop this from braking the website!

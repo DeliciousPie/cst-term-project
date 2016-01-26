@@ -114,21 +114,21 @@
                         <!-- /Course Div close -->
 
                         <!-- Professor select Boxes open  -->
-                        <div class="col-md-7"id="ProfessorDiv">
+                        <div class="col-md-7" id="ProfessorDiv">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Professors</h3>
                                 </div>
-                                <div class="panel-body">       
+                                <div class="panel-body" id="profBody">       
                                     <?=
                                             Former::horizontal_open()
-                                            ->id('MyForm')
+                                            ->id('profList')
                                             ->secure()
                                             ->rules(['name' => 'required'])
                                             ->method('POST')
                                     ?>
 
-                                    <?= Former::checkboxes('Professors')->checkboxes($professors)->stacked() ?>
+                                    <!--                                   // Former::checkboxes('Professors')->checkboxes($professors)->stacked() -->
                                 </div> <!-- body close-->    
                             </div>
                         </div>
@@ -142,33 +142,33 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Students</h3>
                                 </div>
-                                <div class="panel-body">       
+                                <div class="panel-body" id="StudentBody" >       
 
-                                    <?= Former::checkboxes('Students')->checkboxes($students)->stacked() ?>
+
                                 </div>
                             </div>
                         </div>
-                        
-                                            <div class="col-lg-7" id="FinalSubmitDiv">
-                        <?=
-                                Former::actions()
-                                ->large_primary_submit('Finished ')
-                                ->large_inverse_reset('Reset')
-                        ?>
-                    </div>
+
+                        <div class="col-lg-7" id="FinalSubmitDiv">
+                            <?=
+                                    Former::actions()
+                                    ->large_primary_submit('Finished ')
+                                    ->large_inverse_reset('Reset')
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    
-        
 
 
-                    <!-- /Student select Boxes close -->
-                    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-                    <script type="text/javascript">
+
+
+<!-- /Student select Boxes close -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
 
 // this hides loading wheel when page loads 
 $(window).load(function () {
@@ -194,14 +194,50 @@ $("#submitBtn").click(function (event)
 
 $("#getProfAndStu").click(function (event)
 {
-    var result = $('#courseSelection  option:selected').text();
+    $(".loading").fadeIn("slow");
+    var courseID = $('#courseSelection  option:selected').text();
 
-
+    var course = {
+        'courseID': courseID};
     event.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.post('CourseAssignmentMain/getProfAndStu', course, function (data)
+    {
+        $("#profBody").html("<form action='professorCheckGroup'>");
+        for (var count in data.professors)
+        {
+            $("#profBody").append("<input type='checkbox' value='" +
+                    data.professors[count].userID + "' >" +
+                    data.professors[count].fName + "<br>");
+        }
+        $("#profBody").append("</form>");
+
+
+
+
+        $("#StudentBody").html("<form action='studentCheckGroup'>");
+        for (var count in data.students)
+        {
+            $("#StudentBody").append("<input type='checkbox' value='" +
+                    data.students[count].userID + "' >" +
+                    data.students[count].fName + "<br>");
+        }
+
+        $(".loading").hide();
+
+    });
+
+
     $("#ProfessorDiv").show();
     $("#StudentDiv").show();
     $("#FinalSubmitDiv").show();
 });
 
-                    </script>
-                    @endsection
+</script>
+@endsection

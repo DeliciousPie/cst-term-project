@@ -1,3 +1,23 @@
-id,userID,fName,lName,educationalInstitution,areaOfStudy,type,email,created_at,updated_at
-,Pro001,Mark,beitel,siast,,test,m.b@test.com,,
-,Pro002,Tim ,jim,siast,,t,sdfrewsr,,
+userID,fName,lName,educationalInstitution,areaOfStudy,type,email
+Pro001,Mark,beitel,SIAST,CST,Instructor,m.b@test.com
+Pro002,Tim ,jim,SIAST,CST,Instructor,sdfrewsr
+Pro003,Magan,Heinlein,SIAST,CST,Instructor,M.Heinlein008@SIAST.com
+Pro004,Cristin,Gilder,SIAST,CST,Instructor,C.Gilder009@SIAST.com
+Pro005,Alysa,Burroughs,SIAST,CST,Instructor,A.Burroughs010@SIAST.com
+Pro006,Len,Crouch,SIAST,CST,Instructor,L.Crouch011@SIAST.com
+Pro007,Ashely,Giron,SIAST,CST,Instructor,A.Giron012@SIAST.com
+Pro008,Heath,Wilker,SIAST,CST,Instructor,H.Wilker013@SIAST.com
+Pro009,Jospeh,Spang,SIAST,CST,Instructor,J.Spang014@SIAST.com
+Pro010,Scottie,Konecny,SIAST,CST,Instructor,S.Konecny015@SIAST.com
+Pro011,Mila,Lindholm,SIAST,CST,Instructor,M.Lindholm016@SIAST.com
+Pro012,Bonny,Ethridge,UofS,MED,Dr.,B.Ethridge017@uofs.ca
+Pro013,Paul,Spada,UofS,MED,Dr.,P.Spada018@uofs.ca
+Pro014,Lizzie,Landeros,UofS,MED,Dr.,L.Landeros019@uofs.ca
+Pro015,Eryn,Jeanbaptiste,UofS,MED,Dr.,E.Jeanbaptiste020@uofs.ca
+Pro016,Tanisha,Puff,UofS,MED,Dr.,T.Puff021@uofs.ca
+Pro017,Lawanda,Garrels,UofS,MED,Dr.,L.Garrels022@uofs.ca
+Pro018,Deanna,Elvin,UofS,MED,Dr.,D.Elvin023@uofs.ca
+Pro019,Tod,Alpaugh,UofS,MED,Dr.,T.Alpaugh024@uofs.ca
+Pro020,Raelene,Toepfer,UofS,MED,Dr.,R.Toepfer025@uofs.ca
+Pro021,Williams,Nowell,UofS,MED,Dr.,W.Nowell026@uofs.ca
+Pro022,Leatha,Clow,UofS,MED,Dr.,L.Clow027@uofs.ca

@@ -1,4 +1,4 @@
-courseID,courseName,description
-MEDC 100.0,medicine,apply medicine something
-MEDC 101.0,medicineNext,apply more medicine
-MEDC 111.0,medicineDoctor,wow that description is way to long and will not be able to be inserted into the database and will give an error when you try to upload this file its not good good thing we build the site to be able to stop this from braking the website!
+courseID,courseName,areaOfStudy,description
+MEDC 100.0,medicine,MED,apply medicine something
+MEDC 101.0,medicineNext,MED,apply more medicine
+MEDC 111.0,medicineDoctor,MED,wow that description is way to long and will not be able to be inserted into the database and will give an error when you try to upload this file its not good good thing we build the site to be able to stop this from braking the website!

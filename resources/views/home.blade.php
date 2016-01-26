@@ -5,7 +5,7 @@
 @stop
 
 @section('navBarHeader')
-        <a class="navbar-brand" href="{{ url('/home') }}">Home Page </a>
+        <a class="navbar-brand" href="{{ url('/home') }}">Curricular Densitometer  </a>
 @stop
 
 @section('bodyHeader')

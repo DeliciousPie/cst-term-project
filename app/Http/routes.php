@@ -77,9 +77,9 @@ Route::group(['middleware' => 'web'], function () {
         
         // Course Assignment Grouping 
         Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
-        Route::post('CourseAssignmentMain',
+        Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
         
-        'CourseAssignmentController@uploadCSVFiles' );
+        Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
     
     });
     

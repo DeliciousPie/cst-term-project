@@ -111,6 +111,25 @@ class CourseAssignmentController extends Controller
         return view('CD/CourseAssignmentMain', compact('classes', 'students', 'professors'));
     }
 
+    
+    public function getProfAndStud()
+    {
+
+        
+        if (isset($_POST['courseID']))
+        {
+            $courseID = $_POST['courseID']; 
+        }
+        $profArray = DB::select('SELECT fName, lName, userID FROM Professor where areaOfStudy = (select areaOfStudy from Course where courseID = "'. $courseID .'")');
+        
+        $StudentArray = DB::select('SELECT fName, lName, UserID FROM Student where areaOfStudy = (select areaOfStudy from Course where courseID = "'. $courseID .'")');
+        
+        
+        
+        return response()->json(['professors'=> $profArray ,'students' => $StudentArray ]);
+    }
+
+
     /*
      * This will check if a file is CSV and return the data from it
      * Returns an error or an associative array of data
@@ -211,6 +230,7 @@ class CourseAssignmentController extends Controller
                         // uses modle to create new Course 
                         Course::create([
                             'courseID' => $currentCourse['courseID'],
+                            'areaOfStudy'=>$currentCourse['areaOfStudy'],
                             'courseName' => $currentCourse['courseName'],
                             'description' => $currentCourse['description']
                         ]);
@@ -297,6 +317,7 @@ class CourseAssignmentController extends Controller
                             'userID' => $currentProfessor['userID'],
                             'fName' => $currentProfessor['fName'],
                             'lName' => $currentProfessor['lName'],
+                            'areaOfStudy'=> $currentProfessor['areaOfStudy'],
                             'educationalInstitution' => $currentProfessor['educationalInstitution'],
                             'email' => $currentProfessor['email']
                         ]);
@@ -420,6 +441,8 @@ class CourseAssignmentController extends Controller
         //Check if an error exists
         if (!isset($CSVArray['error']))
         {
+            //CSV does not have these columns, but the database does.
+            $headersToIgnore = array("id","created_at","updated_at");
             $headers = '';
             $headerNotValid = false;
             //This foreach will validate the headers with what the database
@@ -427,18 +450,20 @@ class CourseAssignmentController extends Controller
             foreach ($columns as $eachColumn)
             {
                 $dbFieldName = $eachColumn->Field;
-
-                // check to see if there is any entries in the file 
-                if (!isset($CSVArray[0]))
+                if(!in_array($dbFieldName, $headersToIgnore) )
                 {
-                    return "There are no Entries in the CSV File";
-                }
-                //Check if the CSV file has a header which matches the DB's
-                if (!isset($CSVArray[0][$dbFieldName]))
-                {
-                    //Add failing flag
-                    $headerNotValid = true;
-                    $headers .= $dbFieldName . ', ';
+                    // check to see if there is any entries in the file 
+                    if (!isset($CSVArray[0]))
+                    {
+                        return "There are no Entries in the CSV File";
+                    }
+                    //Check if the CSV file has a header which matches the DB's
+                    if (!isset($CSVArray[0][$dbFieldName]))
+                    {
+                        //Add failing flag
+                        $headerNotValid = true;
+                        $headers .= $dbFieldName . ', ';
+                    }
                 }
             }
 
@@ -460,9 +485,7 @@ class CourseAssignmentController extends Controller
                     $dbFieldName = $eachColumn->Field;
                     $canBeNull = $eachColumn->Null == 'YES';
                     
-                    if (!($dbFieldName == 'id')&& 
-                        !($dbFieldName == 'created_at')&&
-                        !($dbFieldName == 'updated_at') )
+                    if(!in_array($dbFieldName, $headersToIgnore) )
                     {
                         if (!$canBeNull)
                         {
@@ -535,5 +558,7 @@ class CourseAssignmentController extends Controller
         //Validation succesful.
         return true;
     }
+    
+    
 
 }
