@@ -370,6 +370,7 @@ class CourseAssignmentController extends Controller
             if (is_string($errorMessage))
             {
                 $studentsArray['error'] = $errorMessage;
+                
             }
 
             if (isset($studentsArray['error']))
