@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\StudentActivityRequest;
 use App\StudentActivity;
+use Illuminate\Support\Facades\Auth;
 
 
 /**
@@ -36,8 +37,10 @@ class StudentActivityController extends Controller{
      * 
      * @author CST229 Justin Lutzko
      */
-    public function showAllActivities($userID='1234')
+    public function showAllActivities()
     {
+        $userID = Auth::user()->userID;
+        
         $studentActivity= StudentActivity::where('userID', '=', $userID)->get();
         
         $info = array();
@@ -49,35 +52,40 @@ class StudentActivityController extends Controller{
         
         $studentActivities = $info;
         
-        return view('Classes/ClassesMain',compact('studentActivities'));
+        return view('Student/activities',compact('studentActivities'));
     }
     
     
   
-    
-    public function updateInfo(StudentActivityRequest $request,
-            $acitivityID = 1, $userID = 1234 )
+    /**
+     * Purpose: Purpose of this function is to update the data submitted by the
+     * student as it pertains to a particular assignment.
+     * 
+     * 
+     * @param StudentActivityRequest $request
+     * @return type
+     */
+    public function updateInfo(StudentActivityRequest $request)
     {
-         
+       //Get the current authenticated user.
+        $userID = Auth::user()->userID;
+       //
+        $activityID = $request->get('activityID');
         
         $studentActivity = StudentActivity::where('userID', '=', $userID)
-                ->where('activityID', '=', $acitivityID)
+                ->where('activityID', '=', $activityID)
                 ->firstOrFail();
         
-        
-      
         $studentActivity->timeSpent = $request->get('timeSpent');
         $studentActivity->stressLevel = $request->get('stressLevel');
         $studentActivity->comments = $request->get('comments');
         $studentActivity->timeEstimated = $request->get('timeEstimated');
               
         StudentActivity::where('userID', '=', $userID)
-                ->where('activityID', '=', $acitivityID)
+                ->where('activityID', '=', $activityID)
                 ->update($studentActivity['attributes']);
-        
-        
-        
-        return redirect('/Classes')
+
+        return redirect('Student/activities')
             ->with('status', 'Your activity has been recorded!');
     }
 }

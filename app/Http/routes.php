@@ -56,6 +56,12 @@ Route::group(['middleware' => 'web'], function () {
         //view.
         Route::post('/dashboard', 'StudentInfoController@insertStudent');
         
+        //This route will show all of the activities that are associated with a 
+        //student.
+        Route::get('/activities', 'StudentActivityController@showAllActivities');
+        
+        //This route will add the information to the selected activity.
+        Route::post('/activities', 'StudentActivityController@updateInfo');
     });
     
    /**
