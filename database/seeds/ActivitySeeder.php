@@ -32,7 +32,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'profEstimate' => 2.0,
+            'proffEstimate' => 2.0,
             'cdAlocatedTime' => 2.0,
             'comments' => "Student better get it done.",
         ]);
