@@ -32,7 +32,7 @@ Route::group(['middleware' => 'web'], function () {
     
     //Loads welcome view without controller.
     Route::get('/', function () {
-        return view('welcome');
+        return view('/home');
     });
     
     //Loads about page.
@@ -55,6 +55,15 @@ Route::group(['middleware' => 'web'], function () {
         //Inserts all of the Student Info via registration and then loads a 
         //view.
         Route::post('/dashboard', 'StudentInfoController@insertStudent');
+        
+        //This route will show all of the activities that are associated with a 
+        //student.
+        Route::get('/activities', 'StudentActivityController@showAllActivities');
+        
+        //This route will add the information to the selected activity.
+        Route::post('/activities', 'StudentActivityController@updateInfo');
+        
+        
         
     });
     

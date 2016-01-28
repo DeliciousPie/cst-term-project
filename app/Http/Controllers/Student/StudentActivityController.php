@@ -49,7 +49,7 @@ class StudentActivityController extends Controller{
         
         $studentActivities = $info;
         
-        return view('Classes/ClassesMain',compact('studentActivities'));
+        return view('Student/activities',compact('studentActivities'));
     }
     
     
