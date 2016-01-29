@@ -13,11 +13,6 @@ class S25Test extends TestCase
      */
     public function test()
     {
-        $this->visit(  )
-        
-        
-        
-        
-        
+        $this->visit('/manageActivity');
     }
 }
