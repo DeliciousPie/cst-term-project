@@ -12,8 +12,8 @@
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentActivityController.php</file>
             <file>file:/G:/COSA280/Code/database/seeds/RoleTableSeeder.php</file>
             <file>file:/G:/COSA280/Code/resources/views/Student/dashboard.blade.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDInfoController.php</file>
+            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/PagesController.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Prof/PagesController.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Prof/ProfInfoController.php</file>
@@ -26,6 +26,7 @@
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentInfoController.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/PagesController.php</file>
             <file>file:/G:/COSA280/Code/app/Student.php</file>
+            <file>file:/G:/COSA280/Code/vendor/zizaco/entrust/src/Entrust/EntrustServiceProvider.php</file>
             <file>file:/G:/COSA280/Code/config/database.php</file>
             <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
         </group>
