@@ -100,7 +100,7 @@
                         @if (Auth::user()->hasrole('CD'))
 
                         <li><a href="{{ url('CD/dashboard') }}">CD Dashboard</a></li>
-
+                        <li><a href="{{ url('CD/manageActivity') }}">CD Activity Manager</a></li>
 
                         <li><a href="{{ url('CD/CourseAssignmentMain') }}">Course Assignment</a></li>
 

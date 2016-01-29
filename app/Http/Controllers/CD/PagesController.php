@@ -70,4 +70,13 @@ class PagesController extends Controller
         
         return view('CD/dashboard');
     }
+    
+    /**
+     * Returns the manageActivity view
+     * @return view
+     */
+    public function loadManageActivity()
+    {
+        return view('CD/manageActivity');
+    }
 }
