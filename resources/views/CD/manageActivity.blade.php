@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Curricular Developer Activity Manager</div>
+
 
                 <div class="row">
                     <form method="post" action=''>
@@ -33,37 +33,51 @@
                         </div>
                         @endif
 
+                        <!--Left Spacing-->
                         <div class="col-md-1">
                         </div>
 
+                        <!--Professor Select Box-->
                         <div class="col-md-3">
                             <h2>Professors</h2>
 
-                            <select multiple class="form-control">
+                            <select multiple class="form-control" style="height:500px">
+                                    
                             </select>
                         </div>
 
+                        <!--Middle Spacing-->
                         <div class="col-md-1">
                         </div>
 
+                        <!--Assignment Select-->
                         <div class="col-md-6">
                             <h2>Assigned Courses</h2>
 
-                            <select multiple class="form-control">
+                            <select multiple class="form-control" style="height:232px">
+                            </select>
+
+                            <!--Assignments Select Box-->
+                            <h2>Activities</h2>
+                            <button type="button" class="btn btn-default" style="width:31%">Add Activity</button>
+                            <button type="button" class="btn btn-default" style="width:31%">Edit Activity</button>
+                            <button type="button" class="btn btn-default" style="width:31%">Delete Activity</button>
+                            <!--Assignment Select-->
+                            <br><br>
+                            <select multiple class="form-control" style="height:150px">
                             </select>
                         </div>
-
+                        <!--Right Spacing-->
                         <div class="col-md-1">
                         </div>
-
-                    </form>
-
-
+                </div>
+                </form>
 
 
 
-                    <div class="panel-body">
-                    </div>
+
+
+                <div class="panel-body">
                 </div>
             </div>
         </div>
