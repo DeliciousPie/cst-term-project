@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Requests\StudentActivityRequest;
 use App\StudentActivity;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 
 /**
@@ -26,11 +27,7 @@ class StudentActivityController extends Controller{
     {
         $this->middleware('guest'); 
     }
-    
 
-    
-    
-    
     /**
      * Purpose: This function shows all the activities the student will have
      * pop up on the student logs info dashboard.
@@ -39,20 +36,31 @@ class StudentActivityController extends Controller{
      */
     public function showAllActivities()
     {
+        //Get the current authenticated user.
         $userID = Auth::user()->userID;
+
+        //Query from the database, using a join from Activity and StudentActivity
+        //to get the activityType
+        $query = DB::table('StudentActivity')
+            ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
+            ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
+                    'StudentActivity.comments','timeEstimated','activityType')
+            ->get();
         
-        $studentActivity= StudentActivity::where('userID', '=', $userID)->get();
-        
-        $info = array();
-        
-        foreach( $studentActivity as $act )
+        //Create an array
+        $studentActivities = array();
+
+        //Loop through each result.
+        for($i = 0; $i < count($query); $i++)
         {
-            array_push($info,$act['attributes']);
+            //Cast $query from a StdClass to an array
+            $query[$i] = (array) $query[$i];
         }
+        //The view expects it in a associative array named 'studentActivities'
+        $studentActivities['studentActivities'] = $query;
         
-        $studentActivities = $info;
-        
-        return view('Student/activities',compact('studentActivities'));
+        //Return laravel magic - studentActivities will be used in acitvites.blade
+        return view('Student/activities',$studentActivities);
     }
     
     
@@ -69,22 +77,27 @@ class StudentActivityController extends Controller{
     {
        //Get the current authenticated user.
         $userID = Auth::user()->userID;
-       //
+        
+        //get activity id from hidden input field
         $activityID = $request->get('activityID');
         
+        //Get the activity associaited with the student
         $studentActivity = StudentActivity::where('userID', '=', $userID)
                 ->where('activityID', '=', $activityID)
                 ->firstOrFail();
         
+        //take in parameters passed in from form
         $studentActivity->timeSpent = $request->get('timeSpent');
-        $studentActivity->stressLevel = $request->get('stressLevel');
+        $studentActivity->stressLevel = $request->get('stressLevel');      
         $studentActivity->comments = $request->get('comments');
         $studentActivity->timeEstimated = $request->get('timeEstimated');
-              
+        
+        //Update information in the StudentActivity table
         StudentActivity::where('userID', '=', $userID)
                 ->where('activityID', '=', $activityID)
                 ->update($studentActivity['attributes']);
-
+        
+        //if successful, return success message
         return redirect('Student/activities')
             ->with('status', 'Your activity has been recorded!');
     }

@@ -24,7 +24,10 @@ class StudentActivityRequest extends Request
     public function rules()
     {
         return [
-            //
+            'timeEstimated' => 'required|integer|between:0,800',
+            'timeSpent' => 'required|integer|between:0,800',
+            'stressLevel' => 'required|integer|between:0,10',
+            'comments' => 'max:300',
         ];
     }
 }

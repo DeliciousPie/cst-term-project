@@ -19,9 +19,9 @@ class CreateActivityTable extends Migration
             $table->string('activityType', 20);
             $table->date('assignDate');
             $table->date('dueDate');
-            $table->decimal('estTime', 2, 1);
-            $table->decimal('proffEstimate', 2, 1);
-            $table->decimal('cdAlocatedTime', 2, 1);
+            $table->decimal('estTime', 4, 1);
+            $table->decimal('proffEstimate', 4, 1);
+            $table->decimal('cdAlocatedTime', 4, 1);
             $table->string('comments', 1000);
 
         });

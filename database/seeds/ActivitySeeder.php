@@ -41,5 +41,22 @@ class ActivitySeeder extends Seeder
             'userID' => '12347',
             'activityID' => 1
         ]);
+        
+        DB::table('Activity')->insert([
+            'activityID' => 2,
+            'sectionID' => 1,
+            'activityType' => 'CDP',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 700.0,
+            'proffEstimate' => 500.0,
+            'cdAlocatedTime' => 500.0,
+            'comments' => "ETA 2020",
+        ]);
+        
+        DB::table('StudentActivity')->insert([
+            'userID' => '12347',
+            'activityID' => 2
+        ]);
     }
 }
