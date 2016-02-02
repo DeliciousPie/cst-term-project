@@ -19,7 +19,7 @@
             <!--This is  a for each loop that will iterate through all of 
             the activities a user has tied to it's name/id-->
             @foreach($studentActivities as $studAct)
-                    @include('student.activity', $studentActivities)
+                    @include('student.activity')
             @endforeach
     @else
             

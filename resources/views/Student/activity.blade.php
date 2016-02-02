@@ -1,4 +1,4 @@
-@if( isset($studentActivities) && count($studentActivities) > 0 )
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -59,11 +59,6 @@
         </div>
     </div>
 </div>
-    @else
-            
-        <p> No activities</p>
-             
-    @endif
     
 
 
