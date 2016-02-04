@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Input;
  *
  * @author Anthony & Kendal
  */
-class ActivityManagerController extends Controller
+class ActivityManagerControl extends Controller
 {
     public function addActivity()
     {
@@ -27,4 +27,12 @@ class ActivityManagerController extends Controller
         
         DB::insert('insert into Activity(activityType) values (?)', $activityName );
     }
+    
+    public function loadProfessors()
+    {
+        
+        $listOfProfs = DB::table('Professor')->lists('lName');
+        
+    }
+    
 }

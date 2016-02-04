@@ -20,7 +20,6 @@
         <div class="col-md-12">
             <div class="panel panel-default">
 
-
                 <div class="row">
                     <form method="post" action=''>
                         <input type="hidden" name='_token' value="{!! csrf_token() !!}">
@@ -42,6 +41,7 @@
                             <h2>Professors</h2>
 
                             <select multiple class="form-control" style="height:500px">
+                                
                             </select>
                         </div>
 
@@ -103,16 +103,21 @@
                     </div>
                     <br>
                     <label for="workload">Workload(hr)</label>
+                    <br>
+                    <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
                     <div class="input-group" style="width:100%">
                         <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" style="width:100%">
                     </div>
                     <br>
                     <label for="stresstimate">Stresstimate</label>
+                    <br>
+                    <h6>Stress Estimate - 1 is the lowest, 10 is the highest.</h6>
                     <div class="input-group" style="width:100%">
                         <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" style="width:100%"> 
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <input type="submit" name="submit" value="Submit" formethod="POST" class="btn btn-info pull-right">
                 </div>
             </form>
