@@ -23,18 +23,17 @@ class StudentActivityRequest extends Request
      */
     public function rules()
     {
-        
-        
+
         return [
-            'timeEstimated' => array('required', 
-                'regex:#^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$#', 
-                'between:0,800'),
+            'timeEstimated' =>  ['required', 'between:0,800',
+             'regex:/^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$/'],
+                
             
-         
-            'timeSpent' => array('required', 
-                'regex:#^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$#', 
-                'between:0,800'),
-            
+            'timeSpent' =>  [ 
+                'required', 'between:0,800',
+                'regex:/^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$/', 
+                ],
+
             'stressLevel' => 'required|integer|between:0,10',
             'comments' => 'max:300',
         ];
