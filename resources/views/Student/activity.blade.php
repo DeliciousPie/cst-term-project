@@ -19,16 +19,11 @@
                             method="post">   
                     
                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                   @foreach ($errors->all() as $error)
-                       <p class="alert alert-danger">{{ $error }}</p>
-                   @endforeach
-
-
                     <label for="timeEstimated">Your Estimate</label>
-                    <input type="number" class="form-control" id="timeEstimated" name="timeEstimated" min="0" max="800" step="0.5" ></input>
+                    <input type="number" class="form-control" id="timeEstimated" name="timeEstimated" min="0.0" max="800.0" step="0.5" ></input>
                     </br>
                     <label for="timeSpent">Your Actual</label>
-                    <input type="number" class="form-control" id="timeSpent" name="timeSpent" min="0" max="800" step="0.5" ></input>
+                    <input type="number" class="form-control" id="timeSpent" name="timeSpent" min="0.0" max="800.0" step="0.5" ></input>
                     </br>
 
                     <label for="stressLevel">Stress Level</label>

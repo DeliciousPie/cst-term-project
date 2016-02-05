@@ -16,6 +16,9 @@
             @endif       
     @if( isset($studentActivities) && count($studentActivities) > 0 )
             
+            @foreach ($errors->all() as $error)
+               <p class="alert alert-danger">{{ $error }}</p>
+            @endforeach
             <!--This is  a for each loop that will iterate through all of 
             the activities a user has tied to it's name/id-->
             @foreach($studentActivities as $studAct)

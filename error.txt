@@ -1,0 +1,40 @@
+PHPUnit 4.8.22 by Sebastian Bergmann and contributors.
+
+EE.
+
+Time: 6.98 seconds, Memory: 16.00Mb
+
+There were 2 errors:
+
+1) S32Test::testShowAllActivities
+ErrorException: Argument 3 passed to Illuminate\Database\Eloquent\Factory::defineAs() must be callable, none given, called in /home/vagrant/Code/database/factories/ModelFactory.php on line 34 and defined
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:58
+/home/vagrant/Code/database/factories/ModelFactory.php:34
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:113
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:47
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/DatabaseServiceProvider.php:73
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:735
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:633
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:674
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:63
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:389
+/home/vagrant/Code/tests/S32Test.php:37
+
+2) S32Test::testActivityFormAllValid
+ErrorException: Argument 3 passed to Illuminate\Database\Eloquent\Factory::defineAs() must be callable, none given, called in /home/vagrant/Code/database/factories/ModelFactory.php on line 34 and defined
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:58
+/home/vagrant/Code/database/factories/ModelFactory.php:34
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:113
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Factory.php:47
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/DatabaseServiceProvider.php:73
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:735
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:633
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:674
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:63
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:389
+/home/vagrant/Code/tests/S32Test.php:59
+
+FAILURES!
+Tests: 3, Assertions: 0, Errors: 2.
