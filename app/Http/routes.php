@@ -108,6 +108,7 @@ Route::group(['middleware' => 'web'], function () {
         
                 //Loads the registration page on first time login.
         Route::post('/dashboard', 'ProfInfoController@insertProf');
+        Route::post('/registerError', 'ProfInfoController@insertProf');
     });
 });
 

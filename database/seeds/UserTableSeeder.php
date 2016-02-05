@@ -37,6 +37,14 @@ class UserTableSeeder extends Seeder
                 'updated_at'       => new DateTime,
             ],
             [
+                'name' => 'Nixilis',
+                'userID' => '666',
+                'email' => 'nixiepixie@yahoo.ca',
+                'password' => bcrypt('password'),
+                'created_at'       => new DateTime,
+                'updated_at'       => new DateTime,
+            ],
+            [
                 'name' => 'David',
                 'userID' => '12347',
                 'email' => 'david@email.com',

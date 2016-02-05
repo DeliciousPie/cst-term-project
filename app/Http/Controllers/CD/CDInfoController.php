@@ -70,11 +70,7 @@ class CDInfoController extends Controller
             'educationalInstitution' => Input::get('school'),
             'areaOfStudy' => Input::get('areaOfStudy'),
             'email' => Input::get('email')));
-        
-
-           //Controller confirmation
-             //controls the CD info
-            //CDInfoController::CDConfirmation();
+                   
             
             //send CD to the dashboard
             return view('CD/dashboard');

@@ -1,5 +1,23 @@
 @extends('layouts.app')
 
+@section('title')
+        <title>Professor Dash Board</title>
+@stop
+
+@section('navBarHeader')
+        <a class="navbar-brand" href="{{ url('/') }}">Professor Registration </a>
+@stop
+
+
+@section('bodyHeader')
+        <h1>
+            
+            Professor Dash Board
+        </h1>
+@stop
+
+
+
 @section('content')
 <div class="row">
    <div class="col-md-8 col-md-offset-2">
@@ -112,16 +130,17 @@
     ]; 
 ?>
 
-  <?= Former::number('profNumber', 'Student Number')->required() ,
-        Former::password('password', 'New Password')->required(),
-        Former::password('confirmPassword', 'Confirm New Password')->required(),
-       Former::text('firstName', 'First Name')->required(),
+  <?=       
+        Former::Label("UserID: "),
+       Former::Label(Auth::user()->userID),
+       Former::password('password', 'New Password')->required(),
+       Former::password('confirmPassword', 'Confirm New Password')->required(),
+       Former::text('firstName', 'First Name')->required()->value(Auth::user()->name),
        Former::text('lastName', 'Last Name')->required(),
        Former::select('school', 'School')->options($schools, 'CUAC'),
        Former::select('areaOfStudy', 'Area Of Study')->options($study),
-       Former::email('email')->required(),
-        
-       
+       Former::email('email')->required()->value( Auth::user()->email ),
+
        
       Former::actions()
     ->large_primary_submit('Submit')
@@ -131,43 +150,12 @@
 <?= Former::close() ?>
                 
                 
-                <?php
-                //Error message if the student number doesn't exist.
-                if(isset($_SESSION['compareUsers']))
-                {
-                    if($_SESSION['compareUsers'] === false)
-                    {
-                        echo '<div class="alert alert-danger">The student number does not exist.</div>';
-                    }
-                }
+                <?php           
                 
-                //Error message for comparing passwords.
-                if(isset($_SESSION['comparePasswords']))
-                {
-                    if($_SESSION['comparePasswords'] === false)
-                    {
-                        echo '<div class="alert alert-danger">The entered passwords did not match. Please try again.</div>';
-                    }
-                }
-                
-                // Check if the email is not valid, then display an error
-                if ( isset($_SESSION['isValidEmail']) ) 
-                {
-                    if ( $_SESSION['isValidEmail'] === false)
-                    {
-                        echo '<div class="alert alert-danger">The entered email is invalid.</div>';
-                    }
-                }
-                
-                
-                if( isset( $_SESSION['compareUsers']) && $_SESSION['compareUsers'] && isset($_SESSION['comparePasswords']) 
-                        && $_SESSION['comparePasswords'] && isset($_SESSION['isValidEmail']) && $_SESSION['isValidEmail'] && $isValidAge )
-                {
-                    //Inserting a student
-                    \App\Http\Controllers\StudentInfoController::insertStudent("");
-                }
-                
-                
+                //just in case
+                //...
+                //...
+                //for future code crushing
                 
                 ?>
                 
@@ -178,5 +166,7 @@
     </div>
 
 @endsection
+
+
 
 
