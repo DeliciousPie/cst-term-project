@@ -23,6 +23,37 @@ class S32Test extends TestCase {
      */
     public function testShowAllActivities() {
         
+        //Test to see if the student is redirected to the login page.
+        $this->visit('Student/activities')
+                ->see('Login')
+                ->dontsee('Assignment');
+        
+        //If the user exists, delete it
+        $user = User::find(200);
+        
+        
+        //If user exists delete it
+        if( $user != null )
+        {
+           $user->delete(); 
+        }
+        
+        //Get student roles from db
+        $Student = Role::find(3);
+        
+        //Log in as user
+        $user = factory(User::class)->create();
+
+        //Attach the role to the fake student.
+        $user->attachRole($Student);
+        
+        //set confirmed attribute to false.
+        $user->confirmed = false;
+        
+        //Should be directed to register.
+        $this->visit('Student/activities')
+             ->see('Register')
+             ->dontsee('Assignment');
         
         //If the user exists, delete it
         $user = User::find(200);
@@ -30,7 +61,8 @@ class S32Test extends TestCase {
         {
            $user->delete(); 
         }
-
+        
+        //Get student roles from db
         $Student = Role::find(3);
         
         //Log in as user
@@ -38,6 +70,8 @@ class S32Test extends TestCase {
 
         $user->attachRole($Student);
         
+        //See shoudl see the student activity page with all of the 
+        //activity forms
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
@@ -46,91 +80,4 @@ class S32Test extends TestCase {
              ->see('CDP')
              ->dontSee('Awesome');
     }
-    
-    public function testActivityFormAllValid()
-    {
-        $user = User::find(200);
-        if( $user != null )
-        {
-           $user->delete(); 
-        }
-        $Student = Role::find(3);
-        
-        $user = factory(User::class)->create();
-
-        $user->attachRole($Student);
-        
-        //log in as user
-        $this->actingAs($user)
-            ->withSession(['foo' => 'bar'])
-            ->visit('Student/activities')
-            ->see('Student Activities')
-            ->dontSee('Awesome');
-        
-        $this->factory(Course::class)->create();
-        $this->factory(Section::class)->create();
-        $this->factory(Activitiy::class)->create();
-        $this->factory(StudentActivity::class)->create();
-        
-        $this->visit('Student/activities')
-             ->type("1",'timeEstimated')
-             ->type("1", 'timeSpent')
-             ->type("Some comments on my activity", 'comments')
-             ->press('Submit')
-             ->seePageIs('Student/activities');
-        
-        $this->visit('Student/activities')
-             ->type("0",'timeEstimated')
-             ->type("0", 'timeSpent')
-             ->type("Some more comments on my activity", 'comments')
-             ->press('Submit')
-             //->see(session('status'))
-             ->seePageIs('Student/activities');
-                
-        $this->visit('Student/activities')
-             ->type("800",'timeEstimated')
-             ->type("800", 'timeSpent')
-             ->type("Some more more comments on my activity", 'comments')
-             ->press('Submit')
-             ->seePageIs('Student/activities');
-             //->see("Your activity has been recorded!");
-    }
-    
-    public function testActivityFormEstimateOutOfBounds()
-    {
-//        $user = User::find(200);
-//        
-//        $user->delete();
-//        
-//        $Student = Role::find(3);
-//        
-//        $user = factory(User::class)->create();
-//
-//        $user->attachRole($Student);
-//        
-//        $this->actingAs($user)
-//            ->withSession(['foo' => 'bar'])
-//            ->visit('Student/activities')
-//            ->see('Student Activities')
-//            ->dontSee('Awesome');  
-//         
-//        $this->visit('Student/activities')
-//             ->type("801",'timeEstimated')
-//             ->type("1.0", 'timeSpent')
-//             ->type("Some comments on my activity", 'comments')
-//             ->press('Submit')
-//             ->seePageIs('Student/activities');
-           
-        
-
-//        $this->visit('Student/activities')
-//             ->type("-1",'timeEstimated')
-//             ->type("0.0", 'timeSpent')
-//             ->type("Some more comments on my activity", 'comments')
-//             ->press('Submit')
-//             ->see($errors->all())
-//             ->seePageIs('Student/activities');
-//               
-    }
-    
 }

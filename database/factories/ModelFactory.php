@@ -11,6 +11,7 @@
 |
 */
 
+//Create a fake user.
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'id' => $faker->id = 200,
@@ -25,6 +26,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 
 
+//Create a fake course
 $factory->define(App\Course::class, function (Faker\Generator $faker) {
         return[
                 'courseID' => $faker->courseID = 'COMM101',
@@ -33,6 +35,7 @@ $factory->define(App\Course::class, function (Faker\Generator $faker) {
             ];
 });
 
+//Create a fake Section
 $factory->define(App\Section::class, function (Faker\Generator $faker) {
 
         return [ 
@@ -42,6 +45,7 @@ $factory->define(App\Section::class, function (Faker\Generator $faker) {
         ];
 });
 
+//Create a fake Activity
 $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     
         return [ 
@@ -58,6 +62,7 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     
 });
 
+//Create a fake Student Activity.
 $factory->define(App\StudentActivity::class, function (Faker\Generator $faker) {
     return [
         'id' => $faker->userID = 200,
