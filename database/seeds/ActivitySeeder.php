@@ -39,7 +39,11 @@ class ActivitySeeder extends Seeder
         
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
-            'activityID' => 1
+            'activityID' => 1,
+//            'timeSpent' => null,
+//            'stressLevel' => null,
+//            'comments' => null,
+//            'timeEstimated' => null,
         ]);
         
         DB::table('Activity')->insert([

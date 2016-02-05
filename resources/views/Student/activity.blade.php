@@ -20,14 +20,20 @@
                     
                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     <label for="timeEstimated">Your Estimate</label>
-                    <input type="number" class="form-control" id="timeEstimated" name="timeEstimated" min="0.0" max="800.0" step="0.5" ></input>
+                    <input type="number" class="form-control" id="timeEstimated" 
+                           name="timeEstimated" min="0.0" max="800.0" step="0.5"
+                           value="{{$studAct['timeEstimated']}}"></input>
                     </br>
                     <label for="timeSpent">Your Actual</label>
-                    <input type="number" class="form-control" id="timeSpent" name="timeSpent" min="0.0" max="800.0" step="0.5" ></input>
+                    <input type="number" class="form-control" id="timeSpent" 
+                           name="timeSpent" min="0.0" max="800.0" step="0.5"
+                           value="{{$studAct['timeSpent']}}"></input>
                     </br>
 
                     <label for="stressLevel">Stress Level</label>
-                    <input type="range" id="stressLevel" name="stressLevel" min="0" max="10" step="1" value="5" list="steplist"></input>
+                    <input type="range" id="stressLevel" name="stressLevel" 
+                           min="0" max="10" step="1" value="{{$studAct['stressLevel']}}" list="steplist"
+                           ></input>
                     <datalist id="steplist">
                         <option>0</option>
                         <option>1</option>
@@ -45,7 +51,8 @@
                     <label for="stressLevel" style="float: right;font-weight:normal">Stressed</label>
                     </br>
                     <label for="stressLevel">Comments</label>
-                    <textarea class="form-control" id="comments" name="comments" maxlength="300" placeholder="Comment"></textarea>
+                    <textarea class="form-control" id="comments" name="comments"
+                              maxlength="300" placeholder="Comment">@if($studAct['submitted']){{$studAct['comments']}}@endif</textarea>
                     </br>
                     <input type="submit" value="Submit">                                
                 </form>

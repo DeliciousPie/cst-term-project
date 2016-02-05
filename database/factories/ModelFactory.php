@@ -14,7 +14,7 @@
 //Create a fake user.
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'id' => $faker->id = 200,
+        'id' => $faker->id = 200000,
         'name' => $faker->name = "Dallen",
         'email' => $faker->email = "Dallen@mail.com",
         'userID' => $faker->userID = "696969",
@@ -29,7 +29,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 //Create a fake course
 $factory->define(App\Course::class, function (Faker\Generator $faker) {
         return[
-                'courseID' => $faker->courseID = 'COMM101',
+                'courseID' => $faker->courseID = 'COMM102',
                 'courseName' => $faker->courseName = 'Intro to Business',
                 'description' => $faker->description = 'Learn about business.',
             ];
@@ -39,8 +39,8 @@ $factory->define(App\Course::class, function (Faker\Generator $faker) {
 $factory->define(App\Section::class, function (Faker\Generator $faker) {
 
         return [ 
-            'sectionID' => $faker->sectionId = 1,
-            'courseID' => $faker->courseID = 'COMM101',
+            'sectionID' => $faker->sectionId = 199000,
+            'courseID' => $faker->courseID = 'COMM102',
             'date' => $faker->date = new DateTime,
         ];
 });
@@ -49,9 +49,9 @@ $factory->define(App\Section::class, function (Faker\Generator $faker) {
 $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     
         return [ 
-            'activityID' => $faker->activityID = 100,
-            'sectionID' => $faker->sectionID = 100,
-            'activityType' => $faker->activityType = 'Assignment',
+            'activityID' => $faker->activityID = 199000,
+            'sectionID' => $faker->sectionID = 199000,
+            'activityType' => $faker->activityType = 'AssignmentTest',
             'assignDate' => $faker->assignDate = new DateTime,
             'dueDate' => $faker->dueDate = new DateTime,
             'estTime' => $faker->estTime = 2.0,
@@ -65,7 +65,11 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
 //Create a fake Student Activity.
 $factory->define(App\StudentActivity::class, function (Faker\Generator $faker) {
     return [
-        'id' => $faker->userID = 200,
-        'name' => $faker->activityID = "100",
+        'id' => $faker->userID = 200000,
+        'name' => $faker->activityID = 199000,
+        'timespent' => $faker->timespent = 1,
+        'stressLevel' => $faker->stressLevel = 2,
+        'comments' => $faker->comments = "Test",
+        'timeEstimated' => $faker->timeEstimated = 3,
     ];
 });

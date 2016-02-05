@@ -29,7 +29,7 @@ class S32Test extends TestCase {
                 ->dontsee('Assignment');
         
         //If the user exists, delete it
-        $user = User::find(200);
+        $user = User::find(200000);
         
         
         //If user exists delete it
@@ -56,7 +56,7 @@ class S32Test extends TestCase {
              ->dontsee('Assignment');
         
         //If the user exists, delete it
-        $user = User::find(200);
+        $user = User::find(200000);
         if( $user != null )
         {
            $user->delete(); 

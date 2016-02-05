@@ -44,7 +44,7 @@ class StudentActivityController extends Controller{
         $query = DB::table('StudentActivity')
             ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
             ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
-                    'StudentActivity.comments','timeEstimated','activityType')
+                    'StudentActivity.comments','timeEstimated','activityType', 'submitted')
             ->get();
         
         //Create an array
@@ -74,7 +74,7 @@ class StudentActivityController extends Controller{
      * @return type
      */
     public function updateInfo(StudentActivityRequest $request)
-    {
+    {   
        //Get the current authenticated user.
         $userID = Auth::user()->userID;
         
@@ -91,7 +91,7 @@ class StudentActivityController extends Controller{
         $studentActivity->stressLevel = $request->get('stressLevel');      
         $studentActivity->comments = $request->get('comments');
         $studentActivity->timeEstimated = $request->get('timeEstimated');
-        
+        $studentActivity->submitted = true;
         //Update information in the StudentActivity table
         StudentActivity::where('userID', '=', $userID)
                 ->where('activityID', '=', $activityID)
@@ -101,4 +101,6 @@ class StudentActivityController extends Controller{
         return redirect('Student/activities')
             ->with('status', 'Your activity has been recorded!');
     }
+    
+    
 }
