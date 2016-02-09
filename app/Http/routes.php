@@ -32,7 +32,7 @@ Route::group(['middleware' => 'web'], function () {
     
     //Loads welcome view without controller.
     Route::get('/', function () {
-        return view('welcome');
+        return view('/home');
     });
     
     //Loads about page.
