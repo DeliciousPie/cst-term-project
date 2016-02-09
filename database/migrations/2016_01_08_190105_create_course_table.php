@@ -16,7 +16,6 @@ class CreateCourseTable extends Migration
         
             $table->string('courseID', 25)->primary();
             $table->string('courseName', 50);
-            $table->string('areaOfStudy', 20);
             $table->string('description', 150)->nullable();
 
         });

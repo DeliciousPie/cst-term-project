@@ -49,7 +49,7 @@ class ActivitySeeder extends Seeder
         DB::table('Activity')->insert([
             'activityID' => 2,
             'sectionID' => 1,
-            'activityType' => 'CDP',
+            'activityType' => 'Assignment2',
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 700.0,

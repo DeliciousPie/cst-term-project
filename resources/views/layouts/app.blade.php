@@ -9,9 +9,24 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        
         <!-- Custom Fonts -->
         <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
+        <!-- jQuery -->
+        <script src="/js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/js/bootstrap.min.js"></script>
+
+        <!-- JavaScripts -->
+        {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+
+        <!-- Morris Charts JavaScript -->
+        <script src="/js/plugins/morris/raphael.min.js"></script>
+        <script src="/js/plugins/morris/morris.min.js"></script>
+        <script src="/js/plugins/morris/morris-data.js"></script>
+        
         @yield('title')
         <!-- Bootstrap Core CSS -->
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->

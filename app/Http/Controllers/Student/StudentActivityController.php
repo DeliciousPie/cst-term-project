@@ -32,7 +32,7 @@ class StudentActivityController extends Controller{
      * Purpose: This function shows all the activities the student will have
      * pop up on the student logs info dashboard.
      * 
-     * @author CST229 Justin Lutzko
+     * @author CST229 Justin Lutzko Dallen Barr CST218
      */
     public function showAllActivities()
     {
@@ -72,6 +72,9 @@ class StudentActivityController extends Controller{
      * 
      * @param StudentActivityRequest $request
      * @return type
+     * 
+     * @author Justin Lutzko Dallen Barr
+     * 
      */
     public function updateInfo(StudentActivityRequest $request)
     {   
