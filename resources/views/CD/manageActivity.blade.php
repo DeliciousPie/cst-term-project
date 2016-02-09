@@ -15,6 +15,8 @@
 
 
 @section('content')
+
+
 <div>
     <div class="row">
         <div class="col-md-12">
@@ -40,57 +42,18 @@
                         <div class="col-md-3">
                             <h2>Professors</h2>
 
-                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses();">
+                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses">
                                 
                                 @if ( isset($listOfProfs) )
                                 
                                     @foreach($listOfProfs as $prof)
-                                        <option>{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
+                                    <option value="{!! $prof['userID'] !!}" >{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
                                     @endforeach
                                 @endif
                                 
                             </select>
                         </div>
                         
-                        <script type="text/javascript" >
-                        
-                            function loadCourses()
-                            {
-                                var prof = $.('#profSelect').value();
-                                
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }});
-                                
-                                $.post('/manageActivity/loadSelectedProfsCourses', prof, function(data)
-                                {
-                                    $.('#courseSelect').html
-                                    ( 
-                                            for (var count in data.courses)
-                                            {
-                                                "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + "</option>";
-                                            }
-                
-                
-                
-                                    )
-                            
-                                });
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                            }
-                        
-                        
-                        </script>
-                        
-
                         <!--Middle Spacing-->
                         <div class="col-md-1">
                         </div>
@@ -123,6 +86,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 <!-- The modal for adding an activity -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -170,4 +137,35 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script type="text/javascript" >
+
+    $(document).ready(function(){
+
+    function loadCourses()
+    {
+        var prof = $('#profSelect').value();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }});
+
+        $.post('/manageActivity/loadSelectedProfsCourses', prof, function(data)
+        {
+            $('#courseSelect').html
+            ( 
+                    for (var count in data.courses)
+                    {
+                        "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + data.courses[count].courseName + "</option>";
+                    }
+            )
+        });
+    }
+    
+    });
+
+</script>
+
 @endsection

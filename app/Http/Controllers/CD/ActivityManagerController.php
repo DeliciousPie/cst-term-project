@@ -39,7 +39,7 @@ class ActivityManagerController extends Controller
     public function loadProfessors()
     {
         $query = DB::table('Professor')
-                ->select('lName', 'fName')
+                ->select('userID', 'lName', 'fName')
                 ->get();
         
         $listOfProfs = array();
@@ -56,7 +56,16 @@ class ActivityManagerController extends Controller
     
     public function loadSelectedProfsCourses()
     {
+        if ( isset($_POST['prof']) )
+        {
+            $profID = $_POST['prof'];
+        }
         
+        $coursesArray = DB::select('Select courseID, courseName from Course where courseID = '
+                . '( Select courseID from Section where sectionID = '
+                . '(SELECT sectionID from profSection WHERE userID = $profID))');
+        
+        return response()->json(['courses' => $coursesArray]);
     }
     
     public function loadSelectedCoursesActivities()
