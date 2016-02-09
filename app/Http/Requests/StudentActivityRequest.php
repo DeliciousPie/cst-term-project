@@ -25,14 +25,11 @@ class StudentActivityRequest extends Request
     {
 
         return [
-            'timeEstimated' =>  ['required', 'between:0,800',
-             'regex:/^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$/'],
-                
+            'timeEstimated' =>  'required|numeric|between:0,800|regex:/^\d{0,3}.{0,1}5{0,1}$/',
             
-            'timeSpent' =>  [ 
-                'required', 'between:0,800',
-                'regex:/^\d{1,3}[.]\d{1}$|^[.]\d{1}$|^\d{1,3}$/', 
-                ],
+            'timeSpent' =>   
+                'required|numeric|between:0,800|regex:/^\d{0,3}.{0,1}5{0,1}$/',
+               
 
             'stressLevel' => 'required|integer|between:0,10',
             'comments' => 'max:300',

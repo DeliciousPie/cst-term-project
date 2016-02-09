@@ -6,18 +6,17 @@
             <file>file:/G:/COSA280/Code/app/StudentActivity.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Requests/StudentActivityRequest.php</file>
             <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
+            <file>file:/G:/COSA280/Code/tests/S08Test.php</file>
+            <file>file:/G:/COSA280/Code/config/app.php</file>
             <file>file:/G:/COSA280/Code/resources/views/Student/activity.blade.php</file>
-            <file>file:/G:/COSA280/Code/error.txt</file>
-            <file>file:/G:/COSA280/Code/app/User.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentActivityController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentInfoController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/PagesController.php</file>
-            <file>file:/G:/COSA280/Code/tests/S16Test.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2014_10_12_000000_create_users_table.php</file>
+            <file>file:/G:/COSA280/Code/config/auth.php</file>
             <file>file:/G:/COSA280/Code/tests/S32Test.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/StudentInfoRequest.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190108_create_studentActivity_table.php</file>
             <file>file:/G:/COSA280/Code/database/factories/ModelFactory.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190107_create_activity_table.php</file>
             <file>file:/G:/COSA280/Code/resources/views/Student/activities.blade.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/DatabaseSeeder.php</file>
         </group>
     </open-files>
 </project-private>
