@@ -3,36 +3,67 @@
 namespace App\Http\Controllers\CD;
 
 use Illuminate\Http\Request;
+use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use DB;
-use App\User;
-use App\Course;
-use App\Professor;
-use App\Student;
-use Illuminate\Support\Facades\Input;
+use App\Activity;
 
-
-/**
- * Handles the creating, editing, and deleting of different activities
- * from the manageActivities view.
- *
- * @author Anthony & Kendal
- */
-class ActivityManagerControl extends Controller
+class ActivityManagerController extends Controller
 {
+
+
     public function addActivity()
     {
-        $activityName = Input::all();
-        
-        DB::insert('insert into Activity(activityType) values (?)', $activityName );
+//        Activity::insert([ 'activityID' => 1,
+//            
+//        ]);
+//        
+//        Activity::select();
+
     }
     
-    public function loadProfessors()
+    public function editActivity()
     {
         
-        $listOfProfs = DB::table('Professor')->lists('lName');
+    }
+    
+    public function deleteActivity()
+    {
         
     }
     
+    /**
+     * Load all of the professors into the Professor select box
+     * @return Activity Manager view containing list of professors
+     */
+    public function loadProfessors()
+    {
+        $query = DB::table('Professor')
+                ->select('lName', 'fName')
+                ->get();
+        
+        $listOfProfs = array();
+        
+        for($i = 0; $i < count($query); $i++ )
+        {
+            $query[$i] = (array) $query[$i];
+        }
+        
+        $listOfProfs['listOfProfs'] = $query;
+        
+        return view('CD/manageActivity', $listOfProfs);
+    }
+    
+    public function loadSelectedProfsCourses()
+    {
+        
+    }
+    
+    public function loadSelectedCoursesActivities()
+    {
+        
+    }
+
+
+
 }

@@ -20,10 +20,6 @@ class CreateActivityTable extends Migration
             $table->date('assignDate');
             $table->date('dueDate');
             $table->decimal('estTime', 2, 1);
-            $table->decimal('proffEstimate', 2, 1);
-            $table->decimal('cdAlocatedTime', 2, 1);
-            $table->string('comments', 1000);
-
         });
         
         Schema::table('Activity', function ($table) {

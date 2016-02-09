@@ -91,7 +91,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
         
         //Loads the Activity Manager page.
-        Route::get('/manageActivity', 'PagesController@loadManageActivity');
+        Route::get('/manageActivity', 'ActivityManagerController@loadProfessors');
+        Route::post('/manageActivity/loadSelectedProfsCourses', 'ActivityManagerController@loadSelectedProfsCourses');
         Route::post('/manageActivity', 'ActivityManagerController@addActivity');
     });
     

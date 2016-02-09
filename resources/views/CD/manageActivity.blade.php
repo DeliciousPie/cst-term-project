@@ -40,10 +40,56 @@
                         <div class="col-md-3">
                             <h2>Professors</h2>
 
-                            <select multiple class="form-control" style="height:500px">
+                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses();">
+                                
+                                @if ( isset($listOfProfs) )
+                                
+                                    @foreach($listOfProfs as $prof)
+                                        <option>{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
+                                    @endforeach
+                                @endif
                                 
                             </select>
                         </div>
+                        
+                        <script type="text/javascript" >
+                        
+                            function loadCourses()
+                            {
+                                var prof = $.('#profSelect').value();
+                                
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }});
+                                
+                                $.post('/manageActivity/loadSelectedProfsCourses', prof, function(data)
+                                {
+                                    $.('#courseSelect').html
+                                    ( 
+                                            for (var count in data.courses)
+                                            {
+                                                "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + "</option>";
+                                            }
+                
+                
+                
+                                    )
+                            
+                                });
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            }
+                        
+                        
+                        </script>
+                        
 
                         <!--Middle Spacing-->
                         <div class="col-md-1">
@@ -53,7 +99,7 @@
                         <div class="col-md-6">
                             <h2>Assigned Courses</h2>
 
-                            <select multiple class="form-control" style="height:232px">
+                            <select id='courseSelect' multiple class="form-control" style="height:232px">
                             </select>
 
                             <!--Assignments Select Box-->
