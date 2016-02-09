@@ -70,14 +70,14 @@ class S32Test extends TestCase {
 
         $user->attachRole($Student);
         
-        //See shoudl see the student activity page with all of the 
+        //Should see the student activity page with all of the 
         //activity forms
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
              ->see('Student Activities')
              ->see('Assignment')
-             ->see('CDP')
+             ->see('Assignment2')
              ->dontSee('Awesome');
     }
 }
