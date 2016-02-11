@@ -43,9 +43,14 @@ class StudentActivityController extends Controller{
         //to get the activityType
         $query = DB::table('StudentActivity')
             ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
+            ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
+            ->join('Course', 'Course.courseID', '=', 'Section.courseID')
             ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
-                    'StudentActivity.comments','timeEstimated','activityType', 'submitted')
+                    'StudentActivity.comments','timeEstimated','activityType', 
+                    'submitted', 'Course.courseID')
             ->get();
+        
+        
         
         //Create an array
         $studentActivities = array();

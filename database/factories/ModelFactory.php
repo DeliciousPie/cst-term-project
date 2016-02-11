@@ -65,11 +65,25 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
 //Create a fake Student Activity.
 $factory->define(App\StudentActivity::class, function (Faker\Generator $faker) {
     return [
-        'id' => $faker->userID = 200000,
-        'name' => $faker->activityID = 199000,
+        'userID' => $faker->userID = "696969",
+        'activityID' => $faker->activityID = 199000,
         'timespent' => $faker->timespent = 1,
         'stressLevel' => $faker->stressLevel = 2,
         'comments' => $faker->comments = "Test",
         'timeEstimated' => $faker->timeEstimated = 3,
+        'submitted' => $faker->submitted = 1,
+    ];
+});
+
+
+//Create a fake Student.
+$factory->define(App\Student::class, function (Faker\Generator $faker) {    
+    return [
+        'id' => $faker->id = 200,
+        'userID' => $faker->userID = "696969",
+        'name' => $faker->name = "Dallen",      
+        'email' => $faker->email = "Dallen@mail.com",
+        'password' => bcrypt(str_random(10)),
+        'remember_token' => str_random(10),
     ];
 });

@@ -16,7 +16,7 @@ class S16Test extends TestCase
         DB::delete('delete from users where userID = "Pro001" OR userID = '
                 . '"Pro002" OR userID = "Stu001" OR userID = "Stu002"');
                 
-        DB::delete('delete from Professor where userID = "Pro001" OR userID = '
+        DB::delete('delete from Professor where userID = "Pro001" AND userID = '
                 . '"Pro002"');
         
         DB::delete('delete from Student where userID ="Stu001" OR userID = '

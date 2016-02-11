@@ -9,8 +9,10 @@ use App\Activity;
 use App\Role;
 use App\Section;
 use App\Course;
+
 class S29Test extends TestCase
 {
+
     /*
      * Purpose: Check if a completed StudentActivity field is filled out with same
      *      information when viewed
@@ -19,13 +21,13 @@ class S29Test extends TestCase
     public function 
             testDataInFormFieldsMatchesTheDatabaseInBothTextAndDataType()
     {
-        
+
         //Find user with id 200
         $user = User::find(200000);
         
         //Student Activity find with userID of 200 and activityID of 199
         $studentActivity = StudentActivity::where('activityID', 199000)
-                ->where('userID', 200000);
+                ->where('userID', "696969");
         
         $activity = Activity::where('activityID', 199000);
         
@@ -34,27 +36,31 @@ class S29Test extends TestCase
         $section = Section::where('sectionID', 199000)
                 ->where('courseID', 'COMM102');
         
-//If the user exists, delete it
+        //If the user exists, delete it
         if( $user != null )
         {
            $user->delete(); 
         }
         
+        //If the studentActivity exists delete it.
         if( $studentActivity != null )
         {
            $studentActivity->delete(); 
         }
-
+        
+        //If the activity exists delete it.
         if( $activity != null )
         {
            $activity->delete(); 
         }
         
+        //If the course exists delete it.
         if( $course != null )
         {
             $course->delete();
         }
         
+        //If the section exists delete it.
         if( $section != null )
         {
             $section->delete();
@@ -65,15 +71,17 @@ class S29Test extends TestCase
         
         //Log in as user
         $user = factory(User::class)->create();
-
+        
+        //Attach the student role to the user.
         $user->attachRole($Student);
         
+        //Create the needed fake data.
         $course = factory(Course::class)->create();
         $section = factory(Section::class)->create();
         $activity = factory(Activity::class)->create();
         $studentActivity = factory(StudentActivity::class)->create();
         
-        
+        //Look on the page too see if we can find the fake student activity.
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
@@ -82,7 +90,20 @@ class S29Test extends TestCase
              ->see(1)
              ->see(2)
              ->see(3)
+             ->see('Submitted')
+             ->see('Awaiting Submission')
+             //this should not be on the page
              ->dontSee('Awesome');
+        
+        //Look in Database to see if the fake data exists.
+        $this->seeInDatabase('StudentActivity', 
+                ['userID' => '696969',
+                    'activityID' => 199000,
+                    'timespent' => 1,
+                    'stressLevel' => 2,
+                    'comments' => "Test",
+                    'timeEstimated' => 3,
+                    'submitted' => 1]);
     }
     
     /*
@@ -100,31 +121,34 @@ class S29Test extends TestCase
         {
            $user->delete(); 
         }
+
+        //Log in as user
+        $user = factory(User::class)->create();
         
         //Get student roles from db
         $Student = Role::find(3);
         
-        //Log in as user
-        $user = factory(User::class)->create();
-
+        //attach roles to the user
         $user->attachRole($Student);
 
+        //This is seeded data that should have nothing submitted.
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
              ->see('Student Activities')
+             ->see('Assignment2')
+             ->see(0)
+             ->see(0)
+             ->see(0)
              ->dontSee('Awesome');
-    }
-
-    /*
-     * Purpose: Test the data retrieved from the database to populate the 
-     *      Student Activity forms.
-     * Author: Justin Lutzko, Dallen Barr
-     */
-    public function testSelectDataForStudentActivityController()
-    {
         
-    }
-    
-    
+        //You should see the seeded data in the data base.
+        $this->seeInDatabase('StudentActivity', 
+                ['userID' => '12347',
+                    'activityID' => 2,
+                    'timespent' => 0,
+                    'stressLevel' => 0,
+                    'timeEstimated' => 0,
+                    'submitted' => 0]);
+    }   
 }
