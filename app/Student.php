@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Purpose: Represents the Student table from the DB. Allows for simple
  * modifications.
  * 
- * @author Justin Lutzko CST229
+ * @author Shital
  */
 class Student extends Model
 {

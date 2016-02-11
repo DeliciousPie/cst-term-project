@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * Purpose: Define where users can go based on route groups.
  * 
- * @author Justin Lutzko CST229
+ * @author Mark Beitel CST#1
  */
 class ProfManager
 {
@@ -20,7 +20,7 @@ class ProfManager
      * See the kernal class for a list of all the middleware beign used. Or to
      * define it.
      * 
-     * @author Justin Lutzko CST229
+     * @author Mark "Cool Guy" Beitel
      * 
      * Handle an incoming request.
      *
