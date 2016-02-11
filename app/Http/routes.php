@@ -62,9 +62,6 @@ Route::group(['middleware' => 'web'], function () {
         
         //This route will add the information to the selected activity.
         Route::post('/activities', 'StudentActivityController@updateInfo');
-        
-        
-        
     });
     
    /**

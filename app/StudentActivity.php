@@ -27,9 +27,4 @@ class StudentActivity extends Model
      */
     public $timestamps = false;
     
-    public function storeRecordedStudentInfo( StudentActivityRequest $request )
-    {
-        //'timeSpent' => $request->get('timeSpent'),
-    }
-    
 }
