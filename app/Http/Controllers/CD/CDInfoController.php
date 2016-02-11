@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Author Sean Young and Wes Reid
+ * 
+ */
+
 namespace App\Http\Controllers\CD;
 
 use Illuminate\Http\Request;
@@ -10,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use App\CD;
 use App\User;
 use Illuminate\Support\Facades\Input;
+
+
 
 class CDInfoController extends Controller
 {
@@ -70,11 +77,6 @@ class CDInfoController extends Controller
             'educationalInstitution' => Input::get('school'),
             'areaOfStudy' => Input::get('areaOfStudy'),
             'email' => Input::get('email')));
-        
-
-           //Controller confirmation
-             //controls the CD info
-            //CDInfoController::CDConfirmation();
             
             //send CD to the dashboard
             return view('CD/dashboard');
