@@ -25,6 +25,9 @@
                 <div class="row">
                     <form method="post" action=''>
                         <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                        
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                        
                         @foreach ($errors->all() as $error)
                         <p class="alert alert-danger">{{ $error }}</p>
                         @endforeach
@@ -42,7 +45,7 @@
                         <div class="col-md-3">
                             <h2>Professors</h2>
 
-                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses">
+                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses()">
                                 
                                 @if ( isset($listOfProfs) )
                                 
@@ -86,10 +89,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <!-- The modal for adding an activity -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -143,26 +142,37 @@
 
     $(document).ready(function(){
 
-    function loadCourses()
+    //function loadCourses()
+    window.loadCourses = function()
     {
-        var prof = $('#profSelect').value();
+        //alert("ajax call!!!!!!!!");
+        
+        var profID = $('#profSelect').val();
+        var prof = {
+            'profID' : profID
+        };
+
+        //alert(profID);
 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }});
 
-        $.post('/manageActivity/loadSelectedProfsCourses', prof, function(data)
+        $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function(data)
         {
-            $('#courseSelect').html
-            ( 
-                    for (var count in data.courses)
-                    {
-                        "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + data.courses[count].courseName + "</option>";
-                    }
-            )
+            var string ="";
+            for (var count in data.courses)
+            {
+                string += "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + " - " + data.courses[count].courseName + "</option>";
+            }
+            
+            $('#courseSelect').html ( string );
+            
         });
     }
+    
+    
     
     });
 

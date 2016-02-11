@@ -56,16 +56,19 @@ class ActivityManagerController extends Controller
     
     public function loadSelectedProfsCourses()
     {
-        if ( isset($_POST['prof']) )
+        if ( isset($_POST['profID']) )
         {
-            $profID = $_POST['prof'];
-        }
-        
-        $coursesArray = DB::select('Select courseID, courseName from Course where courseID = '
+            $prof = $_POST['profID'][0];
+                        
+            $coursesArray = DB::select('Select courseID, courseName from Course where courseID = '
                 . '( Select courseID from Section where sectionID = '
-                . '(SELECT sectionID from profSection WHERE userID = $profID))');
-        
-        return response()->json(['courses' => $coursesArray]);
+                . '(SELECT sectionID from ProfSection WHERE userID = "'
+                . $prof
+                . '"))');
+            
+            return response()->json(['courses' => $coursesArray]);
+
+        }
     }
     
     public function loadSelectedCoursesActivities()
