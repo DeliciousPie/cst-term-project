@@ -10,7 +10,7 @@ use App\Http\Requests\StudentActivityRequest;
 use App\StudentActivity;
 use Illuminate\Support\Facades\Auth;
 use DB;
-
+use App\Course;
 
 /**
  * Purpose: The purpose of this controller is to control the way the student 
@@ -41,29 +41,51 @@ class StudentActivityController extends Controller{
 
         //Query from the database, using a join from Activity and StudentActivity
         //to get the activityType
-        $query = DB::table('StudentActivity')
-            ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
-            ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
-            ->join('Course', 'Course.courseID', '=', 'Section.courseID')
-            ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
-                    'StudentActivity.comments','timeEstimated','activityType', 
-                    'submitted', 'Course.courseID')
-            ->get();
+//        $query = DB::table('StudentActivity')
+//            ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
+//            ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
+//            ->join('Course', 'Course.courseID', '=', 'Section.courseID')
+//            ->where('Course.courseId', '=', $course->courseID )
+//                ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
+//                    'StudentActivity.comments','timeEstimated','activityType', 
+//                    'submitted', 'Course.courseID')
+//            ->get();
         
+        $courses = Course::all();
         
+        $studentAct = array();
+        
+        foreach( $courses as $course)
+        {
+            $studentAct[$course->courseID] = DB::table('StudentActivity')
+                ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
+                ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
+                ->join('Course', 'Course.courseID', '=', 'Section.courseID')
+                ->where('Course.courseId', '=', $course->courseID )
+                    ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
+                        'StudentActivity.comments','timeEstimated','activityType', 
+                        'submitted', 'Course.courseID')
+                ->get();
+        }
+        
+        //dd($studentAct);
         
         //Create an array
         $studentActivities = array();
-
-        //Loop through each result.
-        for($i = 0; $i < count($query); $i++)
-        {
-            //Cast $query from a StdClass to an array
-            $query[$i] = (array) $query[$i];
-        }
-        //The view expects it in a associative array named 'studentActivities'
-        $studentActivities['studentActivities'] = $query;
         
+        //Loop through each result.
+//        for($i = 0; $i < count($query); $i++)
+//        {
+//            //Cast $query from a StdClass to an array
+//            $query[$i] = (array) $query[$i];
+//        }
+        //The view expects it in a associative array named 'studentActivities'
+        
+        $studentActivities['studentActivities'] = json_decode(json_encode($studentAct), true);
+        
+        //$studentActivities['studentActivities'] = $studentAct;
+        //$studentActivities = $studentAct;
+
         //Return laravel magic - studentActivities will be used in acitvites.blade
         return view('Student/activities',$studentActivities);
     }

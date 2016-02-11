@@ -7,8 +7,8 @@
         <div class="panel-body">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                 <i class="fa fa-bar-chart-o fa-fw"></i>Student Activities</h3>
-
+                    <i class="fa fa-bar-chart-o fa-fw"></i><h2>Student Activities</h2>
+                </h3>
             </div>
             @if (session('status'))
             <div class="alert alert-success">
@@ -16,17 +16,38 @@
             </div>
             @endif       
     @if( isset($studentActivities) && count($studentActivities) > 0 )
-
+        
             @foreach ($errors->all() as $error)
                <p class="alert alert-danger">{{ $error }}</p>
             @endforeach
+
             <!--This is  a for each loop that will iterate through all of 
             the activities a user has tied to it's name/id-->
-            @foreach($studentActivities as $studAct)
-                <h3 class="panel-title">
-                <i class="fa fa-bar-chart-o fa-fw"></i>{{$studAct['courseID']}}</h3>
+            @foreach($studentActivities as $stud)
+           
+            <div class="panel-heading">
+                <div class='row'>
+                    <div class="col-lg-9">
+                    <h3 class="panel-title">
+                    <i class="fa fa-bar-chart-o fa-fw">
+                       {{$stud[0]['courseID']}}
+                    </i>
+                    </h3>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-1">
+                        <span style="font-size: 2em" class="glyphicon glyphicon-collapse-down navbar-right" 
+                              aria-hidden="false"  onclick="$('#{{$stud[0]['courseID']}}panel').toggle();"></span>
+                    </div>
+                </div>
+            </div>
+
+                @foreach( $stud as $studAct )
                     @include('student.activity')
+               @endforeach
             @endforeach
+            
+        
     @else
             
         <p> No activities</p>

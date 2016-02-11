@@ -62,5 +62,39 @@ class ActivitySeeder extends Seeder
             'userID' => '12347',
             'activityID' => 2
         ]);
+        
+        DB::table('Course')->insert([
+                
+            'courseID' => 'COMM210',
+            'courseName' => 'Accounting',
+            'description' => 'Learn about business.',
+        ]);
+        
+        DB::table('Section')->insert([
+            'sectionID' => 3,
+            'courseID' => 'COMM210',
+            'date' => new DateTime,
+        ]);
+        
+        DB::table('Activity')->insert([
+            'activityID' => 3,
+            'sectionID' => 3,
+            'activityType' => 'Assignment3',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 2.0,
+            'proffEstimate' => 2.0,
+            'cdAlocatedTime' => 2.0,
+            'comments' => "Student better get it done.",
+        ]);
+        
+        DB::table('StudentActivity')->insert([
+            'userID' => '12347',
+            'activityID' => 3,
+//            'timeSpent' => null,
+//            'stressLevel' => null,
+//            'comments' => null,
+//            'timeEstimated' => null,
+        ]);
     }
 }
