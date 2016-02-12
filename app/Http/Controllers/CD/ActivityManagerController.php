@@ -67,12 +67,24 @@ class ActivityManagerController extends Controller
                 . '"))');
             
             return response()->json(['courses' => $coursesArray]);
-
         }
     }
     
     public function loadSelectedCoursesActivities()
     {
+        if ( isset($_POST['courseID']) )
+        {
+            $course = $_POST['courseID'][0];
+            
+            $activityArray = DB::select('SELECT activityID, activityType, assignDate, '
+                    . 'dueDate, estTime FROM Activity where sectionID = '
+                    . '(Select sectionID from Section where courseID = "'
+                    . $course
+                    . '")');
+            
+            return response()->json(['activities' => $activityArray]);
+        }
+        
         
     }
 

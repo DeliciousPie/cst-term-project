@@ -8,26 +8,41 @@
 <a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Activity Manager </a>
 @stop
 
-
 @section('bodyHeader')
 <br>
 @stop
 
-
 @section('content')
+<style type='text/css'>
+    .large-width{
+        width: 100%;
+    }
 
+    .bold-font{
+        font-weight:bold;
+    }
+
+    .white-background{
+        background-color: white;
+    }
+
+    .purple-select{
+        background-color: #cdcdcd;
+    }
+</style>
 
 <div>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-
                 <div class="row">
+
                     <form method="post" action=''>
+
                         <input type="hidden" name='_token' value="{!! csrf_token() !!}">
-                        
+
                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                        
+
                         @foreach ($errors->all() as $error)
                         <p class="alert alert-danger">{{ $error }}</p>
                         @endforeach
@@ -46,17 +61,17 @@
                             <h2>Professors</h2>
 
                             <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses()">
-                                
+
                                 @if ( isset($listOfProfs) )
-                                
-                                    @foreach($listOfProfs as $prof)
-                                    <option value="{!! $prof['userID'] !!}" >{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
-                                    @endforeach
+
+                                @foreach($listOfProfs as $prof)
+                                <option value="{!! $prof['userID'] !!}" >{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
+                                @endforeach
                                 @endif
-                                
+
                             </select>
                         </div>
-                        
+
                         <!--Middle Spacing-->
                         <div class="col-md-1">
                         </div>
@@ -65,7 +80,7 @@
                         <div class="col-md-6">
                             <h2>Assigned Courses</h2>
 
-                            <select id='courseSelect' multiple class="form-control" style="height:232px">
+                            <select id='courseSelect' multiple class="form-control" style="height:232px" onchange='loadActivities()'>
                             </select>
 
                             <!--Assignments Select Box-->
@@ -73,10 +88,11 @@
                             <button type="button" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal">Add Activity</button>
                             <button type="button" class="btn btn-default" style="width:31%">Edit Activity</button>
                             <button type="button" class="btn btn-default" style="width:31%">Delete Activity</button>
+
+
                             <!--Assignment Select-->
                             <br><br>
-                            <select multiple class="form-control" style="height:150px">
-                            </select>
+                            <div id="activitySelect" style="width:95%; height:150px"></div>
                         </div>
                         <!--Right Spacing-->
                         <div class="col-md-1">
@@ -137,45 +153,139 @@
     </div>
 </div>
 
+<!--This script is for loading each course the professor is teaching-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
-    //function loadCourses()
-    window.loadCourses = function()
-    {
-        //alert("ajax call!!!!!!!!");
-        
-        var profID = $('#profSelect').val();
-        var prof = {
-            'profID' : profID
+
+        //function loadCourses()
+        window.loadCourses = function ()
+        {
+            $('#activitySelect').html('');
+
+            var profID = $('#profSelect').val();
+            var prof = {
+                'profID': profID
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function (data)
+            {
+                var string = "";
+
+                // check if the professor has courses, if not then display so.
+                if (data.courses.length === 0)
+                {
+                    string += "<option>Professor Has No Courses</option>";
+                }
+
+                for (var count in data.courses)
+                {
+                    string += "<option value='" + data.courses[count].courseID
+                            + "'>" + data.courses[count].courseID + " - "
+                            + data.courses[count].courseName + "</option>";
+                }
+
+                $('#courseSelect').html(string);
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', {'packages': ['table']});
+
+    function drawTable(ajaxData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Assignment Name');
+        data.addColumn('string', 'Start Date');
+        data.addColumn('string', 'Due Date');
+        data.addColumn('string', 'Estimated Time')
+
+            if(ajaxData.activities.length > 0)
+            {
+                for (var aCount in ajaxData)
+                {
+                    for (var count in ajaxData.activities)
+                    {   
+                        data.addRow([ajaxData.activities[count].activityType,
+                            ajaxData.activities[count].assignDate,
+                            ajaxData.activities[count].dueDate, 
+                            ajaxData.activities[count].estTime]);
+                    }
+                }
+            }
+            else
+            {
+              data.addRows([
+                    ['There are no assignments for the selected course', null, null, null],
+              ]);
+            }
+
+        var chart = new google.visualization.Table(document.getElementById('activitySelect'));
+
+        var cssClassNames = {
+            'headerRow': 'bold-font',
+            'tableRow': '',
+            'oddTableRow': 'white-background',
+            'selectedTableRow': '',
+            'hoverTableRow': 'purple-select',
+            'headerCell': '',
+            'tableCell': '',
+            'rowNumberCell': '',
         };
 
-        //alert(profID);
+        var options = {'showRowNumber': false, 'width': '100%', 'height': '100%', 'cssClassNames': cssClassNames};
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }});
 
-        $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function(data)
-        {
-            var string ="";
-            for (var count in data.courses)
-            {
-                string += "<option value='" + data.courses[count].courseID + "'>" + data.courses[count].courseID + " - " + data.courses[count].courseName + "</option>";
+        chart.draw(data, options);
+
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var name = data.getValue(selectedItem.row, 0);
+                var salary = data.getValue(selectedItem.row, 1);
+                alert('The user selected ' + name + ' and makes $' + salary);
             }
-            
-            $('#courseSelect').html ( string );
-            
-        });
+        }
+
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        //chart.draw(data, options, {width: '100%'});
     }
-    
-    
-    
-    });
 
 </script>
 
+<!--This script is for adding activities based on the course selected-->
+<script type="text/javascript" >
+
+    $(document).ready(function () {
+
+        window.loadActivities = function ()
+        {
+            var courseID = $('#courseSelect').val();
+            var course = {
+                'courseID': courseID
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            $.post('/CD/manageActivity/loadSelectedCoursesActivities', course, function (data)
+            {                    
+                  drawTable(data);
+            });
+        }
+    });
+</script>
 @endsection
