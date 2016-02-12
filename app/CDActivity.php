@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CDActivity extends Model
 {
-    protected $fillable = ['activityType', 'assignDate', 'dueDate', 'estTime'];
+    protected $fillable = ['activityType', 'assignDate', 'dueDate', 'estTime', 'stresstimate'];
     protected $guarded = ['activityID', 'sectionID']; 
     
     /*

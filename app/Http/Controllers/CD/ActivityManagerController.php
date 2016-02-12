@@ -77,7 +77,7 @@ class ActivityManagerController extends Controller
             $course = $_POST['courseID'][0];
             
             $activityArray = DB::select('SELECT activityID, activityType, assignDate, '
-                    . 'dueDate, estTime FROM Activity where sectionID = '
+                    . 'dueDate, estTime, stresstimate FROM Activity where sectionID = '
                     . '(Select sectionID from Section where courseID = "'
                     . $course
                     . '")');

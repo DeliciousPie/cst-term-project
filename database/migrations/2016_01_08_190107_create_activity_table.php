@@ -20,6 +20,7 @@ class CreateActivityTable extends Migration
             $table->date('assignDate');
             $table->date('dueDate');
             $table->decimal('estTime', 2, 1);
+            $table->integer('stresstimate');
         });
         
         Schema::table('Activity', function ($table) {

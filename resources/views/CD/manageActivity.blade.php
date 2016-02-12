@@ -92,7 +92,7 @@
 
                             <!--Assignment Select-->
                             <br><br>
-                            <div id="activitySelect" style="width:95%; height:150px"></div>
+                            <div id="activitySelect" style="width:95%; max-height:150px"></div>
                         </div>
                         <!--Right Spacing-->
                         <div class="col-md-1">
@@ -121,13 +121,29 @@
                 </div>
                 @endif
 
-                <div class="modal-header">
-                    <h3 class="modal-title">Add Activity</h3>
+                <div class="modal-header" style='background: #008040; color: white;'>
+                    <h3 class="modal-title" style="font-weight: bold;">Add Activity</h3>
                 </div>
                 <div class="modal-body center-block">
                     <label for="activityName">Activity Name</label>
+                    <br>
+                    <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
                     <div class="input-group" style="width:100%">
                         <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Activity Name" style="width:100%">
+                    </div>
+                    <br>
+                     <label for="startDate">Start Date</label>
+                    <br>
+                    <h6>The day and time that the activity will be given.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="startDate" class="form-control" name="startDate" type="datetime-local" placeholder="Start Date" style="width:100%">
+                    </div>
+                    <br>
+                    <label for="dueDate">Due Date</label>
+                    <br>
+                    <h6>The day and time that the activity will be due.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="dueDate" class="form-control" name="dueDate" type="datetime-local" placeholder="Due Date" style="width:100%">
                     </div>
                     <br>
                     <label for="workload">Workload(hr)</label>
@@ -139,14 +155,14 @@
                     <br>
                     <label for="stresstimate">Stresstimate</label>
                     <br>
-                    <h6>Stress Estimate - 1 is the lowest, 10 is the highest.</h6>
+                    <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
                     <div class="input-group" style="width:100%">
                         <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" style="width:100%"> 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" name="submit" value="Submit" formethod="POST" class="btn btn-info pull-right">
+                    <input type="submit" name="submit" value="Submit" formethod="POST" class="btn btn-info pull-right" style='background: #008040;'>
                 </div>
             </form>
         </div>
@@ -205,10 +221,11 @@
 
     function drawTable(ajaxData) {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Assignment Name');
+        data.addColumn('string', 'Activity Name');
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
-        data.addColumn('string', 'Estimated Time')
+        data.addColumn('string', 'Estimated Time');
+        data.addColumn('number', 'Stresstimate')
 
             if(ajaxData.activities.length > 0)
             {
@@ -219,14 +236,16 @@
                         data.addRow([ajaxData.activities[count].activityType,
                             ajaxData.activities[count].assignDate,
                             ajaxData.activities[count].dueDate, 
-                            ajaxData.activities[count].estTime]);
+                            ajaxData.activities[count].estTime,
+                            ajaxData.activities[count].stresstimate
+                            ]);
                     }
                 }
             }
             else
             {
               data.addRows([
-                    ['There are no assignments for the selected course', null, null, null],
+                    ['There are no assignments for the selected course', null, null, null, null],
               ]);
             }
 
