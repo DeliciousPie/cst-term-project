@@ -13,7 +13,13 @@ use App\User;
 use App\CD;
 use Illuminate\Support\Facades\Input;
 
-
+/**
+ * Purpose: This controller handles requests from Professor Users. It will 
+ *  insert them into the database when they initialize their accounts, populate
+ *  the graph page, etc.
+ * 
+ * @author Wes and Sean
+ */
 class ProfInfoController extends Controller
 {
 
@@ -27,7 +33,13 @@ class ProfInfoController extends Controller
         $this->middleware('profmanager');
         
     }
-    
+    /**
+     * This function inserts the newly initailized professor into the database.
+     * If they are already initialized they are forwarded to default dashboard
+     * and if the passwords do not match it will redirect them back to the 
+     * initialization form with an error message.
+     * @return view
+     */
     public static function insertProf()
     {
                 
