@@ -25,6 +25,8 @@
 
                 <div class="panel-body">
 
+                    @include('CD.dataSelectionButtons')
+                    
                 </div>
             </div>
         </div>

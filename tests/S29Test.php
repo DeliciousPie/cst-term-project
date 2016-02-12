@@ -113,7 +113,7 @@ class S29Test extends TestCase
     public function testDataInFormFieldWhichHasNoDataIsEmptyWhenViewing()
     {
         //Find user with id 200
-        $user = User::find(4);
+        $user = User::find(5);
         
         $user->confirmed = true;
         
@@ -141,14 +141,18 @@ class S29Test extends TestCase
     }   
     
     /**
-     * Purpose:
+     * Purpose: The purpose of this function is to test if there are no 
+     * activities associated with a student no activities will show up.
      * 
      * @author Justin Lutzko,Dallen Barr
      */
     public function testIfNoActivitiesAssigned()
     {
-        $user = User::find(5);
+        //find user with the id 5
+        $user = User::find(6);
+        //Confirm them
         $user->confirmed = true;
+        //Log them in
         $this->actingAs($user)
                 ->withSession(['foo' => 'bar'])
                 ->visit('Student/activities')
