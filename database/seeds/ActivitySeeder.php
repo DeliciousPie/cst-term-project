@@ -32,7 +32,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'profEstimate' => 2.0,
+            'proffEstimate' => 2.0,
             'cdAlocatedTime' => 2.0,
             'comments' => "Student better get it done.",
         ]);
@@ -40,6 +40,23 @@ class ActivitySeeder extends Seeder
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
             'activityID' => 1
+        ]);
+        
+        DB::table('Activity')->insert([
+            'activityID' => 2,
+            'sectionID' => 1,
+            'activityType' => 'Assignment2',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 700.0,
+            'proffEstimate' => 500.0,
+            'cdAlocatedTime' => 500.0,
+            'comments' => "ETA 2020",
+        ]);
+        
+        DB::table('StudentActivity')->insert([
+            'userID' => '12347',
+            'activityID' => 2
         ]);
     }
 }

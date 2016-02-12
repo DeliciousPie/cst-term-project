@@ -4,14 +4,44 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/G:/COSA280/Code/database/seeds/UserTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/Student/register.blade.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Middleware/ProfManager.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/welcome.blade.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/layouts/app.blade.php</file>
+            <file>file:/G:/COSA280/Code/config/app.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentActivityController.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/RoleTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/Student/dashboard.blade.php</file>
+            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDInfoController.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/register.blade.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/auth/login.blade.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/registerError.blade.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/PagesController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Prof/PagesController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Prof/ProfInfoController.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/auth/register.blade.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Auth/AuthController.php</file>
+            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Middleware/StudentManager.php</file>
+            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RedirectsUsers.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Middleware/CDManager.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentInfoController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/PagesController.php</file>
+            <file>file:/G:/COSA280/Code/app/Student.php</file>
+            <file>file:/G:/COSA280/Code/config/database.php</file>
             <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
-            <file>file:/G:/COSA280/Code/tests/S1Test.php</file>
-            <file>file:/G:/COSA280/Code/app/User.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Auth/PasswordController.php</file>
+            <file>file:/G:/COSA280/Code/app/StudentActivity.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Requests/StudentActivityRequest.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
+            <file>file:/G:/COSA280/Code/tests/S08Test.php</file>
+            <file>file:/G:/COSA280/Code/config/app.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/Student/activity.blade.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentActivityController.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2014_10_12_000000_create_users_table.php</file>
+            <file>file:/G:/COSA280/Code/config/auth.php</file>
+            <file>file:/G:/COSA280/Code/tests/S32Test.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190108_create_studentActivity_table.php</file>
+            <file>file:/G:/COSA280/Code/database/factories/ModelFactory.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190107_create_activity_table.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/Student/activities.blade.php</file>
         </group>
     </open-files>
 </project-private>

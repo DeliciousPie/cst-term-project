@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * Purpose: Define where users can go based on route groups.
  * 
- * @author Justin Lutzko CST229
+ * @author Not Justin Bietal
  */
 class StudentManager
 {
@@ -20,7 +20,7 @@ class StudentManager
      * See the kernal class for a list of all the middleware beign used. Or to
      * define it.
      * 
-     * @author Justin Lutzko CST229
+     * @author Mark "Justin Sucks" Bietal
      * 
      * Handle an incoming request.
      *
