@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('title')
-        <title>Professor Dash Board</title>
+        <title>Curricular Developer Dash Board</title>
 @stop
 
 @section('navBarHeader')
-        <a class="navbar-brand" href="{{ url('/') }}">Professor Registration </a>
+        <a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Registration </a>
 @stop
 
 
 @section('bodyHeader')
         <h1>
             
-            Professor Dash Board
+            CD Dash Board
         </h1>
 @stop
 
@@ -20,14 +20,15 @@
 
 @section('content')
 <div class="row">
+    <div class=""
    <div class="col-md-8 col-md-offset-2">
-
+       <h2 class="alert alert-danger">Passwords Don't Match</h2>
             <div class="panel panel-default">
 
                 <div class="panel-body">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                 <i class="fa fa-bar-chart-o fa-fw"></i>Professor Registration</h3>
+                 <i class="fa fa-bar-chart-o fa-fw"></i>CD Registration</h3>
             </div>
             <div class="panel-body">
 
@@ -130,34 +131,23 @@
     ]; 
 ?>
 
-  <?=       
-        Former::Label("UserID: "),
-       Former::Label(Auth::user()->userID),
-       Former::password('password', 'New Password')->required(),
+  <?=  Former::password('password', 'New Password')->required(),
        Former::password('confirmPassword', 'Confirm New Password')->required(),
-       Former::text('firstName', 'First Name')->required()->value(Auth::user()->name),
+       Former::text('firstName', 'First Name')->required(),
        Former::text('lastName', 'Last Name')->required(),
        Former::select('school', 'School')->options($schools, 'CUAC'),
        Former::select('areaOfStudy', 'Area Of Study')->options($study),
-       Former::email('email')->required()->value( Auth::user()->email ),
-
+       Former::email('email')->required(),
+       
        
       Former::actions()
     ->large_primary_submit('Submit')
     ->large_inverse_reset('Reset')
         
        ?>
-<?= Former::close() ?>
+<?= Former::close() ?>              
                 
                 
-                <?php           
-                
-                //just in case
-                //...
-                //...
-                //for future code crushing
-                
-                ?>
                 
                 
                 </div>

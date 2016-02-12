@@ -83,7 +83,7 @@ Route::group(['middleware' => 'web'], function () {
         
         //Loads the registration page on first time login.
         Route::post('/dashboard', 'CDInfoController@insertCD');    
-        
+        Route::post('/registerError', 'CDInfoController@insertCD');
         // Course Assignment Grouping 
         Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
         Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
@@ -108,6 +108,7 @@ Route::group(['middleware' => 'web'], function () {
         
                 //Loads the registration page on first time login.
         Route::post('/dashboard', 'ProfInfoController@insertProf');
+        Route::post('/registerError', 'ProfInfoController@insertProf');
     });
 });
 
