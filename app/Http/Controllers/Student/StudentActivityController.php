@@ -36,55 +36,53 @@ class StudentActivityController extends Controller{
      */
     public function showAllActivities()
     {
+        $confirmed = Auth::user()->confirmed;
+        
+        if( !$confirmed )
+        {
+            return redirect('Student/dashboard');
+        }
+        
         //Get the current authenticated user.
         $userID = Auth::user()->userID;
-
-        //Query from the database, using a join from Activity and StudentActivity
-        //to get the activityType
-//        $query = DB::table('StudentActivity')
-//            ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
-//            ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
-//            ->join('Course', 'Course.courseID', '=', 'Section.courseID')
-//            ->where('Course.courseId', '=', $course->courseID )
-//                ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
-//                    'StudentActivity.comments','timeEstimated','activityType', 
-//                    'submitted', 'Course.courseID')
-//            ->get();
-        
+        //query all the courses
         $courses = Course::all();
         
+        //declare and array that will hold all the activities that apply to the
+        //course.
         $studentAct = array();
         
+        //For each course we want to find all the courses associated with it.
         foreach( $courses as $course)
         {
-            $studentAct[$course->courseID] = DB::table('StudentActivity')
+            //performt the query.
+            //This query will look for all of the student activities assigned to
+            //a student, in the spcified course.
+            $queryResult = DB::table('StudentActivity')
                 ->join('Activity', 'Activity.activityID', '=', 'StudentActivity.activityID')
                 ->join('Section', 'Section.sectionID', '=' , 'Activity.sectionID')
                 ->join('Course', 'Course.courseID', '=', 'Section.courseID')
                 ->where('Course.courseId', '=', $course->courseID )
+                ->where('StudentActivity.userID', '=', $userID)
                     ->select('userID', 'Activity.activityID', 'timeSpent','stressLevel',
                         'StudentActivity.comments','timeEstimated','activityType', 
                         'submitted', 'Course.courseID')
                 ->get();
+            
+            //If the query result is not null add it to the $studentAct
+            if($queryResult != null)
+            {
+                $studentAct[$course->courseID] = $queryResult;
+            }
         }
-        
-        //dd($studentAct);
         
         //Create an array
         $studentActivities = array();
         
-        //Loop through each result.
-//        for($i = 0; $i < count($query); $i++)
-//        {
-//            //Cast $query from a StdClass to an array
-//            $query[$i] = (array) $query[$i];
-//        }
+
         //The view expects it in a associative array named 'studentActivities'
-        
-        $studentActivities['studentActivities'] = json_decode(json_encode($studentAct), true);
-        
-        //$studentActivities['studentActivities'] = $studentAct;
-        //$studentActivities = $studentAct;
+        $studentActivities['studentActivities'] = 
+                json_decode(json_encode($studentAct), true);
 
         //Return laravel magic - studentActivities will be used in acitvites.blade
         return view('Student/activities',$studentActivities);
@@ -132,5 +130,23 @@ class StudentActivityController extends Controller{
             ->with('status', 'Your activity has been recorded!');
     }
     
-    
+    /**
+     * Purpose: This method checks to see if the user is a confirmed user or
+     * not.  The confirmation is represented by an boolean column in the 
+     * database.  Once the user registers the column is changed to a 1 else
+     * they are unregistered represented by a zero.
+     * 
+     * @author Justin Lutzko cst229
+     * 
+     * @return String - Loads a view Student dashboard.
+     */   
+    public static function StudentConfirmation()
+    {
+        
+        $user = User::find(Auth::user()->id);
+                
+        $user->confirmed = 1;
+                
+        $user->save();
+    }
 }

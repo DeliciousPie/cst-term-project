@@ -3,8 +3,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default">
-        <div class="panel-body">
+      
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-bar-chart-o fa-fw"></i><h2>Student Activities</h2>
@@ -25,32 +24,40 @@
             the activities a user has tied to it's name/id-->
             @foreach($studentActivities as $stud)
            
-            <div class="panel-heading">
-                <div class='row'>
-                    <div class="col-lg-9">
-                    <h3 class="panel-title">
-                    <i class="fa fa-bar-chart-o fa-fw">
-                       {{$stud[0]['courseID']}}
-                    </i>
-                    </h3>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-1">
-                        <span style="font-size: 2em" class="glyphicon glyphicon-collapse-down navbar-right" 
-                              aria-hidden="false"  onclick="$('#{{$stud[0]['courseID']}}panel').toggle();"></span>
-                    </div>
+            <div class="row">
+                <div class="col-lg-12">
+                   <div class="panel panel-default" t="2">                        
+                        <div class="panel-heading">
+                            <div class='row'>
+                                <div class="col-lg-9">
+                                    <h3 class="panel-title">
+                                        <i class="fa fa-bar-chart-o fa-fw">
+                                           {{$stud[0]['courseID']}}
+                                        </i>
+                                    </h3>
+                                </div>
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-1">
+                                    <span style="font-size: 2em" class="glyphicon glyphicon-collapse-down navbar-right" 
+                                        aria-hidden="false"  onclick="$('#{{$stud[0]['courseID']}}panel').toggle();">
+                                    </span>
+                                </div>
+                            </div>
+                        </div> 
+                    <div class="panel-body" id="{{$stud[0]['courseID']}}panel" style="display:none">
+                    @foreach( $stud as $studAct )
+                        @include('student.activity')
+                    @endforeach
                 </div>
             </div>
+        </div>
+    </div>
 
-                @foreach( $stud as $studAct )
-                    @include('student.activity')
-               @endforeach
-            @endforeach
-            
+    @endforeach
         
     @else
             
-        <p> No activities</p>
+        <p>No activities</p>
              
     @endif      
             </div>

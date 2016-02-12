@@ -62,6 +62,9 @@ Route::group(['middleware' => 'web'], function () {
         
         //This route will add the information to the selected activity.
         Route::post('/activities', 'StudentActivityController@updateInfo');
+        
+        //This will register a student if the try to access activies first.
+        //Route::post('/activities', 'StudentInfoController@insertStudent');
     });
     
    /**

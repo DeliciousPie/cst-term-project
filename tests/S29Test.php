@@ -91,9 +91,8 @@ class S29Test extends TestCase
              ->see(2)
              ->see(3)
              ->see('Submitted')
-             ->see('Awaiting Submission')
              //this should not be on the page
-             ->dontSee('Awesome');
+             ->dontSee('Awaiting Submission');
         
         //Look in Database to see if the fake data exists.
         $this->seeInDatabase('StudentActivity', 
@@ -114,29 +113,18 @@ class S29Test extends TestCase
     public function testDataInFormFieldWhichHasNoDataIsEmptyWhenViewing()
     {
         //Find user with id 200
-        $user = User::find(200000);
+        $user = User::find(4);
         
-        //If the user exists, delete it
-        if( $user != null )
-        {
-           $user->delete(); 
-        }
-
-        //Log in as user
-        $user = factory(User::class)->create();
+        $user->confirmed = true;
         
-        //Get student roles from db
-        $Student = Role::find(3);
-        
-        //attach roles to the user
-        $user->attachRole($Student);
-
         //This is seeded data that should have nothing submitted.
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
              ->see('Student Activities')
              ->see('Assignment2')
+             ->see('Assignment')
+             ->see('Awaiting Submission')
              ->see(0)
              ->see(0)
              ->see(0)
@@ -151,4 +139,21 @@ class S29Test extends TestCase
                     'timeEstimated' => 0,
                     'submitted' => 0]);
     }   
+    
+    /**
+     * Purpose:
+     * 
+     * @author Justin Lutzko,Dallen Barr
+     */
+    public function testIfNoActivitiesAssigned()
+    {
+        $user = User::find(5);
+        $user->confirmed = true;
+        $this->actingAs($user)
+                ->withSession(['foo' => 'bar'])
+                ->visit('Student/activities')
+                ->see('Student Activities')
+                ->see('No activities')
+                ->dontSee('Awesome');
+    }
 }

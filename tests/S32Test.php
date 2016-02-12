@@ -57,6 +57,8 @@ class S32Test extends TestCase {
         
         //If the user exists, delete it
         $user = User::find(200000);
+        
+        
         if( $user != null )
         {
            $user->delete(); 
@@ -70,14 +72,34 @@ class S32Test extends TestCase {
 
         $user->attachRole($Student);
         
+        $user->confirmed = true;
+
+        //Student Activity find with userID of 200 and activityID of 199
+        $studentActivity = StudentActivity::where('activityID', 199000)
+                ->where('userID', "696969");
+        
+        if( $studentActivity != null )
+        {
+            $studentActivity->delete();
+        }
+        
+      $studentActivity = factory(StudentActivity::class)->create();
+        
         //Should see the student activity page with all of the 
         //activity forms
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('Student/activities')
              ->see('Student Activities')
-             ->see('Assignment')
-             ->see('Assignment2')
+             ->see('AssignmentTest')
              ->dontSee('Awesome');
+       
+        if( $studentActivity != null )
+        {
+           $studentActivity
+                ->where('activityID',199000)
+                ->where('userID', "696969")
+                ->delete();
+        }
     }
 }
