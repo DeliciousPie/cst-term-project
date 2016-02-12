@@ -36,11 +36,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="row">
-
                     <form method="post" action=''>
-
                         <input type="hidden" name='_token' value="{!! csrf_token() !!}">
-
                         <meta name="csrf-token" content="{{ csrf_token() }}">
 
                         @foreach ($errors->all() as $error)
@@ -85,10 +82,9 @@
 
                             <!--Assignments Select Box-->
                             <h2>Activities</h2>
-                            <button type="button" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal">Add Activity</button>
-                            <button type="button" class="btn btn-default" style="width:31%">Edit Activity</button>
-                            <button type="button" class="btn btn-default" style="width:31%">Delete Activity</button>
-
+                            <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" disabled >Add Activity</button>
+                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
+                            <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
 
                             <!--Assignment Select-->
                             <br><br>
@@ -136,33 +132,35 @@
                     <br>
                     <h6>The day and time that the activity will be given.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="startDate" class="form-control" name="startDate" type="datetime-local" placeholder="Start Date" style="width:100%">
+                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" style="width:100%">
                     </div>
                     <br>
                     <label for="dueDate">Due Date</label>
                     <br>
                     <h6>The day and time that the activity will be due.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="dueDate" class="form-control" name="dueDate" type="datetime-local" placeholder="Due Date" style="width:100%">
+                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" style="width:100%">
                     </div>
                     <br>
                     <label for="workload">Workload(hr)</label>
                     <br>
                     <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" style="width:100%">
+                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" placeholder="2" style="width:100%">
                     </div>
                     <br>
                     <label for="stresstimate">Stresstimate</label>
                     <br>
                     <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" style="width:100%"> 
+                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" placeholder="1" style="width:100%"> 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" name="submit" value="Submit" formethod="POST" class="btn btn-info pull-right" style='background: #008040;'>
+                    
+                    <!--Add Activity Modal Button-->
+                    <button type="button" name="submit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()">Submit</button>
                 </div>
             </form>
         </div>
@@ -175,11 +173,14 @@
 
     $(document).ready(function () {
 
-
-        //function loadCourses()
         window.loadCourses = function ()
         {
+            // Reset the activities and buttons when a professor is clicked
             $('#activitySelect').html('');
+            $('#courseSelect').html('');
+            $('#addActivityButton').prop('disabled', true);
+            $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
 
             var profID = $('#profSelect').val();
             var prof = {
@@ -216,10 +217,14 @@
 
 <script type="text/javascript">
 
-
     google.charts.load('current', {'packages': ['table']});
 
     function drawTable(ajaxData) {
+        
+        $('#addActivityButton').prop('disabled', false);
+        $('#editActivityButton').prop('disabled', false);
+        $('#deleteActivityButton').prop('disabled', false);
+        
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Activity Name');
         data.addColumn('string', 'Start Date');
@@ -275,10 +280,7 @@
                 alert('The user selected ' + name + ' and makes $' + salary);
             }
         }
-
-
         google.visualization.events.addListener(chart, 'select', selectHandler);
-        //chart.draw(data, options, {width: '100%'});
     }
 
 </script>
@@ -307,4 +309,42 @@
         }
     });
 </script>
+
+<!--Add Activity Modal Endpoint-->
+<script type="text/javascript" >
+
+    $(document).ready(function () {
+
+        window.submitActivity = function ()
+        {
+            var activityName = $('#activityName').val();
+            var startDate = $('#startDate').val();
+            var dueDate = $('#dueDate').val();
+            var workload = $('#workload').val();
+            var stresstimate = $('#stresstimate').val();
+            
+            var activity = {
+                'activityName': activityName,
+                'startDate': startDate,
+                'dueDate': dueDate,
+                'workload': workload,
+                'stresstimate': stresstimate
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            $.post('/CD/manageActivity/addActivity', activity, function (data)
+            {                    
+                  loadActivities();
+            });
+        }
+    });
+</script>
+
+
+
+
 @endsection

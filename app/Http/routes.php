@@ -94,7 +94,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/manageActivity', 'ActivityManagerController@loadProfessors');
         Route::post('/manageActivity/loadSelectedProfsCourses', 'ActivityManagerController@loadSelectedProfsCourses');
         Route::post('/manageActivity/loadSelectedCoursesActivities', 'ActivityManagerController@loadSelectedCoursesActivities');
-        Route::post('/manageActivity', 'ActivityManagerController@addActivity');
+        Route::post('/manageActivity/addActivity', 'ActivityManagerController@addActivity');
     });
     
    /**
