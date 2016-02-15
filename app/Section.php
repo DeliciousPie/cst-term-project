@@ -11,4 +11,17 @@ class Section extends Model
     public $timestamps = false;
     
     protected $fillable = ['courseID', 'sectionID','date'];
+    
+    protected $primaryKey = 'sectionID';
+    
+    public function courses()
+    {
+        return $this->belongsTo('App\Course', 'courseID');
+    }
+    
+    public function activities()
+    {
+        return $this->hasMany('App\Activity', 'courseID', 'sectionID');
+    }
+    
 }

@@ -10,6 +10,8 @@ use Khill\Lavacharts\Lavacharts;
 use Lava;
 use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
 use App\Http\Controllers\CD\CDCharts\ColumnChartController;
+use App\Http\Controllers\CD\CDChartQueries\PieChartQueryController;
+
 class CDDashboardController extends Controller
 {
     /**
@@ -22,25 +24,34 @@ class CDDashboardController extends Controller
 
         //Create controller to create chart.
         $queryColumnChartController = new ColumnChartQueryController();
-        $chartColumnChart = new ColumnChartController();
+        $chartColumnTimeChart = new ColumnChartController();
         
         //Query the total avg. timeSpent and timeEstimated.
         $avgTimeEstVsActualTimeQuery = $queryColumnChartController
                 ->avgTimeEstVsAvgTimeSpent();
         
         //Use query to build column chart.
-        $avgTimeEstVsActualTimeChart = $chartColumnChart
+        $avgTimeEstVsActualTimeChart = $chartColumnTimeChart
                 ->timeSpentVsTimeEstimatedTotalAvg($avgTimeEstVsActualTimeQuery);
         
-        
-        
+        $chartColumnStressChart = new ColumnChartController();
         $avgStressLevelQuery = $queryColumnChartController
                 ->totalAvgStressLevel();
+        $avgStressLevelChart = $chartColumnStressChart
+                ->showTotalAvgStressLevel($avgStressLevelQuery);
         
-        $avgStressLevelChar = $chartColumnChart
-                ->timeSpentVsTimeEstimatedTotalAvg($avgTimeEstVsActualTime)
+        $timePerCourses = new PieChartQueryController();
+        $timePerCoursesChartController = new CDCharts\PieChartController;
+        
+        $timePerCourseQuery = $timePerCourses
+                ->findTimeSpentOnCourse();
+        
+        $timePerCoursePieChart = $timePerCoursesChartController
+                ->showTimePerCourse($timePerCourseQuery);
+        
+        
         //Return the chart.
-        return view('CD/dashboard', $avgTimeEstVsActualTimeChart);
+        return view('CD/dashboard', $avgTimeEstVsActualTimeChart, $avgStressLevelChart, $timePerCoursePieChart);
     }
 
     public function createFilters()

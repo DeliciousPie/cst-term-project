@@ -48,9 +48,11 @@ class ColumnChartQueryController extends Controller
         //Average of stressLevel col.
         $queryTimeSpent = StudentActivity::avg('stressLevel');
         
-        //Convert query objects to string array.
-        $result = json_decode(json_encode($queryTimeSpent), true);
+        $queryResult = array('stressLevel' => $queryTimeSpent);
         
+        //Convert query objects to string array.
+        $result = json_decode(json_encode($queryResult), true);
+
         return $result;
     }
 }

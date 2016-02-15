@@ -25,19 +25,16 @@
 
                 <div class="panel-body">
 
-                   <div id="pop_div"></div> 
-                    
+                   <div id="pop_div1"></div> 
+                   <div id="pop_div2"></div>
+                   <div id="pop_div3"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-    
-    
-<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
-
-@columnchart('Student Time','pop_div')
-
+@columnchart('Student Time','pop_div1')
+@columnchart('Student Stress','pop_div2')
+@piechart('Course Time', 'pop_div3')
 @endsection
