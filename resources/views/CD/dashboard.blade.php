@@ -25,11 +25,19 @@
 
                 <div class="panel-body">
 
-                    @include('CD.dataSelectionButtons')
+                   <div id="pop_div"></div> 
                     
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+    
+    
+<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
+
+@columnchart('Student Time','pop_div')
+
 @endsection

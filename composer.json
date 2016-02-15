@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "zizaco/entrust": "dev-laravel-5",
         "anahkiasen/former": "4.0.*@dev",
-        "barryvdh/laravel-debugbar": "^2.1"
+        "barryvdh/laravel-debugbar": "^2.1",
+        "khill/lavacharts": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

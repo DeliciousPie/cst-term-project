@@ -89,7 +89,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
         
         Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
-    
+        
+        Route::get('/dashboard', 
+                'CDDashboardController@createDefaultDashboard');
     });
     
    /**

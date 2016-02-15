@@ -1,4 +1,4 @@
-
+<!--
 
 <label>Please select a type of chart:</label>
 <br>
@@ -19,15 +19,15 @@
 <label>Please enter in a Professor, Class, and Activity to sort by:</label>
 <br>
 <select id="professorSelected">
-    <!--<option>Professor</option>-->
+    <option>Professor</option>
     <option>Dr. Young</option>
 </select>
 <select id="classSelected">
-    <!--<option>Class</option>-->
+    <option>Class</option>
     <option>Math 110</option>
 </select>
 <select id="yearSelected">
-    <!--<option>Activity</option>-->
+    <option>Activity</option>
     <option>Year</option>
 </select>
 
@@ -63,33 +63,34 @@
     <option>Week</option>
     <option>Month</option>
     <option>Year</option>
-</select>
+</select>-->
+<div id="pop_div">{{'dashboard''}}</div>
+<?= Lava::render('AreaChart', 'Actual vs Estimated Time', 'pop_div')?>
 
+<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>-->
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<div id="chart_div" style="width: 900px; height: 500px;"></div>
-
-<script type="text/javascript">
-google.charts.load('current', {'packages': ['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', 'Estimates', 'Actual'],
-        ['Assignment 1', 4, 8],
-        ['Midterm', 8, 7],
-        ['Assignment 2', 7, 5],
-        ['Final', 9, 10]
-    ]);
-
-    var options = {
-        title: 'Students Stress - MATH110',
-        hAxis: {title: 'Year', titleTextStyle: {color: '#333'}},
-        vAxis: {minValue: 0}
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-}
+<script type="text/javascript">//
+//google.charts.load('current', {'packages': ['corechart']});
+//google.charts.setOnLoadCallback(drawChart);
+//function drawChart() {
+//    var data = google.visualization.arrayToDataTable([
+//        ['Year', 'Estimates', 'Actual'],
+//        ['Assignment 1', 4, 8],
+//        ['Midterm', 8, 7],
+//        ['Assignment 2', 7, 5],
+//        ['Final', 9, 10]
+//    ]);
+//
+//    var options = {
+//        title: 'Students Stress - MATH110',
+//        hAxis: {title: 'Year', titleTextStyle: {color: '#333'}},
+//        vAxis: {minValue: 0}
+//    };
+//
+//    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+//    chart.draw(data, options);
+//}
 
 
 

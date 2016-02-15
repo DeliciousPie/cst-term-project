@@ -157,6 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
         Former\FormerServiceProvider::class,
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
     ],
 
     /*
@@ -205,6 +206,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
         'Former' => 'Former\Facades\Former',
+        'Lava' => 'Khill\Lavacharts\Laravel\LavachartsFacade',
     ],
 
 ];
