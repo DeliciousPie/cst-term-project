@@ -20,6 +20,8 @@ class ActivityManagerController extends Controller
             $dueDate = $_POST['dueDate'];
             $workload = $_POST['workload'];
             $stresstimate = $_POST['stresstimate'];
+            
+            // This needs to be dynamic based on the professor's section!!
             $sectionID = 3;
             
             $id = DB::table('Activity')->insertGetId(

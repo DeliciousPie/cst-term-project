@@ -98,6 +98,8 @@
                 <div class="panel-body">
                 </div>
             </div>
+
+            <p>May take awhile to load professors and courses.</p>
         </div>
     </div>
 </div>
@@ -125,42 +127,47 @@
                     <br>
                     <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Activity Name" style="width:100%">
+                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
-                     <label for="startDate">Start Date</label>
+                    <label for="startDate">Start Date</label>
                     <br>
                     <h6>The day and time that the activity will be given.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" style="width:100%">
+                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
                     <label for="dueDate">Due Date</label>
                     <br>
                     <h6>The day and time that the activity will be due.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" style="width:100%">
+                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
                     <label for="workload">Workload(hr)</label>
                     <br>
                     <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" placeholder="2" style="width:100%">
+                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" placeholder="2" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
                     <label for="stresstimate">Stresstimate</label>
                     <br>
                     <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
                     <div class="input-group" style="width:100%">
-                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" placeholder="1" style="width:100%"> 
+                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" placeholder="1" onchange="validateActivitySubmit()" style="width:100%"> 
                     </div>
+
+                    <br>   
+                    <div id="modalAlertBox" class="alert alert-danger" style="display: none">
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    
+
                     <!--Add Activity Modal Button-->
-                    <button type="button" name="submit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()">Submit</button>
+                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()" disabled>Submit</button>
                 </div>
             </form>
         </div>
@@ -171,48 +178,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
-    $(document).ready(function () {
+                        $(document).ready(function () {
 
-        window.loadCourses = function ()
-        {
-            // Reset the activities and buttons when a professor is clicked
-            $('#activitySelect').html('');
-            $('#courseSelect').html('');
-            $('#addActivityButton').prop('disabled', true);
-            $('#editActivityButton').prop('disabled', true);
-            $('#deleteActivityButton').prop('disabled', true);
+                            window.loadCourses = function ()
+                            {
+                                // Reset the activities and buttons when a professor is clicked
+                                $('#activitySelect').html('');
+                                $('#courseSelect').html('');
+                                $('#addActivityButton').prop('disabled', true);
+                                $('#editActivityButton').prop('disabled', true);
+                                $('#deleteActivityButton').prop('disabled', true);
 
-            var profID = $('#profSelect').val();
-            var prof = {
-                'profID': profID
-            };
+                                var profID = $('#profSelect').val();
+                                var prof = {
+                                    'profID': profID
+                                };
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }});
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }});
 
-            $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function (data)
-            {
-                var string = "";
+                                $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function (data)
+                                {
+                                    var string = "";
 
-                // check if the professor has courses, if not then display so.
-                if (data.courses.length === 0)
-                {
-                    string += "<option>Professor Has No Courses</option>";
-                }
+                                    // check if the professor has courses, if not then display so.
+                                    if (data.courses.length === 0)
+                                    {
+                                        string += "<option>Professor Has No Courses</option>";
+                                    }
 
-                for (var count in data.courses)
-                {
-                    string += "<option value='" + data.courses[count].courseID
-                            + "'>" + data.courses[count].courseID + " - "
-                            + data.courses[count].courseName + "</option>";
-                }
+                                    for (var count in data.courses)
+                                    {
+                                        string += "<option value='" + data.courses[count].courseID
+                                                + "'>" + data.courses[count].courseID + " - "
+                                                + data.courses[count].courseName + "</option>";
+                                    }
 
-                $('#courseSelect').html(string);
-            });
-        }
-    });
+                                    $('#courseSelect').html(string);
+                                });
+                            }
+                        });
 </script>
 
 <script type="text/javascript">
@@ -220,11 +227,11 @@
     google.charts.load('current', {'packages': ['table']});
 
     function drawTable(ajaxData) {
-        
+
         $('#addActivityButton').prop('disabled', false);
         $('#editActivityButton').prop('disabled', false);
         $('#deleteActivityButton').prop('disabled', false);
-        
+
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Activity Name');
         data.addColumn('string', 'Start Date');
@@ -232,27 +239,27 @@
         data.addColumn('string', 'Estimated Time');
         data.addColumn('number', 'Stresstimate')
 
-            if(ajaxData.activities.length > 0)
+        if (ajaxData.activities.length > 0)
+        {
+            for (var aCount in ajaxData)
             {
-                for (var aCount in ajaxData)
+                for (var count in ajaxData.activities)
                 {
-                    for (var count in ajaxData.activities)
-                    {   
-                        data.addRow([ajaxData.activities[count].activityType,
-                            ajaxData.activities[count].assignDate,
-                            ajaxData.activities[count].dueDate, 
-                            ajaxData.activities[count].estTime,
-                            ajaxData.activities[count].stresstimate
-                            ]);
-                    }
+                    data.addRow([ajaxData.activities[count].activityType,
+                        ajaxData.activities[count].assignDate,
+                        ajaxData.activities[count].dueDate,
+                        ajaxData.activities[count].estTime,
+                        ajaxData.activities[count].stresstimate
+                    ]);
                 }
             }
-            else
-            {
-              data.addRows([
-                    ['There are no assignments for the selected course', null, null, null, null],
-              ]);
-            }
+        }
+        else
+        {
+            data.addRows([
+                ['There are no assignments for the selected course', null, null, null, null],
+            ]);
+        }
 
         var chart = new google.visualization.Table(document.getElementById('activitySelect'));
 
@@ -303,11 +310,77 @@
                 }});
 
             $.post('/CD/manageActivity/loadSelectedCoursesActivities', course, function (data)
-            {                    
-                  drawTable(data);
+            {
+                drawTable(data);
             });
         }
     });
+</script>
+
+<!--Check if the activity to be added is valid-->
+<script type="text/javascript" >
+
+    $(document).ready(function () {
+
+        window.validateActivitySubmit = function ()
+        {
+            var activityName = $('#activityName').val();
+            var startDateString = $('#startDate').val();
+            var dueDateString = $('#dueDate').val();
+            var workload = $('#workload').val();
+            var stresstimate = $('#stresstimate').val();
+
+            var startDate = new Date(startDateString);
+            var dueDate = new Date(dueDateString);
+
+            var activityValid = false;
+            var datesValid = false;
+            var numbersValid = false;
+            
+            var message;
+
+            // Check that the activity length is valid
+            if (activityName.length > 0 && activityName !== null && activityName !== "")
+            {
+                activityValid = true;
+            }
+
+            // Check that the dates are valid going from year, month, to day of month
+            if (startDate.getYear() <= dueDate.getYear())
+            {
+                if (startDate.getMonth() <= dueDate.getMonth())
+                {
+                    if (startDate.getDate() <= dueDate.getDate())
+                    {
+                        datesValid = true;
+                    }
+                }
+            }
+
+            // Check that the workload is valid
+            if (workload > 0 && workload <= 800 && stresstimate >= 1 && stresstimate <= 10)
+            {
+                alert("numbers valid");
+                numbersValid = true;
+            }
+
+            
+
+            // Check that all the fields are valid then enable or disable the submit button
+            if (activityValid === true && datesValid === true && numbersValid === true)
+            {
+                $('#modalSubmit').prop('disabled', false);
+            }
+            else
+            {
+                $('#modalSubmit').prop('disabled', true);
+                $('#modalAlertBox').html('<strong>' + message + '</strong>')
+                $('#modalAlertBox').show();
+            }
+
+        }
+    });
+
 </script>
 
 <!--Add Activity Modal Endpoint-->
@@ -322,7 +395,7 @@
             var dueDate = $('#dueDate').val();
             var workload = $('#workload').val();
             var stresstimate = $('#stresstimate').val();
-            
+
             var activity = {
                 'activityName': activityName,
                 'startDate': startDate,
@@ -337,14 +410,11 @@
                 }});
 
             $.post('/CD/manageActivity/addActivity', activity, function (data)
-            {                    
-                  loadActivities();
+            {
+                loadActivities();
             });
         }
     });
 </script>
-
-
-
 
 @endsection
