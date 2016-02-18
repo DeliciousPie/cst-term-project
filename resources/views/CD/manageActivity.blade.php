@@ -335,14 +335,28 @@
 
             var activityValid = false;
             var datesValid = false;
-            var numbersValid = false;
-            
-            var message;
+            var workloadValid = false;
+            var stressValid = false;
 
-            // Check that the activity length is valid
-            if (activityName.length > 0 && activityName !== null && activityName !== "")
+            var message = "Make sure the fields are valid.";
+
+            if (stresstimate >= 1 && stresstimate <= 10)
             {
-                activityValid = true;
+                stressValid = true;
+            }
+            else
+            {
+                message = "Stresstimate must be between 1 and 10";
+            }
+
+            // Check that the workload is valid
+            if (workload > 0 && workload <= 800)
+            {
+                workloadValid = true;
+            }
+            else
+            {
+                message = "Workload must be between 1 and 800";
             }
 
             // Check that the dates are valid going from year, month, to day of month
@@ -353,23 +367,33 @@
                     if (startDate.getDate() <= dueDate.getDate())
                     {
                         datesValid = true;
+//                        message = "";
+//                        $('#modalAlertBox').html('<strong>' + message + '</strong>')
                     }
                 }
             }
 
-            // Check that the workload is valid
-            if (workload > 0 && workload <= 800 && stresstimate >= 1 && stresstimate <= 10)
+            if (datesValid === false)
             {
-                alert("numbers valid");
-                numbersValid = true;
+                message = "Due date must be after start date."
             }
 
-            
+            // Check that the activity length is valid
+            if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
+            {
+                activityValid = true;
+            }
+            else
+            {
+                message = "Activity must be between 1 and 125 characters.";
+            }
 
             // Check that all the fields are valid then enable or disable the submit button
-            if (activityValid === true && datesValid === true && numbersValid === true)
+            if (activityValid === true && datesValid === true && workloadValid === true && stressValid === true)
             {
                 $('#modalSubmit').prop('disabled', false);
+                message = "";
+                $('#modalAlertBox').hide();
             }
             else
             {
