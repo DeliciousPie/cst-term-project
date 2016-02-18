@@ -130,6 +130,9 @@
                         <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
+                    <!--Activity Error Message Box-->
+                    <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                    </div>
                     <label for="startDate">Start Date</label>
                     <br>
                     <h6>The day and time that the activity will be given.</h6>
@@ -144,6 +147,9 @@
                         <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
+                    <!--Due Date Error Message Box-->
+                    <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
+                    </div>
                     <label for="workload">Workload(hr)</label>
                     <br>
                     <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
@@ -151,6 +157,10 @@
                         <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" placeholder="2" onchange="validateActivitySubmit()" style="width:100%">
                     </div>
                     <br>
+                    <!--Workload Error Message Box-->
+                    <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                    </div>
+                    
                     <label for="stresstimate">Stresstimate</label>
                     <br>
                     <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
@@ -158,9 +168,9 @@
                         <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" placeholder="1" onchange="validateActivitySubmit()" style="width:100%"> 
                     </div>
 
-                    <br>   
-                    <div id="modalAlertBox" class="alert alert-danger" style="display: none">
-                    </div>
+                    <br>
+                    <!--Stesstimate Error Message Box-->
+                    <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
 
                 </div>
                 <div class="modal-footer">
@@ -343,20 +353,26 @@
             if (stresstimate >= 1 && stresstimate <= 10)
             {
                 stressValid = true;
+                $("#modalAlertBoxStresstimate").hide();
             }
             else
             {
-                message = "Stresstimate must be between 1 and 10";
+                $("#modalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
+                $("#modalAlertBoxStresstimate").show();
+                //message = "Stresstimate must be between 1 and 10";
             }
 
             // Check that the workload is valid
             if (workload > 0 && workload <= 800)
             {
                 workloadValid = true;
+                $("#modalAlertBoxWorkload").hide();
             }
             else
             {
-                message = "Workload must be between 1 and 800";
+                $("#modalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
+                $("#modalAlertBoxWorkload").show();
+                //message = "Workload must be between 1 and 800";
             }
 
             // Check that the dates are valid going from year, month, to day of month
@@ -367,6 +383,7 @@
                     if (startDate.getDate() <= dueDate.getDate())
                     {
                         datesValid = true;
+                        $("#modalAlertBoxDue").hide();
 //                        message = "";
 //                        $('#modalAlertBox').html('<strong>' + message + '</strong>')
                     }
@@ -375,17 +392,22 @@
 
             if (datesValid === false)
             {
-                message = "Due date must be after start date."
+                $("#modalAlertBoxDue").html("<strong>Due date must be after start date.</strong><br>");
+                $("#modalAlertBoxDue").show();
+               // message = "Due date must be after start date."
             }
 
             // Check that the activity length is valid
             if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
             {
                 activityValid = true;
+                $("#modalAlertBoxActivity").hide();
             }
             else
             {
-                message = "Activity must be between 1 and 125 characters.";
+                $("#modalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
+                $("#modalAlertBoxActivity").show();
+                //message = "Activity must be between 1 and 125 characters.";
             }
 
             // Check that all the fields are valid then enable or disable the submit button
@@ -398,8 +420,8 @@
             else
             {
                 $('#modalSubmit').prop('disabled', true);
-                $('#modalAlertBox').html('<strong>' + message + '</strong>')
-                $('#modalAlertBox').show();
+                //$('#modalAlertBox').html('<strong>' + message + '</strong>')
+                //$('#modalAlertBox').show();
             }
 
         }
