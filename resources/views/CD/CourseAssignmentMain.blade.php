@@ -275,7 +275,7 @@ $("#getProfessorAndStudent").click(function (event)
                     ' id="otherSectionTypeDescrip" placeholder="Description" name="otherDescrip"></div></div>');
             if (jQuery.isEmptyObject(data.professors))
             {
-                $("#profBody").html('<div class="alert alert-danger"> No Professors in the Database </div>');
+                $("#professorBody").html('<div class="alert alert-danger"> No Professors in the Database </div>');
             }
             else
             {
@@ -455,8 +455,8 @@ $("#submitSectionAssignment").click(function (event)
             'courseID': courseID,
             'courseSection': courseSection,
             'courseSectionDescrip': courseSectionDescrip,
-            'stuList': studentList,
-            'profList': professorList
+            'studentList': studentList,
+            'professorList': professorList
         };
 
         $.ajaxSetup({

@@ -12,7 +12,7 @@ use App\Professor;
 use App\Student;
 use App\Section;
 use App\StudentSection;
-use App\ProfSection;
+use App\ProfessorSection; 
 use App\SectionType;
 
 /*
@@ -128,8 +128,8 @@ class CourseAssignmentController extends Controller
             // sets local varables 
             $sectionID = $_POST['courseID'] . " sec " . $_POST['courseSection'];
             $sectionType = $_POST['courseSection'];
-            $studentList = $_POST['stuList'];
-            $professorList = $_POST['profList'];
+            $studentList = $_POST['studentList'];
+            $professorList = $_POST['professorList'];
             $courseID = $_POST['courseID'];
             // if the course discription was not posted 
             // let the local varable be blank 
@@ -177,7 +177,7 @@ class CourseAssignmentController extends Controller
                 ]);
                 // adds all students selected for this course/section 
                 // into the student section database table 
-                if (isset($_POST['stuList']))
+                if (isset($_POST['studentList']))
                 {
                     foreach ($studentList as $student)
                     {
@@ -189,11 +189,11 @@ class CourseAssignmentController extends Controller
                 }
                 // adds all professor selected for this course/section 
                 // into the professor section database table 
-                if (isset($_POST['profList']))
+                if (isset($_POST['professorList']))
                 {
                     foreach ($professorList as $professor)
                     {
-                        ProfSection::create([
+                        ProfessorSection::create([
                             'userID' => $professor,
                             'sectionID' => $sectionID
                         ]);

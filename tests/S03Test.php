@@ -26,34 +26,34 @@ class S03Test extends TestCase
         $this->addRequired();
 
         $CAC = new CourseAssignmentController();
-
+        // prep post. 
         $_POST = ['courseID' => "CNET 295",
             'courseSection' => "2",
             'courseSectionDescrip' => "",
-            'stuList' => (array(
+            'studentList' => (array(
         0 => "Stu009")),
-            'profList' => (array(
+            'professorList' => (array(
         0 => "Pro011"))
         ];
 
-
+        // submit with section selected and one student and one professor
         $successJsonObj = $CAC->assignToSection();
 
-        //fwrite(STDERR, print_r($successJsonObj, TRUE));
-
+        // check that the section assignment was successfull 
         $this->assertTrue((strpos($successJsonObj, "CNET 295 sec 2 has been successfully added")) != false);
 
         $_POST = ['courseID' => "CNET 295",
             'courseSection' => "2",
             'courseSectionDescrip' => "",
-            'stuList' => (array(
+            'studentList' => (array(
         0 => "Stu009")),
-            'profList' => (array(
+            'professorList' => (array(
         0 => "Pro011"))
         ];
+        // submit with section selected and one student and one professor
         $failCaseJsonObj = $CAC->assignToSection();
         
-        
+        // check that the section assignment was already submited and sends back that information
         $this->assertTrue((strpos($failCaseJsonObj, "CNET 295 sec 2 is already in the Data Base")) != false);
         
         
