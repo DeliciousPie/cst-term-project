@@ -15,9 +15,9 @@ class CreateStudentSectionTable extends Migration
         Schema::create('StudentSection', function(Blueprint $table){
         
             $table->string('userID', 25);
-            $table->integer('sectionID', false);
+            $table->string('sectionID', 20);
             $table->primary(['userID', 'sectionID']);
-
+            $table->timestamps();
         });
         
         Schema::table('StudentSection', function ($table) {

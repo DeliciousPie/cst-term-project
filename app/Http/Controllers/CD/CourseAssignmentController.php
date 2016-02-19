@@ -10,6 +10,10 @@ use App\User;
 use App\Course;
 use App\Professor;
 use App\Student;
+use App\Section;
+use App\StudentSection;
+use App\ProfSection;
+use App\SectionType;
 
 /*
  * This controler is designed to help display the 
@@ -35,8 +39,6 @@ class CourseAssignmentController extends Controller
     public function LoadView()
     {
         $classes = [];
-        $students = [];
-        $professors = [];
 
         //Select all courses from Course
         $courses = DB::select('SELECT courseID FROM Course');
@@ -44,23 +46,8 @@ class CourseAssignmentController extends Controller
         {
             array_push($classes, $courses[$i]->courseID);
         }
-
-        //Select all courses from Student
-        $stuFromDB = DB::select('SELECT fName,lName FROM Student');
-        for ($i = 0; $i < count($stuFromDB); $i++)
-        {
-            array_push($students, $stuFromDB[$i]->fName);
-        }
-
-        //Select all courses from Professor
-        $profFromDB = DB::select('SELECT fName,lName FROM Professor');
-        for ($i = 0; $i < count($profFromDB); $i++)
-        {
-            array_push($professors, $profFromDB[$i]->fName);
-        }
-
         //Return a view with a link to the view and arrays
-        return view('CD/CourseAssignmentMain', compact('classes', 'students', 'professors'));
+        return view('CD/CourseAssignmentMain', compact('classes')); //, 'students', 'professors'));
     }
 
     /*
@@ -90,45 +77,146 @@ class CourseAssignmentController extends Controller
             array_push($classes, $courses[$i]->courseID);
         }
 
-        //Select all courses from students
-        $students = [];
-        $stuFromDB = DB::select('SELECT fName,lName FROM Student');
-        for ($i = 0; $i < count($stuFromDB); $i++)
-        {
-            array_push($students, $stuFromDB[$i]->fName);
-        }
-
-
-        //Select all courses from Professor
-        $professors = [];
-        $profFromDB = DB::select('SELECT fName,lName FROM Professor');
-        for ($i = 0; $i < count($profFromDB); $i++)
-        {
-            array_push($professors, $profFromDB[$i]->fName);
-        }
-        //Return the view and compact arrays
-        $_FILES = array();
-        return view('CD/CourseAssignmentMain', compact('classes', 'students', 'professors'));
+        return view('CD/CourseAssignmentMain', compact('classes')); //, 'students', 'professors', 'sectionTypes'));
     }
 
-    
-    public function getProfAndStud()
-    {
+    /*
+     * will send back two arrays of students and professors 
+     * so that the CD can select which ones they want to be 
+     * assined to the course sections 
+     */
 
-        
+    public function getProfessorAndStudent()
+    {
+        // if the course id is set pull it from post set in to local var
         if (isset($_POST['courseID']))
         {
-            $courseID = $_POST['courseID']; 
+            $courseID = $_POST['courseID'];
         }
-        $profArray = DB::select('SELECT fName, lName, userID FROM Professor where areaOfStudy = (select areaOfStudy from Course where courseID = "'. $courseID .'")');
-        
-        $StudentArray = DB::select('SELECT fName, lName, UserID FROM Student where areaOfStudy = (select areaOfStudy from Course where courseID = "'. $courseID .'")');
-        
-        
-        
-        return response()->json(['professors'=> $profArray ,'students' => $StudentArray ]);
+        // database request to get professors from database 
+        $professorArray = DB::select('SELECT fName, lName, userID FROM Professor ');
+                        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
+        // database request to get students from database 
+        $studentArray = DB::select('SELECT fName, lName, userID FROM Student ');
+                        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
+
+        // database request to get all section types from database 
+        $sectionTypes = [];
+        $sectionTypesFromDB = DB::select('SELECT sectionID FROM SectionType');
+
+        // format into ajax return type 
+        for ($i = 0; $i < count($sectionTypesFromDB); $i++)
+        {
+            array_push($sectionTypes, $sectionTypesFromDB[$i]->sectionID);
+        }
+
+        // return all three arrays back to the page 
+        return response()->json(['professors' => $professorArray, 'students' => $studentArray, 'sectionTypes' => $sectionTypes]);
     }
 
+    /*
+     * used to add students and professors to the selected course and section
+     * that the CD has chosen 
+     */
+
+    public function assignToSection()
+    {
+        // this local is used to send status of progress back to the user
+        $returnMsgStrings = '';
+        if (isset($_POST['courseSection']) && isset($_POST['courseID']))
+        {
+            // sets local varables 
+            $sectionID = $_POST['courseID'] . " sec " . $_POST['courseSection'];
+            $sectionType = $_POST['courseSection'];
+            $studentList = $_POST['stuList'];
+            $professorList = $_POST['profList'];
+            $courseID = $_POST['courseID'];
+            // if the course discription was not posted 
+            // let the local varable be blank 
+            if (!isset($_POST['courseSectionDescrip']))
+            {
+                $courseSectionDescrip = '';
+            } else
+            {
+                $courseSectionDescrip = $_POST['courseSectionDescrip'];
+            }
+
+            // this will get a list of all the section types in the DB
+            $sectionTypes = [];
+            $sectionTypesFromDB = DB::select('SELECT sectionID FROM SectionType');
+            for ($i = 0; $i < count($sectionTypesFromDB); $i++)
+            {
+                array_push($sectionTypes, $sectionTypesFromDB[$i]->sectionID);
+            }
+            // if the section that was posted is not in the database 
+            // add it to the section type table in the database 
+            if (!in_array($sectionType, $sectionTypes))
+            {
+                SectionType::create([
+                    'sectionID' => $sectionType,
+                    'description' => $courseSectionDescrip
+                ]);
+            }
+            $sectionIdList = [];
+            $sectionIdFromDB = DB::select('SELECT sectionID FROM Section');
+            // gets a list of course/section id from the database 
+            for ($i = 0; $i < count($sectionIdFromDB); $i++)
+            {
+                array_push($sectionIdList, $sectionIdFromDB[$i]->sectionID);
+            }
+            // if the Course/section combination is not in the database 
+            // enter into the database 
+            if (!in_array($sectionID, $sectionIdList))
+            {
+                // enter a new course/section id into the database 
+                Section::create([
+                    'sectionID' => $sectionID,
+                    'sectionType' => $sectionType,
+                    'courseID' => $courseID,
+                    'date' => '',
+                ]);
+                // adds all students selected for this course/section 
+                // into the student section database table 
+                if (isset($_POST['stuList']))
+                {
+                    foreach ($studentList as $student)
+                    {
+                        StudentSection::create([
+                            'userID' => $student,
+                            'sectionID' => $sectionID
+                        ]);
+                    }
+                }
+                // adds all professor selected for this course/section 
+                // into the professor section database table 
+                if (isset($_POST['profList']))
+                {
+                    foreach ($professorList as $professor)
+                    {
+                        ProfSection::create([
+                            'userID' => $professor,
+                            'sectionID' => $sectionID
+                        ]);
+                    }
+                }
+            }
+            // if the Course/section combination IS in the database notify 
+            // the user that they cannot enter this repeat entry into the database
+            else
+            {
+                $returnMsgStrings = ['error' => " $sectionID is already in the Data Base"];
+            }
+        }
+        // if no errors happend then the success message will be sent back to CD
+        if ($returnMsgStrings == '')
+        {
+            $returnMsgStrings = ['message' => " $sectionID has been successfully added"];
+        }
+
+        // we should return error message codes and a message with 
+        // that error code 
+        return response()->json($returnMsgStrings);
+    }
 
     /*
      * This will check if a file is CSV and return the data from it
@@ -230,7 +318,7 @@ class CourseAssignmentController extends Controller
                         // uses modle to create new Course 
                         Course::create([
                             'courseID' => $currentCourse['courseID'],
-                            'areaOfStudy'=>$currentCourse['areaOfStudy'],
+                            'areaOfStudy' => $currentCourse['areaOfStudy'],
                             'courseName' => $currentCourse['courseName'],
                             'description' => $currentCourse['description']
                         ]);
@@ -317,7 +405,7 @@ class CourseAssignmentController extends Controller
                             'userID' => $currentProfessor['userID'],
                             'fName' => $currentProfessor['fName'],
                             'lName' => $currentProfessor['lName'],
-                            'areaOfStudy'=> $currentProfessor['areaOfStudy'],
+                            'areaOfStudy' => $currentProfessor['areaOfStudy'],
                             'educationalInstitution' => $currentProfessor['educationalInstitution'],
                             'email' => $currentProfessor['email']
                         ]);
@@ -370,7 +458,6 @@ class CourseAssignmentController extends Controller
             if (is_string($errorMessage))
             {
                 $studentsArray['error'] = $errorMessage;
-                
             }
 
             if (isset($studentsArray['error']))
@@ -443,7 +530,7 @@ class CourseAssignmentController extends Controller
         if (!isset($CSVArray['error']))
         {
             //CSV does not have these columns, but the database does.
-            $headersToIgnore = array("id","created_at","updated_at");
+            $headersToIgnore = array("id", "created_at", "updated_at");
             $headers = '';
             $headerNotValid = false;
             //This foreach will validate the headers with what the database
@@ -451,7 +538,7 @@ class CourseAssignmentController extends Controller
             foreach ($columns as $eachColumn)
             {
                 $dbFieldName = $eachColumn->Field;
-                if(!in_array($dbFieldName, $headersToIgnore) )
+                if (!in_array($dbFieldName, $headersToIgnore))
                 {
                     // check to see if there is any entries in the file 
                     if (!isset($CSVArray[0]))
@@ -485,8 +572,8 @@ class CourseAssignmentController extends Controller
                     //Check the field value, if it is required
                     $dbFieldName = $eachColumn->Field;
                     $canBeNull = $eachColumn->Null == 'YES';
-                    
-                    if(!in_array($dbFieldName, $headersToIgnore) )
+
+                    if (!in_array($dbFieldName, $headersToIgnore))
                     {
                         if (!$canBeNull)
                         {
@@ -495,15 +582,15 @@ class CourseAssignmentController extends Controller
                                 return $dbFieldName . " is required but is empty at row " . ($currentRow + 2);
                             }
                         }
-                
 
-                    $resultingMatches = array();
-                    
-                    //Check the field type, make sure it matches DB
-                    $matched = preg_match( '/^[A-Za-z0-9]+\(([0-9]+)\)$/', $eachColumn->Type, $resultingMatches );
-                    
-                    $DBValueType = $resultingMatches[1];
-                    
+
+                        $resultingMatches = array();
+
+                        //Check the field type, make sure it matches DB
+                        $matched = preg_match('/^[A-Za-z0-9]+\(([0-9]+)\)$/', $eachColumn->Type, $resultingMatches);
+
+                        $DBValueType = $resultingMatches[1];
+
                         //This flag will be set if it is a character and the size
                         //Must match the max size.
                         $forceMaxSize = false;
@@ -552,14 +639,12 @@ class CourseAssignmentController extends Controller
                         }
                     }
                 }
-                
+
                 $currentRow++;
             }
         }
         //Validation succesful.
         return true;
     }
-    
-    
 
 }

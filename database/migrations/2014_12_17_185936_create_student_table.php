@@ -17,10 +17,10 @@ class CreateStudentTable extends Migration
             
             $table->increments('id');
             $table->string('userID', 25)->unique(); //ASK IF WE NEED TO RECORD THIS TWICE.
-            $table->integer('age', false);
+            $table->integer('age', false)->nullable();
             $table->string('areaOfStudy', 20);
-            $table->string('fName', 15);
-            $table->string('lName', 25);
+            $table->string('fName', 15)->nullable();
+            $table->string('lName', 25)->nullable();
             $table->string('educationalInstitution', 30);
             $table->string('email', 50);
             $table->nullableTimestamps();

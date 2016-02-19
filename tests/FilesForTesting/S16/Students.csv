@@ -1,3 +1,10 @@
 userID,age,areaOfStudy,fName,lName,educationalInstitution,email
-Stu001,25,CST,Mark,beitel,siast,m.beitel@test.com
-Stu002,45,cst,bob ,bill ,sisat ,boc
+Stu001,25,CST,Mark,beitel,SIAST,M.beitel001@SIAST.ca
+Stu002,45,CST,bob ,bill,SIAST,b.bill002@SIAST.ca
+Stu003,22,CST,Benton,Kershner,SIAST,B.Kershner003@SIAST.ca
+Stu004,25,CST,Tayna,Apperson,SIAST,T.Apperson004@SIAST.ca
+Stu005,29,MED,Lovella,Topping,UofS,L.Topping146@SIAST.ca
+Stu006,38,MED,Vergie,Bangs,UofS,V.Bangs147@SIAST.ca
+Stu007,33,MED,Sharolyn,Martz,UofS,S.Martz148@SIAST.ca
+Stu008,21,MED,Raleigh,Labree,UofS,R.Labree149@SIAST.ca
+Stu009,37,CST,Cristin,Gilder,SIAST,C.Gilder009@SIAST.ca

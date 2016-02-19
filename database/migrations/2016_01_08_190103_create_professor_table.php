@@ -16,8 +16,8 @@ class CreateProfessorTable extends Migration
         
             $table->increments('id');
             $table->string('userID', 25)->unique();
-            $table->string('fName', 15);
-            $table->string('lName', 25);
+            $table->string('fName', 15)->nullable();
+            $table->string('lName', 25)->nullable();
             $table->string('educationalInstitution', 30);
             $table->string('areaOfStudy', 20);
             $table->string('email', 50);
