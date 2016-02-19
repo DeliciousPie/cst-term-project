@@ -5,10 +5,6 @@
         <group>
             <file>file:/G:/COSA280/Code/resources/views/CD/manageActivity.blade.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/ActivityManagerController.php</file>
-            <file>file:/G:/COSA280/Code/app/CDActivity.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/layouts/app.blade.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
             <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190107_create_activity_table.php</file>
         </group>
     </open-files>

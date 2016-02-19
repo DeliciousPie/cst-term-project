@@ -21,15 +21,15 @@ class ActivityManagerController extends Controller
             $stresstimate = $_POST['stresstimate'];
             $prof = $_POST['profID'];
             
-            // This needs to be dynamic based on the professor's section!!
-            $sectionID = DB::select('Select sectionID from ProfSection where userID = "'
-                    . $prof
-                    . '"');
+            //This is setting it to the first prof's section only. FIX
+            $results = DB::table('ProfSection')
+                    ->where('userID', $prof)
+                    ->first();
             
-            $sectionIDToInt = intval($sectionID);
+            //$resultsArray = get_object_vars($results);
             
             $id = DB::table('Activity')->insertGetId(
-                    ['sectionID' => $sectionIDToInt,
+                    ['sectionID' => $results->sectionID,
                      'activityType' => $activityName, 
                      'assignDate' => $startDate,
                      'dueDate' => $dueDate,
@@ -37,7 +37,7 @@ class ActivityManagerController extends Controller
                      'stresstimate' => $stresstimate]
             );
 
-            return response()->json(['activity' => $id]);
+            return response()->json(['activity' => $results]);
         }
     }
 
@@ -80,8 +80,8 @@ class ActivityManagerController extends Controller
             $prof = $_POST['profID'][0];
             $currentProf = $prof;
             
-            $coursesArray = DB::select('Select courseID, courseName from Course where courseID = '
-                            . '( Select courseID from Section where sectionID = '
+            $coursesArray = DB::select('Select courseID, courseName from Course where courseID IN '
+                            . '( Select courseID from Section where sectionID IN '
                             . '(SELECT sectionID from ProfSection WHERE userID = "'
                             . $prof
                             . '"))');
