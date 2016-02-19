@@ -10,6 +10,25 @@ use App\StudentActivity;
 
 class ColumnChartQueryController extends Controller
 {
+    
+    
+    public function performAvgComparisonQuery($comparison1, $comparison2)
+    {
+        $queryComp1 = StudentActivity::avg($comparison1);
+        
+        $queryComp2 = StudentActivity::avg($comparison2);
+        
+                //link both query object into same array.
+        $queryResult = array( 'param1'=> $queryComp1, 
+            'param2' => $queryComp2);
+      
+        //Convert objects to string array.
+        $result = json_decode(json_encode($queryResult), true);
+        
+        return $result;
+    }
+    
+    //public function performAvgComparisonQueryForClass
     /**
      * Purpose: This method will grab the avg of all the values in the timespent
      * column from the student activies chart and the timeEstimated column.

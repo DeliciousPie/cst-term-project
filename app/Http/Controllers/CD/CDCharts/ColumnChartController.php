@@ -8,20 +8,73 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Lava;
 use App\Http\Controllers\CD\CDCharts;
+use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
 
-class ColumnChartController extends Controller
+class ColumnChartController extends ColumnChartQueryController
 {
     //Here we will hold the created data table.
-    private $studentTime;
-    
+    private $studentData;
+    private $chartParameters;
     /**
      * Purpose: instantiate a ColumnChartController and create a Datatable.
      */
-    public function __construct()
+    public function __construct($chartParameters=array())
     {
+        
         //Create the Datatable object. A data table is what we use to hold the
         //data. Similar to a database object.
-        $this->studentTime = Lava::DataTable();
+        $this->studentData = Lava::DataTable();
+        $this->chartParameters = $chartParameters;
+       
+        //$this->determineQueries();
+        //dd($chartParameters);
+        
+        
+        
+        
+         
+        
+        
+    }
+    
+    public function determineQueries()
+    {
+        $comparison1 = $this->chartParameters['comparison1'];
+        $comparison2 = $this->chartParameters['comparison2'];
+        
+       
+        if( $this->chartParameters['classSelected'] === 1 )
+        {
+            $dataArray =  $this->performAvgComparisonQuery($comparison1, $comparison2); //$this->avgTimeEstVsAvgTimeSpent();
+            
+            $comp1String = $this->createChartTitles( $comparison1 );
+            
+            $comp2String = $this->createChartTitles( $comparison2);
+            
+            $chart = $this->createDynamicColumnChart($dataArray, $comp1String, $comp2String);
+            
+            
+        }
+        else
+        {
+            $classTitle = $this->chartParameters['chartSelected'];
+            
+            $dataArray =  $this->performAvgComparisonQueryForClass($comparison1,
+                    $comparison2, $classTitle); 
+            
+            $comp1String = $this->createChartTitles( $comparison1 );
+            
+            $comp2String = $this->createChartTitles( $comparison2);
+            
+            $chart = $this->createDynamicColumnChart($dataArray, $comp1String,
+                   $comp2String, $classTitle);
+         
+            
+        }
+        
+        return $chart;
+        
+        
     }
     
     /**
@@ -48,6 +101,29 @@ class ColumnChartController extends Controller
         
         return $chart;
     }
+    
+    public function createDynamicColumnChart($dataArray, $comp1String, $comp2String)
+    {
+        //The chart Id this data will have.
+        $chartID = 'StudentParam';
+        //This is the title that will appear at the top of the chart.
+        $chartTitle = 'Average Student ' . $comp1String . ' Vs ' . $comp2String;
+
+        //Create the rows and columns for the datatable;
+        $this->studentData->addStringColumn('All Students')
+                    ->addNumberColumn($comp1String)
+                    ->addNumberColumn($comp2String)
+                    ->addRow([$comp1String .' vs '. $comp2String, 
+                       $dataArray['param1'], 
+                       $dataArray['param2']]);
+        
+        $chart = $this->createColumnChart($this->studentData, 
+                $chartID, $chartTitle );
+        
+        //return chart as array.
+        return array('studentData'=> $chart);
+    }
+    
     /**
      * Purpose: This function will create a column chart.
      * 
@@ -64,14 +140,14 @@ class ColumnChartController extends Controller
         $chartTitle = 'Average Student Time Estimate Vs Actual Time';
 
         //Create the rows and columns for the datatable;
-        $this->studentTime->addStringColumn('All Students')
+        $this->studentData->addStringColumn('All Students')
                     ->addNumberColumn('Time Estimated')
                     ->addNumberColumn('Time Spent')
                     ->addRow(['Time Estimated vs Time Spent', 
                        $avgTimeEstVsActualTime['timeEstimated'], 
                        $avgTimeEstVsActualTime['timeSpent']]);
         
-        $chart = $this->createColumnChart($this->studentTime, 
+        $chart = $this->createColumnChart($this->studentData, 
                 $chartID, $chartTitle );
         
         //return chart as array.
@@ -97,19 +173,37 @@ class ColumnChartController extends Controller
         
         
         //Create the rows and columns for the datatable;
-        $this->studentTime->addStringColumn('Student Stress')
+        $this->studentData->addStringColumn('Student Stress')
                     ->addNumberColumn('Average Stress Level')
                     ->addRow(['Average Stress Level', 
                        $avgStressLevelQuery['stressLevel']]);
         
-        $chart = $this->createColumnChart($this->studentTime,
+        $chart = $this->createColumnChart($this->studentData,
                 $chartID, $chartTitle, $chartLimit );
         
         //return chart as array.
         return array( $chartName => $chart);
     }        
     
-
+    public function createChartTitles( $comparison )
+    {
+        $result = '';
+        
+        if( $comparison === 'timeEstimated')
+        {
+            $result = 'Time Estimated';
+        }
+        else if ( $comparison === 'timeSpent' )
+        {
+            $result = 'Time Actual';
+        }
+        elseif ( $comparison === 'stressLevel' )
+        {
+            $result = 'Stress Level';
+        }
+        
+        return $result;
+    }
     
 
 }

@@ -40,10 +40,10 @@ class ActivitySeeder extends Seeder
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
             'activityID' => 1,
-//            'timeSpent' => null,
-//            'stressLevel' => null,
-//            'comments' => null,
-//            'timeEstimated' => null,
+            'timeSpent' => 5,
+            'stressLevel' => 5,
+            'comments' => '',
+            'timeEstimated' => 6,
         ]);
         
         DB::table('Activity')->insert([
@@ -60,7 +60,11 @@ class ActivitySeeder extends Seeder
         
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
-            'activityID' => 2
+            'activityID' => 2,
+            'timeSpent' => 21,
+            'stressLevel' => 7,
+            'comments' => '',
+            'timeEstimated' => 15,
         ]);
         
         DB::table('Course')->insert([
@@ -91,10 +95,10 @@ class ActivitySeeder extends Seeder
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
             'activityID' => 3,
-//            'timeSpent' => null,
-//            'stressLevel' => null,
-//            'comments' => null,
-//            'timeEstimated' => null,
+            'timeSpent' => 12,
+            'stressLevel' => 7,
+            'comments' => '',
+            'timeEstimated' => 14,
         ]);
     }
 }

@@ -16,7 +16,7 @@ class PieChartController extends Controller
     /**
      * Purpose: instantiate a ColumnChartController and create a Datatable.
      */
-    public function __construct()
+    public function __construct($chartParameters=array())
     {
         //Create the Datatable object. A data table is what we use to hold the
         //data. Similar to a database object.

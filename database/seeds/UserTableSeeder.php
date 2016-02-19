@@ -67,6 +67,15 @@ class UserTableSeeder extends Seeder
                 'created_at'       => new DateTime,
                 'updated_at'       => new DateTime,
             ],
+            [
+                'name' => 'CD Epic',
+                'userID' => '54321',
+                'email' => 'CDEpic.ca',
+                'password' => bcrypt('password'),
+                'confirmed' => true,
+                'created_at'       => new DateTime,
+                'updated_at'       => new DateTime,
+            ],
             ]);
     }
 }
