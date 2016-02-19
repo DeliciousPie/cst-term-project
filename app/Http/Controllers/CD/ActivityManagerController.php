@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Activity;
 
 class ActivityManagerController extends Controller
-{
-
+{    
     public function addActivity()
     {
         if (isset($_POST['activityName']))
@@ -20,13 +19,17 @@ class ActivityManagerController extends Controller
             $dueDate = $_POST['dueDate'];
             $workload = $_POST['workload'];
             $stresstimate = $_POST['stresstimate'];
+            $prof = $_POST['profID'];
             
             // This needs to be dynamic based on the professor's section!!
-            $sectionID = 3;
+            $sectionID = DB::select('Select sectionID from ProfSection where userID = "'
+                    . $prof
+                    . '"');
+            
+            $sectionIDToInt = intval($sectionID);
             
             $id = DB::table('Activity')->insertGetId(
-                    
-                    ['sectionID' => $sectionID,
+                    ['sectionID' => $sectionIDToInt,
                      'activityType' => $activityName, 
                      'assignDate' => $startDate,
                      'dueDate' => $dueDate,
@@ -75,7 +78,8 @@ class ActivityManagerController extends Controller
         if (isset($_POST['profID']))
         {
             $prof = $_POST['profID'][0];
-
+            $currentProf = $prof;
+            
             $coursesArray = DB::select('Select courseID, courseName from Course where courseID = '
                             . '( Select courseID from Section where sectionID = '
                             . '(SELECT sectionID from ProfSection WHERE userID = "'

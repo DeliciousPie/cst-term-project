@@ -86,7 +86,7 @@
                             <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
                             <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
 
-                            <!--Assignment Select-->
+                            <!--Assignment Select Google Chart Table-->
                             <br><br>
                             <div id="activitySelect" style="width:95%; max-height:150px"></div>
                         </div>
@@ -188,48 +188,49 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
-                        $(document).ready(function () {
+    $(document).ready(function () {
 
-                            window.loadCourses = function ()
-                            {
-                                // Reset the activities and buttons when a professor is clicked
-                                $('#activitySelect').html('');
-                                $('#courseSelect').html('');
-                                $('#addActivityButton').prop('disabled', true);
-                                $('#editActivityButton').prop('disabled', true);
-                                $('#deleteActivityButton').prop('disabled', true);
+        window.loadCourses = function ()
+        {
+            // Reset the activities and buttons when a professor is clicked
+            $('#activitySelect').html('');
+            $('#courseSelect').html('');
+            $('#addActivityButton').prop('disabled', true);
+            $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
 
-                                var profID = $('#profSelect').val();
-                                var prof = {
-                                    'profID': profID
-                                };
+            var profID = $('#profSelect').val();
+            
+            var prof = {
+                'profID': profID,
+            };
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
 
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }});
+            $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function (data)
+            {
+                var string = "";
 
-                                $.post('/CD/manageActivity/loadSelectedProfsCourses', prof, function (data)
-                                {
-                                    var string = "";
+                // check if the professor has courses, if not then display so.
+                if (data.courses.length === 0)
+                {
+                    string += "<option>Professor Has No Courses</option>";
+                }
 
-                                    // check if the professor has courses, if not then display so.
-                                    if (data.courses.length === 0)
-                                    {
-                                        string += "<option>Professor Has No Courses</option>";
-                                    }
+                for (var count in data.courses)
+                {
+                    string += "<option value='" + data.courses[count].courseID
+                            + "'>" + data.courses[count].courseID + " - "
+                            + data.courses[count].courseName + "</option>";
+                }
 
-                                    for (var count in data.courses)
-                                    {
-                                        string += "<option value='" + data.courses[count].courseID
-                                                + "'>" + data.courses[count].courseID + " - "
-                                                + data.courses[count].courseName + "</option>";
-                                    }
-
-                                    $('#courseSelect').html(string);
-                                });
-                            }
-                        });
+                $('#courseSelect').html(string);
+            });
+        }
+    });
 </script>
 
 <script type="text/javascript">
@@ -243,6 +244,7 @@
         $('#deleteActivityButton').prop('disabled', false);
 
         var data = new google.visualization.DataTable();
+        
         data.addColumn('string', 'Activity Name');
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
@@ -261,6 +263,8 @@
                         ajaxData.activities[count].estTime,
                         ajaxData.activities[count].stresstimate
                     ]);
+                    
+                    
                 }
             }
         }
@@ -284,20 +288,10 @@
             'rowNumberCell': '',
         };
 
-        var options = {'showRowNumber': false, 'width': '100%', 'height': '100%', 'cssClassNames': cssClassNames};
+        var options = {'showRowNumber': false, 'width': '100%', 'height': '150px', 'cssClassNames': cssClassNames};
 
 
         chart.draw(data, options);
-
-        function selectHandler() {
-            var selectedItem = chart.getSelection()[0];
-            if (selectedItem) {
-                var name = data.getValue(selectedItem.row, 0);
-                var salary = data.getValue(selectedItem.row, 1);
-                alert('The user selected ' + name + ' and makes $' + salary);
-            }
-        }
-        google.visualization.events.addListener(chart, 'select', selectHandler);
     }
 
 </script>
@@ -348,8 +342,6 @@
             var workloadValid = false;
             var stressValid = false;
 
-            var message = "Make sure the fields are valid.";
-
             if (stresstimate >= 1 && stresstimate <= 10)
             {
                 stressValid = true;
@@ -359,7 +351,6 @@
             {
                 $("#modalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
                 $("#modalAlertBoxStresstimate").show();
-                //message = "Stresstimate must be between 1 and 10";
             }
 
             // Check that the workload is valid
@@ -372,29 +363,19 @@
             {
                 $("#modalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
                 $("#modalAlertBoxWorkload").show();
-                //message = "Workload must be between 1 and 800";
             }
 
             // Check that the dates are valid going from year, month, to day of month
-            if (startDate.getYear() <= dueDate.getYear())
+            if ( startDate <= dueDate )
             {
-                if (startDate.getMonth() <= dueDate.getMonth())
-                {
-                    if (startDate.getDate() <= dueDate.getDate())
-                    {
-                        datesValid = true;
-                        $("#modalAlertBoxDue").hide();
-//                        message = "";
-//                        $('#modalAlertBox').html('<strong>' + message + '</strong>')
-                    }
-                }
+                datesValid = true;
+                $("#modalAlertBoxDue").hide();
             }
 
             if (datesValid === false)
             {
                 $("#modalAlertBoxDue").html("<strong>Due date must be after start date.</strong><br>");
                 $("#modalAlertBoxDue").show();
-               // message = "Due date must be after start date."
             }
 
             // Check that the activity length is valid
@@ -407,21 +388,17 @@
             {
                 $("#modalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
                 $("#modalAlertBoxActivity").show();
-                //message = "Activity must be between 1 and 125 characters.";
             }
 
             // Check that all the fields are valid then enable or disable the submit button
             if (activityValid === true && datesValid === true && workloadValid === true && stressValid === true)
             {
                 $('#modalSubmit').prop('disabled', false);
-                message = "";
                 $('#modalAlertBox').hide();
             }
             else
             {
                 $('#modalSubmit').prop('disabled', true);
-                //$('#modalAlertBox').html('<strong>' + message + '</strong>')
-                //$('#modalAlertBox').show();
             }
 
         }
@@ -441,13 +418,15 @@
             var dueDate = $('#dueDate').val();
             var workload = $('#workload').val();
             var stresstimate = $('#stresstimate').val();
+            var profID = $('#profSelect option:selected').val();
 
             var activity = {
                 'activityName': activityName,
                 'startDate': startDate,
                 'dueDate': dueDate,
                 'workload': workload,
-                'stresstimate': stresstimate
+                'stresstimate': stresstimate,
+                'profID': profID
             };
 
             $.ajaxSetup({

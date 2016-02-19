@@ -15,12 +15,15 @@ class CreateActivityTable extends Migration
         Schema::create('Activity', function(Blueprint $table){
         
             $table->integer('activityID', true);
-            $table->integer('sectionID', false);
+            $table->string('sectionID', 20);
             $table->string('activityType', 20);
             $table->date('assignDate');
             $table->date('dueDate');
             $table->decimal('estTime', 2, 1);
-            $table->integer('stresstimate');
+            $table->decimal('proffEstimate', 2, 1);
+            $table->decimal('cdAlocatedTime', 2, 1);
+            $table->string('comments', 1000);
+
         });
         
         Schema::table('Activity', function ($table) {

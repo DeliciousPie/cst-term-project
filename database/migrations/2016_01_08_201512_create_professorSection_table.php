@@ -15,8 +15,10 @@ class CreateProfessorSectionTable extends Migration
         Schema::create('ProfSection', function(Blueprint $table){
         
             $table->string('userID', 25);
-            $table->integer('sectionID', false);
+            $table->string('sectionID', 20);
+            $table->timestamps();
             $table->primary(['userID', 'sectionID']);
+            
         });
         
         Schema::table('ProfSection', function ($table) {
