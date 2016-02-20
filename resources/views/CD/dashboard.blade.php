@@ -5,17 +5,17 @@
 @stop
 
 @section('navBarHeader')
-        <a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Dash Board </a>
+        <a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Dashboard </a>
 @stop
 
 
 @section('bodyHeader')
         <h1>
-            CD Dash Board
+            Welcome {{Auth::user()->name}}!
         </h1>
 @stop
 
-@section('content')
+@section('content')   
     @include('CD.dashboardCustomChart')
 @endsection
 

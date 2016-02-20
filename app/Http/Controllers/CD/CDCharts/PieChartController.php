@@ -26,7 +26,7 @@ class PieChartController extends Controller
     /**
      * Purpose: This function will create a standardized column chart.
      * 
-     * @param type $dataTable
+     * @param type $dataTable - 
      * @param type $chartID
      * @param type $chartTitle
      * @return type

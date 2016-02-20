@@ -12,7 +12,7 @@
 @section('bodyHeader')
 <div>
     
-    <h1 class="page-header"> Log In </h1>
+    <h1 class="page-header"> Login </h1>
     
 </div>
 

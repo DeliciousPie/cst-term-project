@@ -11,105 +11,177 @@ use Lava;
 use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
 use App\Http\Controllers\CD\CDCharts\ColumnChartController;
 use App\Http\Controllers\CD\CDChartQueries\PieChartQueryController;
+use App\Http\Controllers\CD\CDCharts\LineChartController;
 use Auth;
+use App\Course;
 
 class CDDashboardController extends Controller
 {
     /**
-     * Purpose: This will create a standard dashboard for the CD.
+     * Purpose: This will create a standard dashboard for the CD. Is executed
+     * when a get request is made to the dashboard page.  Will always return
+     * a column chart comparing time estimated and actual time spent. This 
+     * we be compared by the total avg of all course and each column
      * 
-     * @return return a dashboard and some standard charts.
+     * @return return a dashboard and some standard chart, with a list of all
+     * the courses.
+     * 
+     * @author Justin Lutzko & Sean young
+     * 
+     * @date Feb 20, 2016
      */
     public function createDefaultDashboard() 
     {
-        $default = ['charSelected'=>'5', 'comparison1' => 'timeEstimated', 'comparison2' =>'timeSpent'];
+        //Sets default parameters "passed in" from the form on the CD dashbaord.
+        $chartParameters = ['chartSelected'=>'5', 'classSelected' => 1,
+            'comparison1' => 'timeEstimated', 'comparison2' =>'timeSpent'];
         
-        $chart = new ColumnChartController($default);
-        $result = $chart->determineQueries();
+        //Create a new class.
+        $chart = new ColumnChartController($chartParameters);
+        
+        //Determine charts to be made and return a column chart.
+        $result = $chart->determineChartToBeMade();
        
-        //Return the chart.
-        return view('CD/dashboard', $result);
+        //Get a list of all the courses to populate the form with.
+        $allCourses = $this->queryListOfCoursesForForm();
         
-//        //Create controller to create chart.
-//        $queryColumnChartController = new ColumnChartQueryController();
-//        $chartColumnTimeChart = new ColumnChartController();
-//        
-//        //Query the total avg. timeSpent and timeEstimated.
-//        $avgTimeEstVsActualTimeQuery = $queryColumnChartController
-//                ->avgTimeEstVsAvgTimeSpent();
-//        
-//        //Use query to build column chart.
-//        $avgTimeEstVsActualTimeChart = $chartColumnTimeChart
-//                ->timeSpentVsTimeEstimatedTotalAvg($avgTimeEstVsActualTimeQuery);
-//        
-//        $chartColumnStressChart = new ColumnChartController();
-//        $avgStressLevelQuery = $queryColumnChartController
-//                ->totalAvgStressLevel();
-//        $avgStressLevelChart = $chartColumnStressChart
-//                ->showTotalAvgStressLevel($avgStressLevelQuery);
-//        
-//        $timePerCourses = new PieChartQueryController();
-//        $timePerCoursesChartController = new CDCharts\PieChartController;
-//        
-//        $timePerCourseQuery = $timePerCourses
-//                ->findTimeSpentOnCourse();
-//        
-//        $timePerCoursePieChart = $timePerCoursesChartController
-//                ->showTimePerCourse($timePerCourseQuery);
+        //Add list of courses to the chart query.
+        $result['courses'] = $allCourses;
         
+        //Return the chart, list of courses and the call to the view.
+        return view('CD/dashboard')->with($result);
         
-
     }
 
+    /**
+     * Purpose: Called when a post request is made from dashboardCustomChart.
+     * Will build a custom chart based on the parameters from the form on the CD
+     * dashboard.
+     * 
+     * @return return a dashboard and some standard chart, with a list of all
+     * the courses.
+     * 
+     * @author Justin Lutzko & Sean young
+     * 
+     * @date Feb 20, 2016 
+     */
     public function createCustomChart()
     {
+        //Set post parameters to custom array name.
         $chartParameters = $_POST;
-        $result;
         
+        //declare result to be returned.
+        $result;
       
+        //if ChartParameters are set determine the chart based on them
+        if( isset($chartParameters) && count($chartParameters) > 0 ) 
+        {
+            $result = $this->determineChartCase($chartParameters);
+        }
+        else
+        {
+            //If not set just create the default dashboard.
+            $result = $this->createDefaultDashboard();
+        }
+
+        //Get all the courses.
+        $allCourses = $this->queryListOfCoursesForForm();
+
+        $result['courses'] = $allCourses;
+
+        return view('CD/dashboard')->with($result);
+    }
+    
+    /**
+     * Purpose: Get all the course currently in database.
+     * 
+     * @return type $courses - associative array of all the course in string 
+     * from.
+     * 
+     * @author Justin Lutzko & Sean young
+     * 
+     * @date Feb 20, 2016 
+     */
+    public function queryListOfCoursesForForm()
+    {
+        
+        $courses = Course::all();
+        
+        $courses = json_decode(json_encode($courses), true);
+        
+        return $courses;
+    }
+    
+    /**
+     * Purpose: This function will determine the type of chart we will be
+     * making.  It looks at the chart selected parameter and bases its' decision
+     * on that by going through a series of cases.
+     * 
+     * @return type $courses - associative array of all the course in string 
+     * from.
+     * 
+     * @author Justin Lutzko & Sean young
+     * 
+     * @date Feb 20, 2016 
+     */
+    public function determineChartCase($chartParameters)
+    {
+        //Determine if chart is set, if not use the default case of 0.
+        if( !isset($chartParameters['chartSelected']))
+        {
+            $chartParameters['chartSelected'] = 0;
+        }
+        
+        //Go through each case to make charts.
         switch ( $chartParameters['chartSelected'] ) {
             case '1':
-                $pieChart = new PieChartController();
-                
-                $this->getDataForQueries($chartCustomData);
+                //Pie Chart
+
  
                 break;
             case '2':
+                //Donut Chart
                 break;
             case '3':
+                //Scatter Chart
                 break;
             case '4':
+                //Bubble Chart
                 break;
             case '5':
-                //Column
-                   
+                //Column Chart
                 $chart = new ColumnChartController($chartParameters);
-                $result = $chart->determineQueries();
+                
+                $result = $chart->determineChartToBeMade();
                 
                 break;
             case '6':
+                //Bar Chart
                 break;
             case '7':
+                //Combo Chart
                 break;
             case '8':
+                //Area Chart
                 break;
             case '9':
+                //Line Chart
+                $chart = new LineChartController($chartParameters);
+                
+                $result = $chart->determineChartToBeMade();
+                
                 break;
             default:
+                //Build defualt chart. See createDefaultDashboard comment for
+                //more info on a default chart.
+                $chart = new ColumnChartController($chartParameters);
+                $result = $chart->determineChartToBeMade();
         }
-      
-        return view('CD/dashboard', $result);
+        return $result;
     }
-    
-    public function createNumberOfAssignmentsChart()
-    {
-        
-        
-        
-    }
-    
-    
 }
+
+
 
 //        $datatable = Lava::DataTable();
 //        $datatable->addStringColumn('Name');
