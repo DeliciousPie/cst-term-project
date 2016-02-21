@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class StudentActivity extends Model
 {
     protected $fillable = ['timeSpent', 'stressLevel', 'comments', 'timeEstimated'];
-    protected $guarded = ['userID', 'activityID']; 
+     
     
     /*
      * Table associated with model.

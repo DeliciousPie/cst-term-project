@@ -3,8 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSectionType extends Migration
-{
+class CreateSectionType extends Migration {
+
     /**
      * Run the migrations.
      *
@@ -12,12 +12,14 @@ class CreateSectionType extends Migration
      */
     public function up()
     {
-        Schema::create('SectionType', function(Blueprint $table){
         
+        Schema::create('SectionType', function(Blueprint $table) {
+
             $table->string('sectionID', 25)->primary();
-            $table->string('description',250)->nullable();
+            $table->string('description', 250)->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
@@ -25,8 +27,8 @@ class CreateSectionType extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::drop('SectionType');
     }
+
 }

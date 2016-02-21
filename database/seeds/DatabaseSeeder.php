@@ -17,6 +17,13 @@ class DatabaseSeeder extends Seeder
            $this->call('UserTableSeeder');
            $this->call('RoleTableSeeder');
            $this->call('sectionTypeSeeder');
+           $this->call('CourseTableSeeder');
+           $this->call('ProfessorTableSeeder');
+           $this->call('StudentTableSeeder');
+          
+           $this->call('SectionTableSeeder');  
+            $this->call('ProfSectionTableSeeder');
+           $this->call('ActivityTableSeeder');
            
            Model::reguard();
     }
