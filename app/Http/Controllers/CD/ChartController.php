@@ -11,11 +11,11 @@ use Lava;
 abstract class ChartController extends Controller
 {
     //Here we will hold the created data table.
-    private $studentData;
+    protected $studentData;
     
     //Store all of the chart parameters passed in from the form on the CD
     //dashboard.
-    private $chartParameters;
+    protected $chartParameters;
     
     /**
      * Purpose: instantiate a ColumnChartController and create a Datatable.

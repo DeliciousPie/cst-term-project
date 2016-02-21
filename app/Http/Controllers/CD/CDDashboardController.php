@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CD;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\CDDashboardRequest;
 use App\Http\Controllers\Controller;
 use Khill\Lavacharts\Lavacharts;
 use Lava;
@@ -18,6 +19,15 @@ use App\Course;
 class CDDashboardController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('cdmanager');
+    }
+    /**
      * Purpose: This will create a standard dashboard for the CD. Is executed
      * when a get request is made to the dashboard page.  Will always return
      * a column chart comparing time estimated and actual time spent. This 
@@ -30,11 +40,17 @@ class CDDashboardController extends Controller
      * 
      * @date Feb 20, 2016
      */
-    public function createDefaultDashboard() 
+    public function createDefaultDashboard(CDDashboardRequest $request) 
     {
+        //Checks if user is confirmed and if they are continue else get a 
+        //redirect to CD registration page.
+        $this->isUserConfirmed();
+        $chartParameters = $request;
         //Sets default parameters "passed in" from the form on the CD dashbaord.
-        $chartParameters = ['chartSelected'=>'5', 'classSelected' => 1,
-            'comparison1' => 'timeEstimated', 'comparison2' =>'timeSpent'];
+        $chartParameters->chartSelected ='5';
+        $chartParameters->classSelected = 1;
+        $chartParameters->comparison1 = 'timeEstimated';
+        $chartParameters->comparison2 ='timeSpent';
         
         //Create a new class.
         $chart = new ColumnChartController($chartParameters);
@@ -65,17 +81,22 @@ class CDDashboardController extends Controller
      * 
      * @date Feb 20, 2016 
      */
-    public function createCustomChart()
+    public function createCustomChart(CDDashboardRequest $request)
     {
-        //Set post parameters to custom array name.
-        $chartParameters = $_POST;
+         //Checks if user is confirmed and if they are continue else get a 
+        //redirect to CD registration page.
+        $this->isUserConfirmed();
         
+        //Set post parameters to custom array name.
+        $chartParameters = $request;
+        dd($chartParameters->classSelected);
         //declare result to be returned.
         $result;
       
         //if ChartParameters are set determine the chart based on them
         if( isset($chartParameters) && count($chartParameters) > 0 ) 
         {
+            
             $result = $this->determineChartCase($chartParameters);
         }
         else
@@ -88,7 +109,7 @@ class CDDashboardController extends Controller
         $allCourses = $this->queryListOfCoursesForForm();
 
         $result['courses'] = $allCourses;
-
+        
         return view('CD/dashboard')->with($result);
     }
     
@@ -126,14 +147,15 @@ class CDDashboardController extends Controller
      */
     public function determineChartCase($chartParameters)
     {
+       
         //Determine if chart is set, if not use the default case of 0.
-        if( !isset($chartParameters['chartSelected']))
+        if( !isset($chartParameters->chartSelected))
         {
-            $chartParameters['chartSelected'] = 0;
+            $chartParameters->chartSelected = 0;
         }
         
         //Go through each case to make charts.
-        switch ( $chartParameters['chartSelected'] ) {
+        switch ( $chartParameters->chartSelected ) {
             case '1':
                 //Pie Chart
 
@@ -149,6 +171,7 @@ class CDDashboardController extends Controller
                 //Bubble Chart
                 break;
             case '5':
+                
                 //Column Chart
                 $chart = new ColumnChartController($chartParameters);
                 
@@ -179,8 +202,29 @@ class CDDashboardController extends Controller
         }
         return $result;
     }
+    
+    /**
+     * Purpose: Will determine if the user is a confirmed CD. If they are not 
+     * they will be redirected to the registration page.
+     * 
+     * @return type a redirect.
+     */
+    public function isUserConfirmed()
+    {
+        //get user signed in
+        $confirmed = Auth::user()->confirmed;
+  
+        
+        if( !$confirmed )
+        {
+            //perform redirect to registration page if not confirmed.
+            return redirect('CD/register');
+        }
+ 
+    }
 }
 
+ 
 
 
 //        $datatable = Lava::DataTable();

@@ -134,9 +134,9 @@ class S29Test extends TestCase
         $this->seeInDatabase('StudentActivity', 
                 ['userID' => '12347',
                     'activityID' => 2,
-                    'timespent' => 0,
-                    'stressLevel' => 0,
-                    'timeEstimated' => 0,
+                    'timespent' => 21,
+                    'stressLevel' => 7,
+                    'timeEstimated' => 15,
                     'submitted' => 0]);
     }   
     

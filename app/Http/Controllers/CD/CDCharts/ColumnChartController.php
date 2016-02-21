@@ -37,15 +37,18 @@ class ColumnChartController extends ColumnChartQueryController
      */
     public function determineChartToBeMade()
     {
+        
+        
         //Get the comparisons passed in from the chart form on the db controller
-        $comparison1 = $this->chartParameters['comparison1'];
-        $comparison2 = $this->chartParameters['comparison2'];
+        $comparison1 = $this->chartParameters->comparison1;
+        $comparison2 = $this->chartParameters->comparison2;
         
         //If the classSelected is all classes represented by a numeric or text
         //value create the default chart.
-        if( $this->chartParameters['classSelected'] === 1 
-                || $this->chartParameters['classSelected'] === "1" )
+        if( $this->chartParameters->classSelected === 1 
+                || $this->chartParameters->classSelected === "1" )
         {
+         
             //Use the hard coded query in the ColumnChartQueryController
             $dataArray =  $this->performAvgComparisonQuery($comparison1,
                     $comparison2);
@@ -62,8 +65,9 @@ class ColumnChartController extends ColumnChartQueryController
         }
         else
         {
+          
             //Create a completly custom chart based on a single course.
-            $classTitle = $this->chartParameters['classSelected'];
+            $classTitle = $this->chartParameters->classSelected;
             
             $dataArray =  $this->performAvgComparisonForCourse($comparison1,
                     $comparison2, $classTitle); 
@@ -75,6 +79,7 @@ class ColumnChartController extends ColumnChartQueryController
             $chart = $this->createDynamicColumnChart($dataArray, $comp1String,
                    $comp2String, $classTitle);   
         }
+       
         return $chart;
     }
     

@@ -77,13 +77,15 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::group(array('prefix' => 'CD', 'namespace' => 'CD', 
         'middleware' => 'cdmanager'), function () {
-            
-        //Will load a dashboard via the Pages Controller.
-        Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
-        //Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
+
+        //Load the dashboard based on whether the user is confirmed or not.
+        Route::get('/dashboard', 'PagesController@loadDashboard');
+        
         //Loads the registration page on first time login.
-        Route::post('/dashboard','CDInfoController@insertCD');    
+        Route::post('/dashboard','CDInfoController@insertCD');
+        
         Route::post('/registerError', 'CDInfoController@insertCD');
+        
         // Course Assignment Grouping 
         Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
         Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
@@ -93,6 +95,9 @@ Route::group(['middleware' => 'web'], function () {
 //        Route::get('/dashboardCustomChart', 
 //                'CDDashboardController@createDefaultDashboard');
         Route::post('/dashboardCustomChart', 'CDDashboardController@createCustomChart' );
+        
+        //Will load a dashboard via the Pages Controller.
+        Route::get('/dashboardCustomChart', 'CDDashboardController@createDefaultDashboard');
     });
     
    /**

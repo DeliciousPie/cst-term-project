@@ -41,11 +41,11 @@ class PagesController extends Controller
             
             if( $confirmed )
             {
-                return view('CD/dashboard');
+                return redirect('CD/dashboardCustomChart');
             }
             else
             {
-                return  view('CD/register');
+                return view('CD/register');
             }
     }
     
