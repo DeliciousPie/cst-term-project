@@ -63,8 +63,8 @@ Route::group(['middleware' => 'web'], function () {
         //This route will add the information to the selected activity.
         Route::post('/activities', 'StudentActivityController@updateInfo');
         
-        
-        
+        //This will register a student if the try to access activies first.
+        //Route::post('/activities', 'StudentInfoController@insertStudent');
     });
     
    /**
@@ -83,7 +83,7 @@ Route::group(['middleware' => 'web'], function () {
         
         //Loads the registration page on first time login.
         Route::post('/dashboard', 'CDInfoController@insertCD');    
-        
+        Route::post('/registerError', 'CDInfoController@insertCD');
         // Course Assignment Grouping 
         Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
         Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
@@ -108,6 +108,7 @@ Route::group(['middleware' => 'web'], function () {
         
                 //Loads the registration page on first time login.
         Route::post('/dashboard', 'ProfInfoController@insertProf');
+        Route::post('/registerError', 'ProfInfoController@insertProf');
     });
 });
 
