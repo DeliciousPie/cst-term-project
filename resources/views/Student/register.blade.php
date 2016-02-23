@@ -131,10 +131,11 @@
     ]; 
 ?>
 
-  <?= Former::number('studentNumber', 'Student Number')->required() ,
+  <?= Former::Label("UserID: "),
+       Former::Label(Auth::user()->userID) ,
         Former::password('password', 'New Password')->required(),
         Former::password('confirmPassword', 'Confirm New Password')->required(),
-       Former::text('firstName', 'First Name')->required(),
+       Former::text('firstName', 'First Name')->required()->value(Auth::user()->name),
        Former::text('lastName', 'Last Name')->required(),
        Former::number('age', 'Age')->min(0)->required(),
        Former::select('school', 'School')->options($schools, 'CUAC'),
