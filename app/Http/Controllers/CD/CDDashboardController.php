@@ -18,6 +18,8 @@ use App\Course;
 
 class CDDashboardController extends Controller
 {
+    
+    private $chartCololum;
     /**
      * Create a new controller instance.
      *
@@ -26,6 +28,7 @@ class CDDashboardController extends Controller
     public function __construct()
     {
         $this->middleware('cdmanager');
+        
     }
     /**
      * Purpose: This will create a standard dashboard for the CD. Is executed
@@ -89,14 +92,14 @@ class CDDashboardController extends Controller
         
         //Set post parameters to custom array name.
         $chartParameters = $request;
-        dd($chartParameters->classSelected);
+        
         //declare result to be returned.
         $result;
       
         //if ChartParameters are set determine the chart based on them
         if( isset($chartParameters) && count($chartParameters) > 0 ) 
         {
-            
+           
             $result = $this->determineChartCase($chartParameters);
         }
         else
@@ -109,7 +112,7 @@ class CDDashboardController extends Controller
         $allCourses = $this->queryListOfCoursesForForm();
 
         $result['courses'] = $allCourses;
-        
+
         return view('CD/dashboard')->with($result);
     }
     
@@ -150,7 +153,7 @@ class CDDashboardController extends Controller
        
         //Determine if chart is set, if not use the default case of 0.
         if( !isset($chartParameters->chartSelected))
-        {
+        {         
             $chartParameters->chartSelected = 0;
         }
         
@@ -174,7 +177,7 @@ class CDDashboardController extends Controller
                 
                 //Column Chart
                 $chart = new ColumnChartController($chartParameters);
-                
+               
                 $result = $chart->determineChartToBeMade();
                 
                 break;
@@ -218,7 +221,7 @@ class CDDashboardController extends Controller
         if( !$confirmed )
         {
             //perform redirect to registration page if not confirmed.
-            return redirect('CD/register');
+            return view('CD/register');
         }
  
     }

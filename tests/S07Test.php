@@ -5,11 +5,53 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\User;
 use App\CD;
 use App\Role;
+use App\Http\Controllers\CD\CDCharts\ColumnChartQueryController;
+use App\Http\Requests\CDDashboardRequest;
 
 class S07Test extends TestCase
 {
 
-    
+//    public function testPerformAvgComparisonQuery()
+//    {
+//        $this->withoutMiddleware();
+//        
+//        $stressLevel = "stressLevel";
+//        $timeSpent = "timeSpent";
+//        $timeEstimated = "timeEstimated";
+//        
+//        $timeEstNumber = 11.66667;
+//        $timeSpentNum = 12.66667;
+//        $stressLevelNum = 6.3333;
+//        
+//        $queryController = new \App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController();
+//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $timeSpent);
+//        $this->assertTrue($stressLevelNum, $queryResult['param1']);
+//        $this->assertTrue($timeSpentNum, $queryResult['param2']);
+//        
+//        $queryResult = $queryController->performAvgComparisonQuery($timeSpent, $stressLevel);
+//        $this->assertTrue($timeSpentNum, $queryResult['param1']);
+//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
+//         
+//        $queryResult = $queryController->performAvgComparisonQuery($timeEstimated, $stressLevel);
+//        $this->assertTrue($timeEstNumber, $queryResult['param1']);
+//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
+//        
+//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $timeEstimated);
+//        $this->assertTrue($stressLevel, $queryResult['param1']);
+//        $this->assertTrue($timeEstNumber, $queryResult['param2']);
+//        
+//        $queryResult = $queryController->performAvgComparisonQuery($timeSpent, $timeSpent);
+//        $this->assertTrue($timeSpentNum, $queryResult['param1']);
+//        $this->assertTrue($timeSpentNum, $queryResult['param2']);
+//        
+//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $stressLevel);
+//        $this->assertTrue($stressLevelNum, $queryResult['param1']);
+//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
+//        
+//        $queryResult = $queryController->performAvgComparisonQuery($timeEstimated, $timeEstimated);
+//        $this->assertTrue($timeEstNumber, $queryResult['param1']);
+//        $this->assertTrue($timeEstNumber, $queryResult['param2']);
+//    }
     /**
      * Purpose: This will test to see if we can view the chart in the CD 
      * dashboard controller. This is for the default chart.
@@ -54,36 +96,39 @@ class S07Test extends TestCase
              ->see(11.6666)
              ->see(12.6666)
              //this should not be on the page
-             ->dontSee('Awesome');  
-    }
-    
-    public function testSubmitNewChartStressAndTimeActual()
-    {
-        $this->baseUrl = 'http://phpserver/CD';
-        
-        $user = $this->createUser();
-        
-        //Look on the page too see if we can find the fake student activity.
-        $this->actingAs($user)
-             ->withSession(['foo' => 'bar'])
-             ->visit('/dashboard')
+             ->dontSee('Awesome')      
              ->select("5", 'chartSelected')
              ->select("COMM101", 'classSelected')
              ->select("stressLevel", 'comparison1')
-             ->select("timeSpent", 'comparison2')
+             ->select("stressLevel", 'comparison2')
              ->press('Submit')
-             ->seePageIs('/dashboardCustomChart')
-             ->see('Average');
-//        $this
-//             ->call('POST', '/dashboardCustomChart',
-//                ["5" => 'chartSelected',
-//                "COMM101" => 'classSelected',
-//                "stressLevel" => 'comparison1', 
-//                "timeSpent" => 'comparison2'])
-//            $this->see('Average Student Stress Level Vs Time Actual For COMM101')
-//             ->see(6.3333)
-//             ->see(12.6666); 
+             ->seePageIs('/dashboard')
+//             ->see('Average' )
+             ->see('Stress Level')
+            
+             ->see('For COMM101');  
     }
+    
+//    public function testSubmitNewChartStressAndTimeActual()
+//    {
+//        $this->baseUrl = 'http://phpserver/CD';
+//        
+//        $user = $this->createUser();
+//        $this->flushSession();
+//        //Look on the page too see if we can find the fake student activity.
+//        $this->actingAs($user)
+//             ->withSession(['foo1' => 'bar1'])
+//;
+////        $this
+////             ->call('POST', '/dashboardCustomChart',
+////                ["5" => 'chartSelected',
+////                "COMM101" => 'classSelected',
+////                "stressLevel" => 'comparison1', 
+////                "timeSpent" => 'comparison2'])
+////            $this->see('Average Student Stress Level Vs Time Actual For COMM101')
+////             ->see(6.3333)
+////             ->see(12.6666); 
+//    }
     
     /**
      * Purpose: To create a user to log on a a CD.  Re-occurs all the time.

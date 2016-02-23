@@ -38,6 +38,7 @@ class ColumnChartController extends ColumnChartQueryController
     public function determineChartToBeMade()
     {
         
+        $chart = null;
         
         //Get the comparisons passed in from the chart form on the db controller
         $comparison1 = $this->chartParameters->comparison1;
@@ -65,7 +66,7 @@ class ColumnChartController extends ColumnChartQueryController
         }
         else
         {
-          
+           
             //Create a completly custom chart based on a single course.
             $classTitle = $this->chartParameters->classSelected;
             
@@ -75,11 +76,16 @@ class ColumnChartController extends ColumnChartQueryController
             $comp1String = $this->createChartTitles( $comparison1 );
             
             $comp2String = $this->createChartTitles( $comparison2);
-            
+
             $chart = $this->createDynamicColumnChart($dataArray, $comp1String,
-                   $comp2String, $classTitle);   
+                   $comp2String, $classTitle);  
+            
+
+            
         }
-       
+        
+        
+        
         return $chart;
     }
     
@@ -144,15 +150,17 @@ class ColumnChartController extends ColumnChartQueryController
     public function createDynamicColumnChart($dataArray, $comp1String, 
             $comp2String, $course='All Courses')
     {
+        
         //The chart Id this data will have.
         $chartID = 'StudentParam';
         
         //This is the title that will appear at the top of the chart.
         $chartTitle = 'Average Student ' . $comp1String . ' Vs ' . 
                 $comp2String . ' For ' . $course;
-
+        var_dump($chartTitle);
         //Create the rows and columns for the datatable;
-        $this->studentData->addStringColumn('All Students')
+        $this->studentData
+                    ->addStringColumn('All Students')
                     ->addNumberColumn($comp1String)
                     ->addNumberColumn($comp2String)
                     //Column labels at bottom of chart. plus columns and labels.
@@ -163,7 +171,7 @@ class ColumnChartController extends ColumnChartQueryController
         //Creates a standard CDP column chart with two bars.
         $chart = $this->createColumnChart($this->studentData, 
                 $chartID, $chartTitle );
-        
+        var_dump($chart);
         //return chart as array.
         return array('studentData'=> $chart);
     }
@@ -271,7 +279,14 @@ class ColumnChartController extends ColumnChartQueryController
         {
             $result = 'Stress Level';
         }
-        
+        else if( $comparison === 'spent')
+        {
+            $result = 'Time Actual';
+        }
+        else if( $comparison === 'estimated')
+        {
+            $result = 'Time Estimated';
+        }
         return $result;
     }
 }

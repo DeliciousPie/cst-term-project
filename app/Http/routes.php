@@ -79,10 +79,10 @@ Route::group(['middleware' => 'web'], function () {
         'middleware' => 'cdmanager'), function () {
 
         //Load the dashboard based on whether the user is confirmed or not.
-        Route::get('/dashboard', 'PagesController@loadDashboard');
+        Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
         
         //Loads the registration page on first time login.
-        Route::post('/dashboard','CDInfoController@insertCD');
+        Route::post('/register','CDInfoController@insertCD');
         
         Route::post('/registerError', 'CDInfoController@insertCD');
         
@@ -94,10 +94,10 @@ Route::group(['middleware' => 'web'], function () {
         
 //        Route::get('/dashboardCustomChart', 
 //                'CDDashboardController@createDefaultDashboard');
-        Route::post('/dashboardCustomChart', 'CDDashboardController@createCustomChart' );
+        Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
         //Will load a dashboard via the Pages Controller.
-        Route::get('/dashboardCustomChart', 'CDDashboardController@createDefaultDashboard');
+        //Route::get('/dashboardCustomChart', 'CDDashboardController@createDefaultDashboard');
     });
     
    /**

@@ -43,6 +43,8 @@ class ColumnChartQueryController extends ChartController
      */
     public function performAvgComparisonQuery($comparison1, $comparison2)
     {
+        $comparison1 = $this->getTimeSpentandTimeEstiamtedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstiamtedColumns($comparison2);
         //perform query on all of the value for comparison1 from the 
         //Student activity table in the DB. Specified on chart form in CD
         //dashboard.
@@ -88,6 +90,8 @@ class ColumnChartQueryController extends ChartController
     public function performAvgComparisonForCourse($comparison1, $comparison2, 
             $course)
     {
+        $comparison1 = $this->getTimeSpentandTimeEstiamtedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstiamtedColumns($comparison2);
         //Find from DB passed in from the form.  Changes from what user passes
         //in to what the database has.
         $courseToFind = Course::select('courseID')
@@ -132,6 +136,8 @@ class ColumnChartQueryController extends ChartController
      */
     public function queryTotalAvgByCourse($courseToFind, $comparison)
     {
+        $comparison = $this->getTimeSpentandTimeEstiamtedColumns($comparison);
+        
         //Perform the query.
         $queryResult = DB::table('StudentActivity')
             ->join('Activity', 'Activity.activityID', '=', 
@@ -190,5 +196,26 @@ class ColumnChartQueryController extends ChartController
         $result = json_decode(json_encode($queryResult), true);
 
         return $result;
+    }
+    
+    /**
+     * Purpose: This will get the default columns if nothing is selected.
+     * 
+     * @param type $comp - the paramter to be compared.
+     * @return string return the proper colulmn name for the queries.
+     */
+    public function getTimeSpentandTimeEstiamtedColumns($comp )
+    {
+        if( $comp === 'spent' )
+        {
+            $comp = 'timeSpent';
+        }
+        
+        if( $comp === 'estimated' )
+        {
+            $comp = 'timeEstimated';
+        }
+        
+        return $comp;
     }
 }

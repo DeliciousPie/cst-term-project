@@ -41,7 +41,7 @@ class PagesController extends Controller
             
             if( $confirmed )
             {
-                return redirect('CD/dashboardCustomChart');
+                return views('CD/dashboard');
             }
             else
             {
