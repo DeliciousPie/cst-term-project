@@ -50,23 +50,35 @@
                                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> CSV files</h3>
                                 </div>
                                 <div class="panel-body">
-
-                                    <?=
-                                            Former::horizontal_open()
-                                            ->openForm('forFiles', '')
-                                            ->id('Import_CSVFiles')
-                                            ->secure()
-                                            ->rules(['name' => 'required'])
-                                    ?>
-                                    <?=
-                                    Former::file('CourseCSV', 'Courses')->accept('.csv'),
-                                    Former::file('ProfessorsCSV', 'Professors')->accept('.csv'),
-                                    Former::file('StudentsCSV', 'Students')->accept('.csv'),
-                                            Former::actions('')->large_primary_submit("Import Into Database")
-                                            ->id('submitBtn')
-                                    ?>
-                                    <?= Former::close() ?>
-
+<form enctype="multipart/form-data" accept-charset="utf-8" class="form-horizontal" id="Import_CSVFiles" method="POST">     
+    <div class="form-group">
+        <label for="CourseCSV" class="control-label col-lg-2 col-sm-4">Courses</label>
+        <div class="col-lg-1 col-sm-1"></div>
+        <div class="col-lg-9 col-sm-7">
+            <input accept=".csv" id="CourseCSV" type="file" name="CourseCSV"></div>
+    </div>
+    <div class="form-group">
+        <label for="ProfessorsCSV" class="control-label col-lg-2 col-sm-4">Professors</label>
+         <div class="col-lg-1 col-sm-1"></div>
+        <div class="col-lg-9 col-sm-7">
+            <input accept=".csv" id="ProfessorsCSV" type="file" name="ProfessorsCSV">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="StudentsCSV" class="control-label col-lg-2 col-sm-4">Students</label>
+        <div class="col-lg-1 col-sm-1"></div>
+        <div class="col-lg-9 col-sm-7">
+            <input accept=".csv" id="StudentsCSV" type="file" name="StudentsCSV"></div>
+    </div>
+    <div class="form-group" id="submitBtn">
+        <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8"> 
+            <input class="btn-large btn-primary btn" type="submit" value="Import Into Database">
+        </div>
+    </div>                                   
+    <input class="form-control" type="hidden" name="_token" value="5Yo1HlptMI5Eqcmzjfrq3nbTxG6gFHbPbd7UA35Y">
+</form>    
+                                   
+                                    
                                     <?php
                                     if (isset($_POST['courseMessage']))
                                     {
