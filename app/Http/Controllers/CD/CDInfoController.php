@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Author Sean Young and Wes Reid
- * 
- */
-
 namespace App\Http\Controllers\CD;
 
 use Illuminate\Http\Request;
@@ -12,11 +7,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
-use App\CD;
+use App\Student;
 use App\User;
+use App\CD; 
 use Illuminate\Support\Facades\Input;
-
-
 
 class CDInfoController extends Controller
 {
@@ -32,7 +26,7 @@ class CDInfoController extends Controller
     }
 
     /**
-     * Purpose: A function that runs when a CD is inserted, it runs validation on 
+     * Purpose: A function that runs when a student is inserted, it runs validation on 
      * the various user input, and checks and sets the different session 
      * variables. 
      * 
@@ -41,49 +35,71 @@ class CDInfoController extends Controller
      */
     public static function insertCD()
     {
-                
-        //If user has already been confirmed they don't need to register.
+
         $confirmed = Auth::user()->confirmed;
+
         if ($confirmed)
         {
-        //  Send them to the dashboard
             return view('CD/dashboard');
         }
 
-        //if the passwords do not match
-        if (Input::get('password') !== Input::get('confirmPassword'))
+        //Check if the student number is set.
+        //Validate the user email, checking for . and @ using a php function
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
         {
-            //show error
-            return view('CD/registerError');
+            $_SESSION['isValidEmail'] = false;
+            return view('CD/register');
         }
-        
-        
-        else if(Input::get('password') === Input::get('confirmPassword'))
-        {           
-            //get form info
-            $user = User::find(Auth::user()->id);            
+
+        if ($_POST['password'] === $_POST['confirmPassword'])
+        {
+            CD::create(array(
+                'userID' => Auth::user()->userID,
+                'fName' => Input::get('firstName'),
+                'lName' => Input::get('lastName'),
+                'educationalInstitution' => Input::get('school'),
+                'areaOfStudy' => Input::get('areaOfStudy'),
+                'email' => Input::get('email'))
+            );
+
+            $user = User::find(Auth::user()->id);
             $user->password = bcrypt(Input::get('password'));
             $user->name = Input::get('firstName');
-            $user->email = Input::get('email');              
+            $user->email = Input::get('email');
             $user->confirmed = 1;
             $user->save();
-            
-        //  supplied information from the registration form.
-             CD::create(array(
-            'id' => Auth::user()->id,
-            'userID' => Auth::user()->userID,
-            'fName' => Input::get('firstName'),
-            'lName' => Input::get('lastName'),
-            'educationalInstitution' => Input::get('school'),
-            'areaOfStudy' => Input::get('areaOfStudy'),
-            'email' => Input::get('email')));
 
-            
-            //send CD to the dashboard
+
+            CDInfoController::CDConfirmation();
+
             return view('CD/dashboard');
+        } else
+        {
+            //if the password comparison failed. Set this session variable
+            //and it gets used on the studentInfoMain blade.
+            $_SESSION['comparePasswords'] = false;
+            return view('CD/register');
         }
     }
 
-    
+    /**
+     * Purpose: This method checks to see if the user is a confirmed user or
+     * not.  The confirmation is represented by an boolean column in the 
+     * database.  Once the user registers the column is changed to a 1 else
+     * they are unregistered represented by a zero.
+     * 
+     * @author Justin Lutzko cst229
+     * 
+     * @return String - Loads a view CDdashboard.
+     */
+    public static function CDConfirmation()
+    {
+        //dd(Auth::user()->id);
+        $user = User::find(Auth::user()->id);
+
+        $user->confirmed = 1;
+
+        $user->save();
+    }
 
 }

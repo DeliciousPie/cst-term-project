@@ -12,8 +12,10 @@ use App\Professor;
 use App\Student;
 use App\Section;
 use App\StudentSection;
-use App\ProfessorSection; 
+use App\ProfessorSection;
 use App\SectionType;
+use App\Role;
+use Illuminate\Support\Facades\Auth;
 
 /*
  * This controler is designed to help display the 
@@ -38,6 +40,14 @@ class CourseAssignmentController extends Controller
 
     public function LoadView()
     {
+        $confirmed = Auth::user()->confirmed;
+        
+        if (!$confirmed)
+        {
+            return redirect('CD/dashboard');
+        }
+
+
         $classes = [];
 
         //Select all courses from Course
@@ -95,11 +105,10 @@ class CourseAssignmentController extends Controller
         }
         // database request to get professors from database 
         $professorArray = DB::select('SELECT fName, lName, userID FROM Professor ');
-                        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
+        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
         // database request to get students from database 
         $studentArray = DB::select('SELECT fName, lName, userID FROM Student ');
-                        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
-
+        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
         // database request to get all section types from database 
         $sectionTypes = [];
         $sectionTypesFromDB = DB::select('SELECT sectionID FROM SectionType');
@@ -409,6 +418,13 @@ class CourseAssignmentController extends Controller
                             'educationalInstitution' => $currentProfessor['educationalInstitution'],
                             'email' => $currentProfessor['email']
                         ]);
+
+                        $idFromUser = DB::select('SELECT id FROM users WHERE userID = ?', array($currentProfessor['userID']));
+
+                        $Professor = Role::find(2); // change to get number 
+
+                        $user = User::find($idFromUser[0]->id);
+                        $user->attachRole($Professor->id);
                     } else
                     {
                         $existingProfessors .= $currentProfessor['userID'] . ", ";
@@ -496,6 +512,12 @@ class CourseAssignmentController extends Controller
                             'educationalInstitution' => $currentStudent['educationalInstitution'],
                             'email' => $currentStudent['email']
                         ]);
+                        $idFromUser = DB::select('SELECT id FROM users WHERE userID = ?', array($currentStudent['userID']));
+
+                        $Student = Role::find(3);
+                        $user = User::find($idFromUser[0]->id);
+                        $user->attachRole($Student->id);
+
                         $studentsAdded++;
                     } else // user exists already
                     {

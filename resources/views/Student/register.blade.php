@@ -132,7 +132,7 @@
 ?>
 
   <?= Former::Label("UserID: "),
-       Former::Label(Auth::user()->userID) ,
+       Former::Label(Auth::user()->userID),
         Former::password('password', 'New Password')->required(),
         Former::password('confirmPassword', 'Confirm New Password')->required(),
        Former::text('firstName', 'First Name')->required()->value(Auth::user()->name),
@@ -140,7 +140,7 @@
        Former::number('age', 'Age')->min(0)->required(),
        Former::select('school', 'School')->options($schools, 'CUAC'),
        Former::select('areaOfStudy', 'Area Of Study')->options($study),
-       Former::email('email')->required(),
+       Former::email('email')->required()->value( Auth::user()->email ),
         
        
        

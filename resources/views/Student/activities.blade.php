@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('title')
+        <title>Student Activities</title>
+@stop
+
+@section('navBarHeader')
+        <a class="navbar-brand" href="{{ url('/') }}">Student Activities</a>
+@stop
+
+
+
 @section('content')
 <div class="row">
   <div class="col-md-8 col-md-offset-2">

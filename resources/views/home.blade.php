@@ -195,7 +195,7 @@
                     @endif
                     @elseif( Auth::user() === null)
                     <div class="panel-heading">
-                        <h1>What does this web site do.</h1>
+                        <h1>What does this web site do?</h1>
                     </div>
 
                     <div class="panel-body">

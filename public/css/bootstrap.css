@@ -2653,7 +2653,6 @@ input[type="search"] {
 .radio-inline,
 .checkbox-inline {
   position: relative;
-  width: 6em;
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;

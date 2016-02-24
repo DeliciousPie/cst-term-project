@@ -85,13 +85,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/dashboard', 'CDInfoController@insertCD');    
         Route::post('/registerError', 'CDInfoController@insertCD');
         // Course Assignment Grouping 
-        Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
-        Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
+        Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
+        Route::post('/CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
         
-        Route::post('CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
+        Route::post('/CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
         
         
-        Route::post('CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
+        Route::post('/CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
         
         
     
