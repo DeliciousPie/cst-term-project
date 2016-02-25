@@ -84,6 +84,8 @@ Route::group(['middleware' => 'web'], function () {
         //Loads the registration page on first time login.
         Route::post('/register','CDInfoController@insertCD');
         
+        Route::get('/register', 'PagesController@loadDashboard');
+        
         Route::post('/registerError', 'CDInfoController@insertCD');
         
         // Course Assignment Grouping 

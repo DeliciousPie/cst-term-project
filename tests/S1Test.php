@@ -25,7 +25,7 @@ protected $baseurl = 'http://phpserver/';
 
         
         //Fill out registration form
-        $this->visit('http://phpserver/CD/dashboard')
+        $this->visit('http://phpserver/CD/register')
                 ->type('newpassword', 'password')
                 ->type('newpassword', 'confirmPassword')
                 ->type('Mark', 'firstName')
@@ -34,7 +34,7 @@ protected $baseurl = 'http://phpserver/';
                 ->select('CPHR', 'school' )
                 ->type('email@email.net', 'email')
                 ->press('Submit')
-                ->seePageIs('http://phpserver/CD/dashboardCustomChart');
+                ->seePageIs('http://phpserver/CD/register');
         
         //Check to see if changes have been made in the database
         $this->seeInDatabase('CD', [
@@ -59,7 +59,7 @@ protected $baseurl = 'http://phpserver/';
         ]);
         
         //Fill out registration form
-        $this->visit('http://phpserver/CD/dashboard')
+        $this->visit('http://phpserver/CD/register')
                 ->type('newpassword', 'password')
                 ->type('wrongpassword', 'confirmPassword')
                 ->type('Justin', 'firstName')
@@ -68,7 +68,7 @@ protected $baseurl = 'http://phpserver/';
                 ->select('CPHR', 'school' )
                 ->type('code@crush.net', 'email')
                 ->press('Submit')
-                ->seePageIs('http://phpserver/CD/dashboard');
+                ->seePageIs('http://phpserver/CD/register');
                 
         //check to see that the passwords don't match shows up
         $this->see("Passwords Don't Match");       

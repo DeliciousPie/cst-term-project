@@ -157,9 +157,9 @@ class ColumnChartController extends ColumnChartQueryController
         //This is the title that will appear at the top of the chart.
         $chartTitle = 'Average Student ' . $comp1String . ' Vs ' . 
                 $comp2String . ' For ' . $course;
-        var_dump($chartTitle);
+        
         //Create the rows and columns for the datatable;
-        $this->studentData
+        $studentData = Lava::Datatable()
                     ->addStringColumn('All Students')
                     ->addNumberColumn($comp1String)
                     ->addNumberColumn($comp2String)
@@ -169,9 +169,9 @@ class ColumnChartController extends ColumnChartQueryController
                        $dataArray['param2']]);
         
         //Creates a standard CDP column chart with two bars.
-        $chart = $this->createColumnChart($this->studentData, 
+        $chart = $this->createColumnChart($studentData, 
                 $chartID, $chartTitle );
-        var_dump($chart);
+       
         //return chart as array.
         return array('studentData'=> $chart);
     }
@@ -198,14 +198,14 @@ class ColumnChartController extends ColumnChartQueryController
         $chartTitle = 'Average Student Time Estimate Vs Actual Time';
 
         //Create the rows and columns for the datatable;
-        $this->studentData->addStringColumn('All Students')
+        $studentData = Lava::Datatable()->addStringColumn('All Students')
                     ->addNumberColumn('Time Estimated')
                     ->addNumberColumn('Time Spent')
                     ->addRow(['Time Estimated vs Time Spent', 
                        $avgTimeEstVsActualTime['timeEstimated'], 
                        $avgTimeEstVsActualTime['timeSpent']]);
         
-        $chart = $this->createColumnChart($this->studentData, 
+        $chart = $this->createColumnChart($studentData, 
                 $chartID, $chartTitle );
         
         //return chart as array.

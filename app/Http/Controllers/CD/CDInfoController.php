@@ -47,7 +47,7 @@ class CDInfoController extends Controller
         if ($confirmed)
         {
         //  Send them to the dashboard
-            return view('CD/dashboard');
+            return redirect('CD/dashboard');
         }
 
         //if the passwords do not match
@@ -80,7 +80,7 @@ class CDInfoController extends Controller
 
             
             //send CD to the dashboard
-            return view('CD/dashboard');
+            return redirect('CD/dashboard');
         }
     }
 

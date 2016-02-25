@@ -10,48 +10,7 @@ use App\Http\Requests\CDDashboardRequest;
 
 class S07Test extends TestCase
 {
-
-//    public function testPerformAvgComparisonQuery()
-//    {
-//        $this->withoutMiddleware();
-//        
-//        $stressLevel = "stressLevel";
-//        $timeSpent = "timeSpent";
-//        $timeEstimated = "timeEstimated";
-//        
-//        $timeEstNumber = 11.66667;
-//        $timeSpentNum = 12.66667;
-//        $stressLevelNum = 6.3333;
-//        
-//        $queryController = new \App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController();
-//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $timeSpent);
-//        $this->assertTrue($stressLevelNum, $queryResult['param1']);
-//        $this->assertTrue($timeSpentNum, $queryResult['param2']);
-//        
-//        $queryResult = $queryController->performAvgComparisonQuery($timeSpent, $stressLevel);
-//        $this->assertTrue($timeSpentNum, $queryResult['param1']);
-//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
-//         
-//        $queryResult = $queryController->performAvgComparisonQuery($timeEstimated, $stressLevel);
-//        $this->assertTrue($timeEstNumber, $queryResult['param1']);
-//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
-//        
-//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $timeEstimated);
-//        $this->assertTrue($stressLevel, $queryResult['param1']);
-//        $this->assertTrue($timeEstNumber, $queryResult['param2']);
-//        
-//        $queryResult = $queryController->performAvgComparisonQuery($timeSpent, $timeSpent);
-//        $this->assertTrue($timeSpentNum, $queryResult['param1']);
-//        $this->assertTrue($timeSpentNum, $queryResult['param2']);
-//        
-//        $queryResult = $queryController->performAvgComparisonQuery($stressLevel, $stressLevel);
-//        $this->assertTrue($stressLevelNum, $queryResult['param1']);
-//        $this->assertTrue($stressLevelNum, $queryResult['param2']);
-//        
-//        $queryResult = $queryController->performAvgComparisonQuery($timeEstimated, $timeEstimated);
-//        $this->assertTrue($timeEstNumber, $queryResult['param1']);
-//        $this->assertTrue($timeEstNumber, $queryResult['param2']);
-//    }
+    
     /**
      * Purpose: This will test to see if we can view the chart in the CD 
      * dashboard controller. This is for the default chart.
@@ -63,6 +22,7 @@ class S07Test extends TestCase
      */
     public function testViewColumnChart()
     {
+        
         $this->baseUrl = 'http://phpserver/CD';
          //Find user with id 200000
         $user = User::find(200000);
@@ -100,35 +60,351 @@ class S07Test extends TestCase
              ->select("5", 'chartSelected')
              ->select("COMM101", 'classSelected')
              ->select("stressLevel", 'comparison1')
-             ->select("stressLevel", 'comparison2')
+             ->select("timeSpent", 'comparison2')
              ->press('Submit')
-             ->seePageIs('/dashboard')
-//             ->see('Average' )
-             ->see('Stress Level')
-            
-             ->see('For COMM101');  
+             ->seePageIs('/dashboard');
+
+        
     }
     
-//    public function testSubmitNewChartStressAndTimeActual()
-//    {
-//        $this->baseUrl = 'http://phpserver/CD';
-//        
-//        $user = $this->createUser();
-//        $this->flushSession();
-//        //Look on the page too see if we can find the fake student activity.
-//        $this->actingAs($user)
-//             ->withSession(['foo1' => 'bar1'])
-//;
-////        $this
-////             ->call('POST', '/dashboardCustomChart',
-////                ["5" => 'chartSelected',
-////                "COMM101" => 'classSelected',
-////                "stressLevel" => 'comparison1', 
-////                "timeSpent" => 'comparison2'])
-////            $this->see('Average Student Stress Level Vs Time Actual For COMM101')
-////             ->see(6.3333)
-////             ->see(12.6666); 
-//    }
+    /**
+     * Purpose: This will test the queries if all courses are submitted.
+     * 
+     * @author  Justin Lutzko & Sean Young 
+     * 
+     * @date Feb 25 2016
+     */
+    public function testViewAllCoursesStressLevelAndTimeSpent()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "1",
+                 'comparison1' => "stressLevel" , 
+                'comparison2' => "timeSpent"]);
+        $this->see('Average Student Stress Level Vs Time Actual For All Courses')
+             ->see(6.3333)
+             ->see(12.6666)
+             ->dontSee(11.6666); 
+    }
+    
+    /**
+     * Purpose: This will test the queries if all courses are submitted.
+     * 
+     * @author  Justin Lutzko & Sean Young 
+     * 
+     * @date Feb 25 2016
+     */
+    public function testViewAllCoursesTimeEstimatedAndStressLevel()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "1",
+                 'comparison1' => "timeEstimated" , 
+                'comparison2' => "stressLevel"]);
+        $this->see('Average Student Time Estimated Vs Stress Level For All Courses')
+             ->see(6.3333)
+             ->see(11.6666)
+              ->dontSee(12.6666); 
+    }
+    
+    /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartStressAndTimeActual()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "stressLevel" , 
+                'comparison2' => "timeSpent"]);
+        $this->see('Average Student Stress Level Vs Time Actual For COMM101')
+             ->see(6)
+             ->see(13); 
+    }
+    
+    
+    /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartTimeActualAndTimeActual()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeSpent" , 
+                'comparison2' => "timeSpent"]);
+        $this->see('Average Student Time Actual Vs Time Actual For COMM101')
+             ->see(6)
+             ->see(13)
+             ->dontSee(10.5);
+ 
+    }
+    
+    
+    /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartTimeActualAndStress()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeSpent" , 
+                 'comparison2' => "stressLevel"]);
+        $this->see('Average Student Time Actual Vs Stress Level For COMM101')
+             ->see(6)
+             ->see(13)
+             ->dontSee(10.5); 
+    }
+    
+    
+    
+    /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartStressAndStess()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "stressLevel" , 
+                'comparison2' => "stressLevel"]);
+        $this->see('Average Student Stress Level Vs Stress Level For COMM101')
+             ->see(6)
+             ->dontSee(13); 
+    }
+    
+            /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+        public function testSubmitNewChartTimeEstimateAndTimeActual()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeEstimated" , 
+                'comparison2' => "timeSpent"]);
+        $this->see('Average Student Time Estimated Vs Time Actual For COMM101')
+             ->see(10.5)
+             ->see(13); 
+    }
+    
+            /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+        public function testSubmitNewChartTimeActualAndTimeEstimated()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeSpent" , 
+                'comparison2' => "timeEstimated"]);
+        $this->see('Average Student Time Actual Vs Time Estimated For COMM101')
+             ->see(10.5)
+             ->see(13); 
+    }
+    
+            /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartStressAndTimeEstimated()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "stressLevel" , 
+                'comparison2' => "timeEstimated"]);
+        $this->see('Average Student Stress Level Vs Time Estimated For COMM101')
+             ->see(6)
+             ->see(10.5)
+             ->dontSee(13); 
+    }
+    
+            /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartTimeEsimtatedAndStess()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeEstimated" , 
+                'comparison2' => "stressLevel"]);
+        $this->see('Average Student Time Estimated Vs Stress Level For COMM101')
+             ->see(6)
+             ->see(10.5)
+             ->dontSee(13); 
+    }
+    
+            /**
+     * Purpose: This will test loading a chart and see the information that is
+     * on it.  This performs a post request with values that the user can 
+     * submit
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date Feb 25 2016
+     * 
+     */
+    public function testSubmitNewChartTimeEstimatedAndTimeEstimated()
+    {
+        $this->withoutMiddleware();
+        
+        $this->baseUrl = 'http://phpserver/CD';
+        
+        $user = $this->createUser();
+
+        $this->actingAs($user)
+                
+             ->call('POST', '/dashboard',
+                ['chartSelected' => "5",
+                 'classSelected' => "COMM101",
+                 'comparison1' => "timeEstimated" , 
+                'comparison2' => "timeEstimated"]);
+        $this->see('Average Student Time Estimated Vs Time Estimated For COMM101')
+             ->see(10.5)
+             ->dontSee(13); 
+    }
+    
+    
+
+    
     
     /**
      * Purpose: To create a user to log on a a CD.  Re-occurs all the time.

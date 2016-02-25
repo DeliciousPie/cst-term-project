@@ -41,7 +41,7 @@ class PagesController extends Controller
             
             if( $confirmed )
             {
-                return views('CD/dashboard');
+                return view('CD/dashboard');
             }
             else
             {

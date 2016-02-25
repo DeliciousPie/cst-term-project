@@ -19,7 +19,7 @@ use App\Course;
 class CDDashboardController extends Controller
 {
     
-    private $chartCololum;
+    private $chartColumn;
     /**
      * Create a new controller instance.
      *
@@ -44,10 +44,16 @@ class CDDashboardController extends Controller
      * @date Feb 20, 2016
      */
     public function createDefaultDashboard(CDDashboardRequest $request) 
-    {
+    {   
         //Checks if user is confirmed and if they are continue else get a 
         //redirect to CD registration page.
-        $this->isUserConfirmed();
+        $isRegistered = $this->isUserConfirmed();
+        
+        if( isset($isRegistered) )
+        {
+            return redirect($isRegistered);
+        }
+        
         $chartParameters = $request;
         //Sets default parameters "passed in" from the form on the CD dashbaord.
         $chartParameters->chartSelected ='5';
@@ -56,10 +62,10 @@ class CDDashboardController extends Controller
         $chartParameters->comparison2 ='timeSpent';
         
         //Create a new class.
-        $chart = new ColumnChartController($chartParameters);
+        $this->chartColumn = new ColumnChartController($chartParameters);
         
         //Determine charts to be made and return a column chart.
-        $result = $chart->determineChartToBeMade();
+        $result = $this->chartColumn->determineChartToBeMade();
        
         //Get a list of all the courses to populate the form with.
         $allCourses = $this->queryListOfCoursesForForm();
@@ -88,7 +94,12 @@ class CDDashboardController extends Controller
     {
          //Checks if user is confirmed and if they are continue else get a 
         //redirect to CD registration page.
-        $this->isUserConfirmed();
+        $isRegistered = $this->isUserConfirmed();
+        
+        if( isset($isRegistered) )
+        {
+            return redirect($isRegistered);
+        }
         
         //Set post parameters to custom array name.
         $chartParameters = $request;
@@ -176,9 +187,9 @@ class CDDashboardController extends Controller
             case '5':
                 
                 //Column Chart
-                $chart = new ColumnChartController($chartParameters);
+                $this->chartColumn = new ColumnChartController($chartParameters);
                
-                $result = $chart->determineChartToBeMade();
+                $result = $this->chartColumn->determineChartToBeMade();
                 
                 break;
             case '6':
@@ -192,16 +203,16 @@ class CDDashboardController extends Controller
                 break;
             case '9':
                 //Line Chart
-                $chart = new LineChartController($chartParameters);
+                $this->chartColumn = new LineChartController($chartParameters);
                 
-                $result = $chart->determineChartToBeMade();
+                $result = $this->chartColumn->determineChartToBeMade();
                 
                 break;
             default:
                 //Build defualt chart. See createDefaultDashboard comment for
                 //more info on a default chart.
-                $chart = new ColumnChartController($chartParameters);
-                $result = $chart->determineChartToBeMade();
+                $this->chartColumn = new ColumnChartController($chartParameters);
+                $result = $this->chartColumn->determineChartToBeMade();
         }
         return $result;
     }
@@ -216,12 +227,11 @@ class CDDashboardController extends Controller
     {
         //get user signed in
         $confirmed = Auth::user()->confirmed;
-  
         
-        if( !$confirmed )
+        if( $confirmed === 0 )
         {
             //perform redirect to registration page if not confirmed.
-            return view('CD/register');
+            return('CD/register');
         }
  
     }

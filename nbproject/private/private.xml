@@ -3,52 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/COSA280/Code/app/StudentActivity.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/UserTableSeeder.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/ChartController.php</file>
-            <file>file:/G:/COSA280/Code/tests/S29Test.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/PieChartController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/StudentActivityRequest.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/dashboardCustomChart.blade.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/registerError.blade.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Kernel.php</file>
-            <file>file:/G:/COSA280/Code/config/app.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190106_create_section_table.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/LineChartQueryController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/LineChartController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentActivityController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/AboutController.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/RoleTableSeeder.php</file>
-            <file>file:/G:/COSA280/Code/tests/S16Test.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_201248_create_studentSection_table.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDInfoController.php</file>
-            <file>file:/G:/COSA280/Code/tests/S32Test.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/register.blade.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/PagesController.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_201512_create_professorSection_table.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190107_create_activity_table.php</file>
-            <file>file:/G:/COSA280/Code/tests/S1Test.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Auth/AuthController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/ColumnChartQueryController.php</file>
             <file>file:/G:/COSA280/Code/tests/S07Test.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/Request.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_200910_create_cdCourse_table.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RedirectsUsers.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/ColumnChartController.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/CD/dashboardCustomChart.blade.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
             <file>file:/G:/COSA280/Code/tests/S08Test.php</file>
-            <file>file:/G:/COSA280/Code/tests/Sum41Test.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/CDInfoRequest.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/CDDashboardRequest.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Middleware/CDManager.php</file>
             <file>file:/G:/COSA280/Code/error.txt</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/StudentInfoController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/Student/PagesController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CourseAssignmentController.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDDashboardController.php</file>
-            <file>file:/G:/COSA280/Code/tests/TestCase.php</file>
-            <file>file:/G:/COSA280/Code/vendor/laravel/framework/src/Illuminate/Http/Request.php</file>
-            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190108_create_studentActivity_table.php</file>
-            <file>file:/G:/COSA280/Code/config/database.php</file>
+            <file>file:/G:/COSA280/Code/tests/S16Test.php</file>
+            <file>file:/G:/COSA280/Code/database/factories/ModelFactory.php</file>
             <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
+            <file>file:/G:/COSA280/Code/tests/S1Test.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/CD/dashboard.blade.php</file>
         </group>
     </open-files>
 </project-private>

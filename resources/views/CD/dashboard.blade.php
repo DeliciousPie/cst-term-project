@@ -59,6 +59,7 @@
                                 @foreach($courses as $course)
                                     <option>{{$course['courseID']}}</option>
                                 @endforeach
+                                
                             @endif
                             
                         </select>
@@ -88,12 +89,6 @@
                         <button for="customChartForm" type="submit" value="Submit">Submit</button> 
                     </form> 
                     <br />
-<!--                    <div id="dashboard">
-                        <div id="chart">
-                        </div>
-                        <div id="control">
-                        </div>
-                    </div>-->
                     <div id="timeChart"></div>
                     
                     
