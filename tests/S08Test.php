@@ -40,7 +40,9 @@ class S08Test extends TestCase
         
         
         
-        $this->assertEquals(' All 7 courses added sucessfully.', $CAC->csvUploadCoursesToDB()); 
+        $this->assertEquals('3/7 added sucessfully. Courses TCOM 291, '
+                . 'CNET 295, COET 295, CSEC 295 already existed.',
+                $CAC->csvUploadCoursesToDB()); 
         $this->clearDB();
                
         /* Course Length Error */
