@@ -9,36 +9,70 @@ use App\Http\Controllers\Controller;
 use App\Activity;
 
 class ActivityManagerController extends Controller
-{    
+{
     public function addActivity()
     {
-        if (isset($_POST['activityName']))
-        {
-            $activityName = $_POST['activityName'];
-            $startDate = $_POST['startDate'];
-            $dueDate = $_POST['dueDate'];
-            $workload = $_POST['workload'];
-            $stresstimate = $_POST['stresstimate'];
-            $prof = $_POST['profID'];
-            
-            //This is setting it to the first prof's section only. FIX
-            $results = DB::table('ProfSection')
-                    ->where('userID', $prof)
-                    ->first();
-            
-            //$resultsArray = get_object_vars($results);
-            
-            $id = DB::table('Activity')->insertGetId(
-                    ['sectionID' => $results->sectionID,
-                     'activityType' => $activityName, 
-                     'assignDate' => $startDate,
-                     'dueDate' => $dueDate,
-                     'estTime' => $workload,
-                     'stresstimate' => $stresstimate]
-            );
+        // sanitize all of the post fields
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            return response()->json(['activity' => $results]);
+        $activityName = $_POST['activityName'];
+        $startDate = $_POST['startDate'];
+        $dueDate = $_POST['dueDate'];
+        $workload = $_POST['workload'];
+        $stresstimate = $_POST['stresstimate'];
+        $prof = $_POST['profID'];
+
+        // Check that all the fields are set
+        if (isset($activityName) && isset($startDate) && isset($dueDate) && isset($workload) && isset($stresstimate) && isset($prof))
+        {
+            // Check if all are empty?
+            
+            // Check if activity name is valid
+            if (strlen($activityName) > 0 && strlen($activityName) < 125)
+            {
+                // Check that startDate and dueDate are valid
+                $startDateObj = new \DateTime($startDate);
+                $dueDateObj = new \DateTime($dueDate);
+                
+                $interval = $startDateObj->diff($dueDateObj);
+                $dateDiff = $interval->format('%R%a');
+                
+                // dueDate is greater than startDate
+                if ( $dateDiff > 0 )
+                {
+                    // Check that workload is valid
+                    if ($workload > 0 && $workload <= 800)
+                    {
+                        // Check that stresstimate is valid
+                        if ($stresstimate >= 1 && $stresstimate <= 10)
+                        {
+                            //This is setting it to the first prof's section only. FIX
+                            $results = DB::table('ProfSection')
+                                    ->where('userID', $prof)
+                                    ->first();
+
+                            
+                            
+                            // Check that prof is valid????????????????????????????????????????
+                            if (false)
+                            {
+                                // If everything is valid isnert into the database
+                                $id = DB::table('Activity')->insertGetId(
+                                        ['sectionID' => $results->sectionID,
+                                            'activityType' => $activityName,
+                                            'assignDate' => $startDate,
+                                            'dueDate' => $dueDate,
+                                            'estTime' => $workload,
+                                            'stresstimate' => $stresstimate]
+                                );
+                            }
+                        }
+                    }
+                }
+            }
         }
+        
+        return response()->json(['activity' => $results]);
     }
 
     public function editActivity()
@@ -79,7 +113,7 @@ class ActivityManagerController extends Controller
         {
             $prof = $_POST['profID'][0];
             $currentProf = $prof;
-            
+
             $coursesArray = DB::select('Select courseID, courseName from Course where courseID IN '
                             . '( Select courseID from Section where sectionID IN '
                             . '(SELECT sectionID from ProfSection WHERE userID = "'
