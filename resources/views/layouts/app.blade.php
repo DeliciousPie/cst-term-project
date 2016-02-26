@@ -155,14 +155,14 @@
                         <h4><strong>CDP Development</strong>
                         </h4>
                         <ul class="list-unstyled">
-                            <li><i class="fa fa-phone fa-fw"></i>Footer Stuff</li>
+                            <li><i class="fa fa-phone fa-fw"></i></li>
                             <li><i class="fa fa-envelope-o fa-fw"></i> 
 
-                                <a href="mailto:claypool5731@saskpolytech.com">email</a>
+                                <a href="">CST.project1@saskpolytech.ca</a>
                             </li>
                         </ul>
                         <hr class="small">
-                        <p class="text-muted">Copyright &copy; CDP - 2015</p>
+                        <p class="text-muted">Copyright &copy; CDP - 2016</p>
                     </div>
                 </div>
             </div>

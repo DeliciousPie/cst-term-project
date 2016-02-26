@@ -63,9 +63,9 @@ class UserTableSeeder extends Seeder
                 'userID' => '12348',
                 'email' => 'lisa@email.com',
                 'password' => bcrypt('password'),
-                'confirmed' => true,
-                'created_at'       => new DateTime,
-                'updated_at'       => new DateTime,
+                'confirmed' => false,
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
             ],
             [
                 'name' => 'CD Epic',

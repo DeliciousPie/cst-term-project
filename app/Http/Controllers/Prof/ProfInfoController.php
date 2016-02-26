@@ -69,9 +69,9 @@ class ProfInfoController extends Controller
             $user->confirmed = 1;
             $user->save();
             
+            
         //  supplied information from the registration form.
-             Professor::UpdateOrCreate(array(
-            'id' => Auth::user()->id,
+             Professor::where('userID', "=", Auth::user()->userID)->update(array(
             'userID' => Auth::user()->userID,
             'fName' => Input::get('firstName'),
             'lName' => Input::get('lastName'),

@@ -7,6 +7,8 @@ use App\Http\Controllers\CD\CourseAssignmentController;
 
 class S16Test extends TestCase
 {
+    
+  
   /*
      * This will clear users/profs/students added in the test cases from the database
      */
@@ -16,11 +18,12 @@ class S16Test extends TestCase
         DB::delete('delete from users where userID = "Pro001" OR userID = '
                 . '"Pro002" OR userID = "Stu001" OR userID = "Stu002"');
                 
-        DB::delete('delete from Professor where userID = "Pro001" AND userID = '
+        DB::delete('delete from Professor where userID = "Pro001" OR userID = '
                 . '"Pro002"');
         
         DB::delete('delete from Student where userID ="Stu001" OR userID = '
                 . '"Stu002"');
+
     }
 
     /**
@@ -45,7 +48,7 @@ class S16Test extends TestCase
             'size' => 173
         ]);
         
-        $this->assertEquals(' All 2 Professors added sucessfully.', 
+        $this->assertEquals(' All 4 Professors added sucessfully.', 
                 $CAC->csvUploadProfessorsToDB());      
         $this->clearDB();
         
@@ -125,7 +128,7 @@ class S16Test extends TestCase
             'size' => 173
         ]);
 
-        $this->assertEquals(' All 2 Students added sucessfully.', 
+        $this->assertEquals(' All 9 Students added sucessfully.', 
                 $CAC->csvUploadStudentToDB());
         $this->clearDB();
         
@@ -204,5 +207,7 @@ class S16Test extends TestCase
         $this->assertEquals('There are no Entries in the CSV File', 
                 $CAC->csvUploadStudentToDB());
         $this->clearDB();
+        
+        $this->call('DatabaseSeeder');
     }
 }

@@ -15,7 +15,7 @@ class CreateActivityTable extends Migration
         Schema::create('Activity', function(Blueprint $table){
         
             $table->integer('activityID', true);
-            $table->integer('sectionID', false);
+            $table->string('sectionID', 20);
             $table->string('activityType', 20);
             $table->date('assignDate');
             $table->date('dueDate');

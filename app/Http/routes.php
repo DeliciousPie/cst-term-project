@@ -80,26 +80,20 @@ Route::group(['middleware' => 'web'], function () {
 
         //Load the dashboard based on whether the user is confirmed or not.
         Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
+        Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
         //Loads the registration page on first time login.
-        Route::post('/register','CDInfoController@insertCD');
-        
+        Route::post('/register','CDInfoController@insertCD');  
         Route::get('/register', 'PagesController@loadDashboard');
         
         Route::post('/registerError', 'CDInfoController@insertCD');
         
         // Course Assignment Grouping 
-        Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
-        Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
+        Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
+        Route::post('/CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
         
-        Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
-        
-//        Route::get('/dashboardCustomChart', 
-//                'CDDashboardController@createDefaultDashboard');
-        Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
-        
-        //Will load a dashboard via the Pages Controller.
-        //Route::get('/dashboardCustomChart', 'CDDashboardController@createDefaultDashboard');
+        Route::post('/CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
+        Route::post('/CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
     });
     
    /**
