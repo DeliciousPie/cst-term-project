@@ -27,7 +27,7 @@ class S33Test extends TestCase
         $CAC = new CourseAssignmentController();
 
         $_POST = ['courseID' => "CNET 295"];
-
+        
         $ReturnArray = $CAC->getProfessorAndStudent();
         // no professors in database
         $this->assertTrue((strpos($ReturnArray, '"professors":[]')) != false);
