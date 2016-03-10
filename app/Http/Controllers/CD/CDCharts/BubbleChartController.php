@@ -6,21 +6,21 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Lava;
-use App\Http\Controllers\CD\CDCharts;
-use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
+use App\Http\Controllers\CD\CDChartQueries\BubbleChartQueryController;
 
 /**
- * Purpose: Build Column charts for the CD based on what the CD passes in.
+ * Purpose: The purpose of this class is to create dynamic bubble charts. It 
+ * extends the BubbleChartQueryController which contains the queries that the 
+ * class will use.  The query controller will extend an average class
+ * ChartManagerController which is responsible for items common to all charts.
  * 
- * @author Justin Lutzko & Sean Young
+ * @author Jusitn Lutzko
  * 
- * @date Feb 20, 2016
+ * @date March 9, 2016
+ * 
  */
-class ColumnChartController extends ColumnChartQueryController
+class BubbleChartController extends BubbleChartQueryController
 {
-
-    
     /**
      * Purpose: This is called from the CDDashboard controller and is used to 
      * determine the type of chart to be created.  This could be the default
@@ -105,7 +105,7 @@ class ColumnChartController extends ColumnChartQueryController
      * @date Feb 20, 2016
      * 
      */
-    private function createColumnChart( $dataTable, $chartID, $chartTitle, $chartLimit = 0 )
+    private function createBubbleChart( $dataTable, $chartID, $chartTitle, $chartLimit = 0 )
     {
         //This is where we create the chart and add the data to it.
         $chart = Lava::ColumnChart($chartID, $dataTable, [
@@ -117,9 +117,7 @@ class ColumnChartController extends ColumnChartQueryController
             ],
             //set default start value.
             'vAxis' => ['gridlines' => ['count'=> 5],
-                'minValue' => 0, 'maxValue' => $chartLimit],
-            //Set the bar/column chart colors
-            'colors' => ['#008040', '#696969', '#008040', '#696969']
+                'minValue' => 0, 'maxValue' => $chartLimit]
         ]);
         
         return $chart;
@@ -145,18 +143,20 @@ class ColumnChartController extends ColumnChartQueryController
      * 
      * @date Feb 20, 2016
      */
-    public function createDynamicColumnChart($dataArray, $comp1String, 
+    public function createDynamicBubbleChart($dataArray, $comp1String, 
             $comp2String, $course='All Courses')
     {
         
         //The chart Id this data will have.
         $chartID = 'StudentParam';
         
+        //TODO:Fix this as titles should change.
         //This is the title that will appear at the top of the chart.
         $chartTitle = 'Average Student ' . $comp1String . ' Vs ' . 
                 $comp2String . ' For ' . $course;
         
-        //Create the rows and columns for the datatable;
+        //TODO:Change this to a datatable for the bubble chart.
+        //Create the rows and columns for the datatable.
         $studentData = Lava::Datatable()
                     ->addStringColumn('All Students')
                     ->addNumberColumn($comp1String)
@@ -167,82 +167,14 @@ class ColumnChartController extends ColumnChartQueryController
                        $dataArray['param2']]);
         
         //Creates a standard CDP column chart with two bars.
-        $chart = $this->createColumnChart($studentData, 
+        $chart = $this->createBubbleChart($studentData, 
                 $chartID, $chartTitle );
        
         //return chart as array.
-        return array('columnChart'=> $chart);
+        return array('studentData'=> $chart);
     }
     
-    /**
-     * Purpose: This function will create a column chart. It will be a hardcoded
-     * chart that will calculate total averages based on timeEstimated and 
-     * timeSpent.
-     * 
-     * @param type $avgTimeEstVsActualTime - query array of stirng.  Will hold
-     * the data.
-     * 
-     * @return type return a column chart.
-     * 
-     * @author Justin Lutzko & Sean Young
-     * 
-     * @date Feb 20 2016
-     */
-    public function timeSpentVsTimeEstimatedTotalAvg($avgTimeEstVsActualTime)
-    {
-        //The chart Id this data will have.
-        $chartID = 'Student Time';
-        //This is the title that will appear at the top of the chart.
-        $chartTitle = 'Average Student Time Estimate Vs Actual Time';
 
-        //Create the rows and columns for the datatable;
-        $studentData = Lava::Datatable()->addStringColumn('All Students')
-                    ->addNumberColumn('Time Estimated')
-                    ->addNumberColumn('Time Spent')
-                    ->addRow(['Time Estimated vs Time Spent', 
-                       $avgTimeEstVsActualTime['timeEstimated'], 
-                       $avgTimeEstVsActualTime['timeSpent']]);
-        
-        $chart = $this->createColumnChart($studentData, 
-                $chartID, $chartTitle );
-        
-        //return chart as array.
-        return array('studentTime'=> $chart);
-    }
-    
-    /**
-     * Purpose of this function is to show the total avg level of stress in a 
-     * bar chart.
-     * 
-     * @param type $avgStressLevelQuery
-     * 
-     * @author Justin Lutzko
-     */
-    public function showTotalAvgStressLevel($avgStressLevelQuery)
-    {
-        //Chart name for array to convert to chart.
-        $chartName = 'studentStress';
-        $chartLimit = 10;
-        
-         //The chart Id this data will have.
-        $chartID = 'Student Stress';
-        //This is the title that will appear at the top of the chart.
-        $chartTitle = 'Average Student Stress Level';
-        
-        
-        //Create the rows and columns for the datatable;
-        $this->studentData->addStringColumn('Student Stress')
-                    ->addNumberColumn('Average Stress Level')
-                    ->addRow(['Average Stress Level', 
-                       $avgStressLevelQuery['stressLevel']]);
-        
-        $chart = $this->createColumnChart($this->studentData,
-                $chartID, $chartTitle, $chartLimit );
-        
-        //return chart as array.
-        return array( $chartName => $chart);
-    }        
-    
     /**
      * 
      * Purpose: createChartTitles will allow us to create dynamic titles and
@@ -258,7 +190,7 @@ class ColumnChartController extends ColumnChartQueryController
      * 
      * @date Feb 20 2016
      */
-    public function createChartTitles( $comparison )
+    public function createBubbleChartTitles( $comparison )
     {
         //result ot be returned.
         $result = '';

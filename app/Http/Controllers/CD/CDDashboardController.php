@@ -19,7 +19,7 @@ use App\Course;
 class CDDashboardController extends Controller
 {
     
-    private $chartColumn;
+    private $chart;
     /**
      * Create a new controller instance.
      *
@@ -62,10 +62,10 @@ class CDDashboardController extends Controller
         $chartParameters->comparison2 ='timeSpent';
         
         //Create a new class.
-        $this->chartColumn = new ColumnChartController($chartParameters);
+        $this->chart = new ColumnChartController($chartParameters);
         
         //Determine charts to be made and return a column chart.
-        $result = $this->chartColumn->determineChartToBeMade();
+        $result = $this->chart->determineChartToBeMade();
        
         //Get a list of all the courses to populate the form with.
         $allCourses = $this->queryListOfCoursesForForm();
@@ -183,13 +183,42 @@ class CDDashboardController extends Controller
                 break;
             case '4':
                 //Bubble Chart
+  
+
+               // See note below for Laravel
+
+                $datatable = Lava::DataTable()
+                ->addStringColumn('TotalWeight')
+                ->addNumberColumn('Age')
+                ->addNumberColumn('Weight');
+                
+                
+                for ($i=0; $i < 30; $i++) {
+                    $datatable->addRow(['',rand(20,30), rand(150,250)]);
+                }
+
+                $chart = Lava::BubbleChart('StudentParam', $datatable, [
+                    'width' => 400,
+                    'legend' => [
+                        'position' => 'none'
+                    ],
+                    'hAxis' => [
+                        'title' => 'Age'
+                    ],
+                    'vAxis' => [
+                        'title' => 'Weight'
+                    ]
+                ]);
+                
+                $result = array('bubbleChart'=> $chart);
+                
                 break;
             case '5':
                 
                 //Column Chart
-                $this->chartColumn = new ColumnChartController($chartParameters);
+                $this->chart = new ColumnChartController($chartParameters);
                
-                $result = $this->chartColumn->determineChartToBeMade();
+                $result = $this->chart->determineChartToBeMade();
                 
                 break;
             case '6':
@@ -203,16 +232,16 @@ class CDDashboardController extends Controller
                 break;
             case '9':
                 //Line Chart
-                $this->chartColumn = new LineChartController($chartParameters);
+                $this->chart = new LineChartController($chartParameters);
                 
-                $result = $this->chartColumn->determineChartToBeMade();
+                $result = $this->chart->determineChartToBeMade();
                 
                 break;
             default:
                 //Build defualt chart. See createDefaultDashboard comment for
                 //more info on a default chart.
-                $this->chartColumn = new ColumnChartController($chartParameters);
-                $result = $this->chartColumn->determineChartToBeMade();
+                $this->chart = new ColumnChartController($chartParameters);
+                $result = $this->chart->determineChartToBeMade();
         }
         return $result;
     }

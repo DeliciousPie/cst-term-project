@@ -49,7 +49,7 @@
                          <br />
                         
                         <label for="classSelected"> Class: </label>
-                        <br />
+                       
                         <select id="classSelected"  name="classSelected" class="form-control">
                             <option selected value="1">Select Class</option>
                             <option value= "1">All Classes</option>
@@ -64,7 +64,7 @@
                             
                         </select>
                         <br />
-
+                        <div id="studentField"></div>
                         <label for="comparison1" required> Parameter1:</label>
                         <select id="comparison1" name="comparison1" class="form-control">
                             <option selected value="spent">Select Parameter</option>
@@ -91,12 +91,123 @@
                     <br />
                     <div id="timeChart"></div>
                     
+                    @if( isset($columnChart) ) 
                     
-                    @columnchart('StudentParam', 'timeChart')
+                        @columnchart('StudentParam', 'timeChart')
                     
+                    @elseif(isset($bubbleChart))
+                    
+                        @bubblechart('StudentParam', 'timeChart')
+                    
+                    @endif
+                    
+                  
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type='text/javascript'>
+    
+    //Sets listeners for change in the chart select box.  
+    //Each chart will require different fields and this is handled by the 
+    //client.
+    $("#chartSelected").change(function(){
+        //Get the current values of the check box after a change.
+        var chartSelectedValue = $("#chartSelected").val();
+        
+        //Determine the type of chart based on the value obtained from the 
+        //select chart field.
+        determineChartType(chartSelectedValue);
+           
+    });
+
+    /**
+     * Purpose: This function will determine the chart type selected and load
+     * the fields need for that chart.
+     * 
+     * @param {String} chartSelectedValue - this will be a numeric character
+     * @returns {void}
+     */
+    function determineChartType(chartSelectedValue)
+    {
+        //Use the value obtained from the chart field to obtain the type of 
+        //chart.
+        switch ( chartSelectedValue ) {
+            case '1':
+                //Pie Chart
+
+                break;
+            case '2':
+                //Donut Chart
+                break;
+            case '3':
+                //Scatter Chart
+                break;
+            case '4':
+                //Bubble Chart
+                
+                //This will show the label and select all button to load a list
+                //of students to submit.
+                addStudentSelectionField();
+                
+                //This will add all the student when the class field is select
+                addStudentsToSelectionFieldOnClassSelect();
+                break;
+            case '5':
+                //Column Chart
+
+                break;
+            case '6':
+                //Bar Chart
+                break;
+            case '7':
+                //Combo Chart
+                break;
+            case '8':
+                //Area Chart
+                break;
+            case '9':
+                //Line Chart
+                
+                break;
+            default:
+
+        }
+    }
+    
+    /**
+     * Purpose: This function will obtain a list of all the students with an
+     * associated class
+     * @returns {undefined}
+     */
+    function addStudentsToSelectionFieldOnClassSelect()
+    {      
+
+        $("#classSelected").select(function(){
+            var valueOfClassSelected = $("#classSelected").val();
+            $.post( "dashboard", {classSelected: valueOfClassSelected}, function(result){
+               var student;
+                var checkboxes = "";
+                for(student in result) 
+                {
+                   checkboxes = checkboxes 
+                           + "<div class=\"checkbox\"><input type=\"checkbox\" id=\"" 
+                           + student + "\"  name=\"" + student + "\" value=\"" 
+                           + student + "\">" + student + "</label></div>";
+                }                
+                $("#allStudents").append(checkboxes);
+            });    
+        });
+    }
+    function addStudentSelectionField()
+    {
+        $("#studentField").append(
+            "<label for=\"selectAll\">Please select students for comparison:</label>" + 
+            "<div class=\"checkbox\">" + 
+                "<label><input type=\"checkbox\" id=\"selectAll\"" + 
+            "name=\"selectAll\" value=\"selectAll\">Select All</label></div>");
+    }          
+</script>
 @endsection
