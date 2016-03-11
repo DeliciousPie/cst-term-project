@@ -82,6 +82,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
         Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
+        Route::post('/dashboard/getAllCourses', 'CDDashboardController@getAllCourses');
+        
         //Loads the registration page on first time login.
         Route::post('/register','CDInfoController@insertCD');  
         Route::get('/register', 'PagesController@loadDashboard');

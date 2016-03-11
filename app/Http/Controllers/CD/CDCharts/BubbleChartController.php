@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CD\CDChartQueries\BubbleChartQueryController;
 use Lava;
-
+use App\Http\Controllers\CD\ChartController;
 /**
  * Purpose: The purpose of this class is to create dynamic bubble charts. It 
  * extends the BubbleChartQueryController which contains the queries that the 
@@ -20,8 +20,16 @@ use Lava;
  * @date March 9, 2016
  * 
  */
-class BubbleChartController extends BubbleChartQueryController
+class BubbleChartController extends ChartController
 {
+    public $bubbleChartQueryController;
+    
+    public function __construct($chartParameters)
+    {
+        parent::__construct($chartParameters);
+        $this->bubbleChartQueryController = new BubbleChartQueryController();
+    }
+    
     /**
      * Purpose: This is called from the CDDashboard controller and is used to 
      * determine the type of bubble chart to be created. This
@@ -53,7 +61,8 @@ class BubbleChartController extends BubbleChartQueryController
             //Here we will determine the queries that will pertain to all 
             //classes.
             
-            $dataArray = $this->allCoursesComparison($comparison1, 
+            $dataArray = $this->bubbleChartQueryController->
+                    allCoursesComparison($comparison1, 
                     $comparison2);
             
                         //Generate Strings for dynamic labels
@@ -98,7 +107,7 @@ class BubbleChartController extends BubbleChartQueryController
      * 
      */
     private function createBubbleChart( $dataTable, $chartID, $chartTitle, 
-            $chartLimit = 0 )
+             $comp1Parameter, $comp2Parameter, $chartLimit = 0 )
     {
         //This is where we create the chart and add the data to it.
         $chart = Lava::BubbleChart($chartID, $dataTable, [
@@ -108,9 +117,9 @@ class BubbleChartController extends BubbleChartQueryController
                 'color'    => '#008040',
                 'fontSize' => 14
             ],
-            'hAxis' => ['minValue' => 0],
+            'hAxis' => ['minValue' => 0, 'title' => $comp1Parameter],
             //set default start value.
-            'vAxis' => ['gridlines' => ['count'=> 5],
+            'vAxis' => ['gridlines' => ['count'=> 5 ],'title' => $comp2Parameter,
                 'minValue' => 0, 'maxValue' => $chartLimit]
         ]);
         
@@ -155,6 +164,7 @@ class BubbleChartController extends BubbleChartQueryController
                     ->addStringColumn('Courses')
                     ->addNumberColumn($comp1String)
                     ->addNumberColumn($comp2String)
+                    ->addStringColumn('Classes')
                     ->addNumberColumn('Total Time Spent:');
                     //Column labels at bottom of chart. plus columns and labels.
                     foreach( $dataArray as $data)
@@ -163,13 +173,14 @@ class BubbleChartController extends BubbleChartQueryController
                             $data['courseID'],
                             $data['param1'], 
                             $data['param2'],
+                            $data['courseID'],
                             $data['totalHours']]);
                     }
                     
         
         //Creates a standard CDP column chart with two bars.
         $chart = $this->createBubbleChart($studentData, 
-                $chartID, $chartTitle );
+                $chartID, $chartTitle, $comp1String, $comp2String );
        
         //return chart as array.
         return array('bubbleChart'=> $chart);

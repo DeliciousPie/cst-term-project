@@ -22,6 +22,7 @@ class CreateStudentActivityTable extends Migration
             $table->double('timeEstimated', 4, 1);
             $table->primary(['userID', 'activityID']);
             $table->boolean('submitted');
+            $table->timestamps();
         });
         
         Schema::table('StudentActivity', function ($table) {

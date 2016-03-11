@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Lava;
 use App\Http\Controllers\CD\CDCharts;
 use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
-
+use App\Http\Controllers\CD\ChartController;
 /**
  * Purpose: Build Column charts for the CD based on what the CD passes in.
  * 
@@ -17,10 +17,15 @@ use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
  * 
  * @date Feb 20, 2016
  */
-class ColumnChartController extends ColumnChartQueryController
+class ColumnChartController extends ChartController
 {
-
+    public $columnChartQueryController;
     
+    public function __construct($chartParameters)    
+    {    
+        parent::__construct($chartParameters);
+        $this->columnChartQueryController = new ColumnChartQueryController();
+    }
     /**
      * Purpose: This is called from the CDDashboard controller and is used to 
      * determine the type of chart to be created.  This could be the default
@@ -49,9 +54,9 @@ class ColumnChartController extends ColumnChartQueryController
         if( $this->chartParameters->classSelected === 1 
                 || $this->chartParameters->classSelected === "1" )
         {
-         
+            
             //Use the hard coded query in the ColumnChartQueryController
-            $dataArray =  $this->performAvgComparisonQuery($comparison1,
+            $dataArray =  $this->columnChartQueryController->performAvgComparisonQuery($comparison1,
                     $comparison2);
             
             //Generate Strings for dynamic labels
@@ -70,7 +75,7 @@ class ColumnChartController extends ColumnChartQueryController
             //Create a completly custom chart based on a single course.
             $classTitle = $this->chartParameters->classSelected;
             
-            $dataArray =  $this->performAvgComparisonForCourse($comparison1,
+            $dataArray =  $this->columnChartQueryController->performAvgComparisonForCourse($comparison1,
                     $comparison2, $classTitle); 
             
             $comp1String = $this->createChartTitles( $comparison1 );

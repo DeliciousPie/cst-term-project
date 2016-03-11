@@ -243,6 +243,13 @@ class CDDashboardController extends Controller
         }
  
     }
+    
+    public function getAllCourses()
+    {
+        $allCoursesQuery = new CDQueryController();
+        $allCourses = $allCoursesQuery->getAllCourses();
+        return response()->json(['courses'=>$allCourses]);
+    }
 }
 
  

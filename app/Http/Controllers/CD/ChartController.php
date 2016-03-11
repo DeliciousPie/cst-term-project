@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Lava;
 
-abstract class ChartController extends Controller
+class ChartController extends Controller
 { 
     //Store all of the chart parameters passed in from the form on the CD
     //dashboard.
@@ -19,7 +19,6 @@ abstract class ChartController extends Controller
      */
     public function __construct($chartParameters=array())
     {  
-
         $this->chartParameters = $chartParameters;
     }
     
@@ -68,25 +67,6 @@ abstract class ChartController extends Controller
         return $result;
     }
     
-    /**
-     * Purpose: This will get the default columns if nothing is selected.
-     * 
-     * @param type $comp - the paramter to be compared.
-     * @return string return the proper colulmn name for the queries.
-     */
-    public function getTimeSpentandTimeEstiamtedColumns($comp )
-    {
-        if( $comp === 'spent' )
-        {
-            $comp = 'timeSpent';
-        }
-        
-        if( $comp === 'estimated' )
-        {
-            $comp = 'timeEstimated';
-        }
-        
-        return $comp;
-    }
+
     
 }

@@ -46,9 +46,9 @@
                             <option value ="8">Area</option>
                             <option value ="9">Line</option>
                         </select>
-                         <br />
+                        <br />
                         
-                        <label for="classSelected"> Class: </label>
+                        <label id="classSelectedLabel" for="classSelected"> Class: </label>
                        
                         <select id="classSelected"  name="classSelected" class="form-control">
                             <option selected value="1">Select Class</option>
@@ -63,7 +63,8 @@
                             @endif
                             
                         </select>
-                        <br />
+                        
+                        <div id="courseField"></div>
                         <div id="studentField"></div>
                         <label for="comparison1" required> Parameter1:</label>
                         <select id="comparison1" name="comparison1" class="form-control">
@@ -151,7 +152,8 @@
                 //This will show the label and select all button to load a list
                 //of students to submit.
                 addStudentSelectionField();
-                
+                addClassesSelectionField();
+                produceListOfCheckboxCourses();
                 //This will add all the student when the class field is select
                 addStudentsToSelectionFieldOnClassSelect();
                 break;
@@ -201,6 +203,47 @@
             });    
         });
     }
+    
+    /**
+     *Purpose: The purpsoe of this function will show all of the courses as
+     *checkboxs. 
+     * 
+     * @returns {void} -      
+     * 
+     */
+    function produceListOfCheckboxCourses()
+    {       
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+            $.post( "/CD/dashboard/getAllCourses", function(results){
+                var checkboxes = "";
+                var course;
+                for(course in results) 
+                {
+                   checkboxes = checkboxes 
+                           + "<div class=\"checkbox\"><input type=\"checkbox\" id=\"" 
+                           + course + "\"  name=\"" + course + "\" value=\"" 
+                           + course + "\">" + course + "</label></div>";
+                }                
+                $("#selectAllCourses").append(checkboxes);
+            });    
+        
+
+        
+    }
+    
+    /**
+     *Purpose: This function is responsible for creating a selectionfield for
+     *the bubble chart.  This list will be populated by the course(s) selected
+     *in the course selection checkboxs.  All courses is an option that will
+     *populate the student checkboxes.
+     *
+     *  
+     * @returns {void} - will display the field on the form.    
+     *  
+     */
     function addStudentSelectionField()
     {
         $("#studentField").append(
@@ -208,6 +251,28 @@
             "<div class=\"checkbox\">" + 
                 "<label><input type=\"checkbox\" id=\"selectAll\"" + 
             "name=\"selectAll\" value=\"selectAll\">Select All</label></div>");
-    }          
+    } 
+    
+    /**
+     * Purpose: This function adds a field of checkboxes for each course.
+     * The user will be able to select all the checkboxes or can select
+     * individual courses.  The course picked will populate the student selection
+     * field.
+     * 
+     * @returns {void} - display a course field and remove the previous class 
+     * field and label.
+     */
+    function addClassesSelectionField()
+    {
+        $("#courseField").append(
+            "<label for=\"selectAllCourses\">Please select courses for comparison:</label>" + 
+            "<div class=\"checkbox\">" + 
+                "<label><input type=\"checkbox\" id=\"selectAllCourses\"" + 
+            "name=\"selectAll\" value=\"selectAllCourses\">Select All</label></div>");
+    
+        $("#classSelectedLabel").remove();
+        $("#classSelected").remove();
+            
+    }  
 </script>
 @endsection

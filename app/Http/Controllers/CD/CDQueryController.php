@@ -13,8 +13,12 @@ use App\StudentActivity;
  * Purpose: This class will hold all of the queries that will be used by all of
  * the charts.
  */
-abstract class CDQueryController extends ChartController
+class CDQueryController extends Controller
 {
+    public function __construct()
+    {
+        
+    }
     /**
      * Purpose: This will perform a query based on the courses and a parameter
      * specified on the chart form on the CD dashboard controller. The query
@@ -84,4 +88,42 @@ abstract class CDQueryController extends ChartController
         return $queryResult;
     }
     
+    /**
+     * Purpose: This function will return all of the courses as a JSON Object.
+     * This will be used to create checkboxs for forms where all the courses
+     * are needed.
+     * 
+     * @return JSON - array of all the courses.
+     */
+    public function getAllCourses()
+    {
+        //Get all of the courses from the DB using course model.
+        $courses = Course::all();
+        
+        //Convert objects to string array.
+        $result = json_decode(json_encode($courses), true);
+        
+        return $result;
+    }
+    
+    /**
+     * Purpose: This will get the default columns if nothing is selected.
+     * 
+     * @param type $comp - the paramter to be compared.
+     * @return string return the proper colulmn name for the queries.
+     */
+    public function getTimeSpentandTimeEstiamtedColumns($comp )
+    {
+        if( $comp === 'spent' )
+        {
+            $comp = 'timeSpent';
+        }
+        
+        if( $comp === 'estimated' )
+        {
+            $comp = 'timeEstimated';
+        }
+        
+        return $comp;
+    }
 }
