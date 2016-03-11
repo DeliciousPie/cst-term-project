@@ -84,16 +84,24 @@ Route::group(['middleware' => 'web'], function () {
         //Loads the registration page on first time login.
         Route::post('/dashboard', 'CDInfoController@insertCD');    
         Route::post('/registerError', 'CDInfoController@insertCD');
+        // handling CSV imports
+        Route::get('/CSVImport','CSVImportController@LoadView'); 
+        Route::post('CSVImport/getSections','CSVImportController@getCoursesSections'); 
+        Route::post('/CSVImport', 'CSVImportController@uploadCSVFiles' );
+        
+        
         // Course Assignment Grouping 
         Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
         Route::post('/CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
-        
+        // handles ajax reqests 
         Route::post('/CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
-        
-        
         Route::post('/CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
         
-        
+                //Loads the Activity Manager page.
+        Route::get('/manageActivity', 'ActivityManagerController@loadProfessors');
+        Route::post('/manageActivity/loadSelectedProfsCourses', 'ActivityManagerController@loadSelectedProfsCourses');
+        Route::post('/manageActivity/loadSelectedCoursesActivities', 'ActivityManagerController@loadSelectedCoursesActivities');
+        Route::post('/manageActivity/addActivity', 'ActivityManagerController@addActivity');
     
     });
     

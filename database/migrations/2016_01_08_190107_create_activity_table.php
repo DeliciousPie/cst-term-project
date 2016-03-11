@@ -22,6 +22,7 @@ class CreateActivityTable extends Migration
             $table->decimal('estTime', 4, 1);
             $table->decimal('proffEstimate', 4, 1);
             $table->decimal('cdAlocatedTime', 4, 1);
+            $table->integer('stresstimate');
             $table->string('comments', 1000);
 
         });

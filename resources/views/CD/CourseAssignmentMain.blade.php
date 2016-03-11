@@ -37,49 +37,7 @@
 
                     <!--this div is for the progress wheel-->
                     <div class="loading"></div>
-
-                    <!-- Course Div open -->
-                    <div class="row">
-                        <div class="col-md-7" id="ImportDiv">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> CSV files</h3>
-                                </div>
-                                <div class="panel-body">
-
-                                    <?=
-                                            Former::horizontal_open()
-                                            ->openForm('forFiles', '')
-                                            ->id('Import_CSVFiles')
-                                            ->secure()
-                                            ->rules(['name' => 'required'])
-                                    ?>
-                                    <?=
-                                    Former::file('CourseCSV', 'Courses')->accept('.csv'),
-                                    Former::file('ProfessorsCSV', 'Professors')->accept('.csv'),
-                                    Former::file('StudentsCSV', 'Students')->accept('.csv'),
-                                            Former::actions('')->large_primary_submit("Import Into Database")
-                                            ->id('submitBtn')
-                                    ?>
-                                    <?= Former::close() ?>
-
-                                    <?php
-                                    if (isset($_POST['courseMessage']))
-                                    {
-                                        echo '<p>' . $_POST['courseMessage'] . '</p>';
-                                    }
-                                    if (isset($_POST['professorsMessage']))
-                                    {
-                                        echo '<p>' . $_POST['professorsMessage'] . '</p>';
-                                    }
-                                    if (isset($_POST['studentsMessage']))
-                                    {
-                                        echo '<p>' . $_POST['studentsMessage'] . '</p>';
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="messageDiv"></div>
                         <!-- Course Div open -->
                         <div class="col-md-7" id="CourseDiv">
                             <div class="panel panel-default">
@@ -108,21 +66,8 @@
                         </div>
 
                         <!-- /Course Div close -->
-
-                        <!-- section select Boxes open  -->
-                        <div class="col-md-7" id="SectionDiv">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Section</h3>
-                                </div>
-                                <div class="panel-body" id="sectionBody">     
-
-                                </div> <!-- body close-->    
-                            </div>
-                        </div>
-
-
-                        <!-- Professor select Boxes open  -->
+                        
+                       <!-- Professor select Boxes open  -->
                         <div class="col-md-7" id="ProfessorDiv">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -190,7 +135,6 @@ $(window).load(function ()
 {
 // when the page is first loaded hid empty div's 
     $(".loading").hide();
-    $("#SectionDiv").hide();
     $("#ProfessorDiv").hide();
     $("#StudentDiv").hide();
     $("#FinalSubmitDiv").hide();
@@ -221,10 +165,10 @@ $("#getProfessorAndStudent").click(function (event)
     $(".loading").fadeIn("slow");
 
     // grabs the course ID from the select box and prep to post threw ajax 
-    var courseID = $('#courseSelection  option:selected').text();
+    var courseSection = $('#courseSelection  option:selected').text();
 
     // if no course id i selected display warnning to CD 
-    if (courseID === '')
+    if (courseSection === '')
     {
         $("#sectionBody").html('<div class="alert alert-danger">' +
                 "You Have not Selected a Course! Please select one from the \n\
@@ -236,7 +180,7 @@ $("#getProfessorAndStudent").click(function (event)
     {
         // prep for ajax request 
         var course = {
-            'courseID': courseID
+            'courseSection': courseSection
         };
         $.ajaxSetup({
             headers: {
@@ -249,30 +193,8 @@ $("#getProfessorAndStudent").click(function (event)
         // to there div so that they can be added to the sections 
         $.post('CourseAssignmentMain/getProfessorAndStudent', course, function (data)
         {
-            //prep Section Div
-            var sectionHTML = "<div class='form-group'>" +
-                    "<label for='Section' class='control-label col-lg-2 col-sm-4'>Section " +
-                    "</label> <div class='col-lg-10 col-sm-8'> ";
-            // for ever section in the database create a radio button   
-            for (var count in data.sectionTypes)
-            {
-                sectionHTML += "<label for='sectionSelection" +
-                        data.sectionTypes[count] + "' class='radio-inline'>" +
-                        "<input id='sectionSelection" +
-                        data.sectionTypes[count] + "' name='Section' type='radio' value='" +
-                        data.sectionTypes[count] + "'>" + data.sectionTypes[count] +
-                        "</label>";
-            }
 
 
-            // attach all the radio buttons to the div plus "other" text boxes 
-            // so that the CD can create a new section. 
-            $("#sectionBody").html(sectionHTML + '</div></div><div class="form-group" > ' +
-                    '<label for="otherSectionType" class="control-label col-lg-2 col-sm-4"> Other:</label> ' +
-                    '<div class="col-lg-10 col-sm-8"> ' +
-                    '<input id="otherSectionType" type="text" class="form-control" style="width:100px; display: inline;" > ' +
-                    '<input class="form-control" type="text" style="width:150px; display: inline;" ' +
-                    ' id="otherSectionTypeDescrip" placeholder="Description" name="otherDescrip"></div></div>');
             if (jQuery.isEmptyObject(data.professors))
             {
                 $("#professorBody").html('<div class="alert alert-danger"> No Professors in the Database </div>');
@@ -305,7 +227,8 @@ $("#getProfessorAndStudent").click(function (event)
 
             if (jQuery.isEmptyObject(data.students))
             {
-                $("#StudentBody").html('<div class="alert alert-danger"> No Students in the Database </div>');
+                $("#StudentBody").html('<div class="alert alert-danger"> there is no Students assigned '
+                + 'to this course section in the Database </div>');
             }
             else
             {
@@ -383,21 +306,8 @@ $("#submitSectionAssignment").click(function (event)
     $(".loading").fadeIn("slow");
     // gathers the section id that was selected and the course id that is 
     // still chosen
-    var courseSection;
-    var courseSectionDescrip = '';
-    var otherSectionName = $('#otherSectionType').val();
-    // if the otherSectionName has information within it, it will use 
-    // that section name for the section id 
-    if (otherSectionName === "")
-    {
-        courseSection = $('input[name="Section"]:checked').val()
-    }
-    else // it will use the radio button selected 
-    {
-        courseSection = $('#otherSectionType').val();
-        courseSectionDescrip = $('#otherSectionTypeDescrip').val();
-    }
-    var courseID = $('#courseSelection  option:selected').text();
+
+    var courseSection = $('#courseSelection  option:selected').text();
 
     // gathers up all the students that the CD selected to be 
     // in the section 
@@ -421,14 +331,14 @@ $("#submitSectionAssignment").click(function (event)
 
     // used to load Modal if the CD has not selected a section or 
     // inputed a section into the "other" text area 
-    if (jQuery.isEmptyObject(courseSection))
-    {
-        $(".loading").hide();
-        $('#errorModMessage').html("There has not been a section specified.");
-        $("$errorModal").modal('show');
-    }
+//    if (jQuery.isEmptyObject(courseSection))
+//    {
+//        $(".loading").hide();
+//        $('#errorModMessage').html("There has not been a section specified.");
+//        $("$errorModal").modal('show');
+//    }
     // used to load Modal if the CD has not selected one or more Professors
-    else if (jQuery.isEmptyObject(professorList))
+     if (jQuery.isEmptyObject(professorList))
     {
         $(".loading").hide();
         $('#errorModMessage').html("There are no professor selected.");
@@ -452,9 +362,7 @@ $("#submitSectionAssignment").click(function (event)
         // ie. courseID, section name, student list, and prof list 
         
         var postData = {
-            'courseID': courseID,
             'courseSection': courseSection,
-            'courseSectionDescrip': courseSectionDescrip,
             'studentList': studentList,
             'professorList': professorList
         };
@@ -480,12 +388,12 @@ $("#submitSectionAssignment").click(function (event)
             // display the error that gets returned from the controler 
             if (data.error)
             {
-                $("#sectionBody").html('<div class="alert alert-danger">' + data.error + "</div>" +
+                $("#messageDiv").html('<div class="alert alert-danger">' + data.error + "</div>" +
                         '<button id="editSection" type="button" class="btn-large btn-primary" >Edit </button> ');
             }
             else
             {
-                $("#sectionBody").html('<div class="alert alert-success">' + data.message + "</div>");
+                $("#messageDiv").html('<div class="alert alert-success">' + data.message + "</div>");
             }
         });
     }
@@ -493,7 +401,6 @@ $("#submitSectionAssignment").click(function (event)
 
 $('#courseSelection').focus(function ()
 {
-    $("#SectionDiv").hide();
     $("#ProfessorDiv").hide();
     $("#StudentDiv").hide();
     $("#FinalSubmitDiv").hide();
