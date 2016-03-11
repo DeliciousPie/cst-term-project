@@ -29,9 +29,22 @@
     .purple-select{
         background-color: #cdcdcd;
     }
+    .loading {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        opacity:0.8;
+        background: url('http://phpserver/images/loading.gif') 50% 30% no-repeat rgb(249,249,249);
+    }
+
 </style>
 
 <div>
+    <!--this div is for the progress wheel-->
+    <div class="loading"></div>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -58,13 +71,15 @@
                             <h2>Professors</h2>
 
                             <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses()">
-                                
+
                                 <!--load all of the professors into the select box-->
                                 @if ( isset($listOfProfs) )
 
                                 @foreach($listOfProfs as $prof)
                                 <option value="{!! $prof['userID'] !!}" >{!! $prof['lName'] !!}, {!! $prof['fName'] !!}</option>
                                 @endforeach
+                                @else
+                                <option>There are no professors. Try adding some using the Course Assignment page.</option>
                                 @endif
 
                             </select>
@@ -85,10 +100,10 @@
                             <h2>Activities</h2>
                             <!--Should enable when selecting a course-->
                             <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" disabled >Add Activity</button>
-                            
+
                             <!--Should enable when an activity is selected-->
                             <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
-                            
+
                             <!--Should enable when an activity is selected-->
                             <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
 
@@ -166,7 +181,7 @@
                     <!--Workload Error Message Box-->
                     <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
                     </div>
-                    
+
                     <label for="stresstimate">Stresstimate</label>
                     <br>
                     <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
@@ -178,13 +193,13 @@
                     <!--Stesstimate Error Message Box-->
                     <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-                    <!--Add Activity Modal Button-->
-                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()" disabled>Submit</button>
-                </div>
+                        <!--Add Activity Modal Button-->
+                        <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()" disabled>Submit</button>
+                    </div>
             </form>
         </div>
     </div>
@@ -194,28 +209,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
-    $(document).ready(function () 
+$(document).ready(function ()
+{
+    $(".loading").hide();
+    // Load the courses for the selected professor, into the select box
+    window.loadCourses = function ()
     {
-        // Load the courses for the selected professor, into the select box
-        window.loadCourses = function ()
-        {
-            // Reset the activities and buttons when a professor is clicked
+        $(".loading").fadeIn("slow");
+        // Reset the activities and buttons when a professor is clicked
             $('#activitySelect').html('');
             $('#courseSelect').html('');
             $('#addActivityButton').prop('disabled', true);
-            
-//            These buttons should be enabled when an activity is selected not when a course is selected
+
+            //These buttons should be enabled when an activity is selected not when a course is selected
             //$('#editActivityButton').prop('disabled', true);
             //$('#deleteActivityButton').prop('disabled', true);
-            
+
             // Get the professors id
             var profID = $('#profSelect').val();
-            
+
             // set the profID
             var prof = {
                 'profID': profID,
             };
-            
+
             // Specify the token
             $.ajaxSetup({
                 headers: {
@@ -232,7 +249,7 @@
                 {
                     string += "<option>Professor Has No Courses</option>";
                 }
-                
+
                 // Loop through each course and append it to the select box
                 for (var count in data.courses)
                 {
@@ -240,39 +257,40 @@
                             + "'>" + data.courses[count].courseID + " - "
                             + data.courses[count].courseName + "</option>";
                 }
-                
+
                 // Add the courses to the select box
                 $('#courseSelect').html(string);
+                $(".loading").hide();
             });
         }
     });
 </script>
 
 <script type="text/javascript">
-    
+
     // Load the table char
     google.charts.load('current', {'packages': ['table']});
-    
+
     // Used to create the table, and pass in the Activity data
-    function drawTable(ajaxData) 
+    function drawTable(ajaxData)
     {
         // enable the activity button
         $('#addActivityButton').prop('disabled', false);
-        
+
         //            These buttons should be enabled when an activity is selected not when a course is selected
         //$('#editActivityButton').prop('disabled', false);
         //$('#deleteActivityButton').prop('disabled', false);
-        
+
         // Actually make the table appear
         var data = new google.visualization.DataTable();
-        
+
         // Add the columns for each activity
         data.addColumn('string', 'Activity Name');
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
         data.addColumn('string', 'Estimated Time');
         data.addColumn('number', 'Stresstimate')
-        
+
         // If there are more than 0 activities
         if (ajaxData.activities.length > 0)
         {
@@ -298,9 +316,9 @@
                 ['There are no activities for the selected course', null, null, null, null],
             ]);
         }
-        
+
         var chart = new google.visualization.Table(document.getElementById('activitySelect'));
-        
+
         // chart styles
         var cssClassNames = {
             'headerRow': 'bold-font',
@@ -312,10 +330,10 @@
             'tableCell': '',
             'rowNumberCell': '',
         };
-        
+
         // Properties of the table
         var options = {'showRowNumber': false, 'width': '100%', 'height': '150px', 'cssClassNames': cssClassNames};
-        
+
         // draw the table using the data and options
         chart.draw(data, options);
     }
@@ -325,18 +343,19 @@
 <!--This script is for adding activities based on the course selected-->
 <script type="text/javascript" >
 
-    $(document).ready(function () 
+    $(document).ready(function ()
     {
         // Load the activities for the selected course
         window.loadActivities = function ()
         {
+            $(".loading").fadeIn("slow");
             // Get the courseID
             var courseID = $('#courseSelect').val();
-            
+
             var course = {
                 'courseID': courseID
             };
-            
+
             // Specify the token
             $.ajaxSetup({
                 headers: {
@@ -348,6 +367,7 @@
             {
                 // After the loading is done, draw the table
                 drawTable(data);
+                $(".loading").hide();
             });
         }
     });
@@ -356,7 +376,7 @@
 <!--Check if the activity to be added is valid-->
 <script type="text/javascript" >
 
-    $(document).ready(function () 
+    $(document).ready(function ()
     {
         // Check if the activity to be added is valid
         window.validateActivitySubmit = function ()
@@ -375,7 +395,7 @@
             var datesValid = false;
             var workloadValid = false;
             var stressValid = false;
-            
+
             // Check if the stresstimate is valid
             if (stresstimate >= 1 && stresstimate <= 10)
             {
@@ -401,12 +421,12 @@
             }
 
             // Check that the dates are valid going from year, month, to day of month
-            if ( startDate <= dueDate )
+            if (startDate <= dueDate)
             {
                 datesValid = true;
                 $("#modalAlertBoxDue").hide();
             }
-            
+
             // If the dates are invalid, alert the user
             if (datesValid === false)
             {
@@ -465,13 +485,13 @@
                 'stresstimate': stresstimate,
                 'profID': profID
             };
-            
+
             // Specify the token
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
-            
+
             // Ajax call to the Activity Manager Controller to insert the activity into the database
             $.post('/CD/manageActivity/addActivity', activity, function (data)
             {

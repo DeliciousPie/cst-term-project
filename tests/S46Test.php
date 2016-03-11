@@ -28,24 +28,35 @@ class S46Test extends TestCase
             // Check that some profs were returned
             $this->assertNotNull($profQuery);
         
-        
         // Test Courses of professors are loaded
             $_POST = ['profID' => 'Pro003'];
             
             // Load the courses
-            $jsonResult = $AMC->loadSelectedProfsCourses();
+            $jsonCourseResult = $AMC->loadSelectedProfsCourses();
             
             // Check that there are courses for that Pro003
-            $this->assertTrue(($jsonResult != NULL));
+            $this->assertTrue(($jsonCourseResult != NULL));
         
+        // Test an incorrect professor
+            $_POST = ['profID' => 'NotAProf'];
+            
+            // Load the courses
+            $jsonCourseResult = $AMC->loadSelectedProfsCourses();
+            
+            // Check that there are courses no courses for the incorrect prof
+            $this->assertTrue(( empty( $jsonCourseResult->getData('courses')[0] )));
             
         // Test that Activities are loaded based on selected course
             
             // Add a professor
             $_POST = ['profID' => 'Pro003'];
             
+            // Add a course
+            $courseId = 'MEDC 100.0';
+            $_POST = ['courseID' => $courseId];
+            
+            // Add courses
             $CAC = new CourseAssignmentController();
-
             $CSVFolder = base_path() . '/tests/FilesForTesting/S8/';
 
             /* Here are we testing Succesful uploading of professors */
@@ -59,9 +70,26 @@ class S46Test extends TestCase
 
             $CAC->csvUploadCoursesToDB();
             
+            // Add a section
+            DB::table('Section')->insert([
+                'sectionID' => '1',
+                'sectionType' => 'Test',
+                'courseID' => 'MEDC 100.0',
+                'date' => '2016-01-01 20:00',
+                'created_at' => '2016-01-01 20:00',
+                'updated_at' => '2016-02-02 20:00'
+            ]);
             
+            // Add a ProfSection
+            DB::table('ProfSection')->insert([
+                'userID' => 'Pro003',
+                'sectionID' => '1',
+                'created_at' => '2016-01-01 20:00',
+                'updated_at' => '2016-02-02 20:00'
+            ]);
             
-            $id = DB::table('Activity')->insertGetId(
+            // Insert the Activity into the database
+            DB::table('Activity')->insertGetId(
             ['sectionID' => 1,
                 'activityType' => 'Test',
                 'assignDate' => '2016-01-01 20:00',
@@ -70,14 +98,14 @@ class S46Test extends TestCase
                 'stresstimate' => '1'
             ]);
             
+            $jsonActivityResult = $AMC->loadSelectedCoursesActivities();
+            $this->assertTrue(($jsonActivityResult != NULL));
             
-            $jsonResult = $AMC->loadSelectedCoursesActivities();
-            $this->assertTrue(($jsonResult != NULL));
-            
+        // Test failing when loading the activities. Test that the activies are empty
+            $courseId = 'TestingNotACourse 100.0';
+            $_POST = ['courseID' => $courseId];
         
-        
-        
-        
-        
+            $jsonActivityResult = $AMC->loadSelectedCoursesActivities();
+            $this->assertTrue(( empty( $jsonCourseResult->getData('activities')[0] )));
     }
 }

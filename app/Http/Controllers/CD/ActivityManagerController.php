@@ -56,7 +56,7 @@ class ActivityManagerController extends Controller
                             // Check that prof is valid????????????????????????????????????????                 FIXME
                             if (false)
                             {
-                                // If everything is valid isnert into the database
+                                // If everything is valid insert into the database
                                 $id = DB::table('Activity')->insertGetId(
                                         ['sectionID' => $results->sectionID,
                                             'activityType' => $activityName,
@@ -86,7 +86,7 @@ class ActivityManagerController extends Controller
     }
 
     /**
-     * Load all of the professors into the Professor select box
+     * Purpose: Load all of the professors into the Professor select box
      * @return Activity Manager view containing list of professors
      */
     public function loadProfessors()
@@ -97,6 +97,7 @@ class ActivityManagerController extends Controller
 
         $listOfProfs = array();
 
+        // Loop through each query result and make an array
         for ($i = 0; $i < count($query); $i++)
         {
             $query[$i] = (array) $query[$i];
@@ -107,6 +108,10 @@ class ActivityManagerController extends Controller
         return view('CD/manageActivity', $listOfProfs);
     }
 
+    /*
+     * Purpose: Query the database for courses associated with a Professor's ID
+     * @return a json object containing the courses
+     */
     public function loadSelectedProfsCourses()
     {
         if (isset($_POST['profID']))
@@ -124,6 +129,11 @@ class ActivityManagerController extends Controller
         }
     }
 
+    /*
+     * Purpose: Query the database for Activities associated with the selected
+     *          course.
+     * @return a json object contating the activities for the selected course
+     */
     public function loadSelectedCoursesActivities()
     {
         if (isset($_POST['courseID']))
