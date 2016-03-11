@@ -45,8 +45,4 @@ class Activity extends Model
     {
         return $this->belongsTo('App\Section', 'sectionID');
     }
-    
-
-    protected $table = 'Activity';
-
 }

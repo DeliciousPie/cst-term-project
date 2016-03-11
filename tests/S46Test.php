@@ -81,7 +81,7 @@ class S46Test extends TestCase
             ]);
             
             // Add a ProfSection
-            DB::table('ProfSection')->insert([
+            DB::table('ProfessorSection')->insert([
                 'userID' => 'Pro003',
                 'sectionID' => '1',
                 'created_at' => '2016-01-01 20:00',
