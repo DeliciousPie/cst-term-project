@@ -46,6 +46,7 @@ class AuthController extends Controller
             'userID' => 'required|max:25|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required|min:6'
         ]);
     }
 

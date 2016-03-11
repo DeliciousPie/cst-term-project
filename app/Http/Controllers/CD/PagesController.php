@@ -45,7 +45,7 @@ class PagesController extends Controller
             }
             else
             {
-                return  view('CD/register');
+                return view('CD/register');
             }
     }
     

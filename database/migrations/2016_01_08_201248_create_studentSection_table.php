@@ -16,8 +16,9 @@ class CreateStudentSectionTable extends Migration
         
             $table->string('userID', 25);
             $table->string('sectionID', 20);
-            $table->primary(['userID', 'sectionID']);
             $table->timestamps();
+            $table->primary(['userID', 'sectionID']);
+
         });
         
         Schema::table('StudentSection', function ($table) {

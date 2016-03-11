@@ -158,6 +158,8 @@
                         <ul class="list-unstyled">
                             <li><i class="fa fa-phone fa-fw"></i></li>
                             <li><i class="fa fa-envelope-o fa-fw"></i> 
+
+                                <a href="">CST.project1@saskpolytech.ca</a>
                             </li>
                         </ul>
                         <hr class="small">

@@ -7,7 +7,6 @@ use App\Http\Controllers\CD\CourseAssignmentController;
 
 class S08Test extends TestCase
 {
-   
     /*
      * This will clear courses added in the test cases from the database
      */
@@ -39,7 +38,11 @@ class S08Test extends TestCase
             'size' => 173
         ]);
         
-        $this->assertEquals(' All 3 courses added sucessfully.', $CAC->csvUploadCoursesToDB()); 
+        
+        
+        $this->assertEquals('3/7 added sucessfully. Courses TCOM 291, '
+                . 'CNET 295, COET 295, CSEC 295 already existed.',
+                $CAC->csvUploadCoursesToDB()); 
         $this->clearDB();
                
         /* Course Length Error */
@@ -111,7 +114,5 @@ class S08Test extends TestCase
         $this->assertEquals('There are no Entries in the CSV File'
                 , $CAC->csvUploadCoursesToDB()); 
         $this->clearDB();
-        
-        
     }
 }

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://phpserver',
 
     /*
     |--------------------------------------------------------------------------
@@ -157,7 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
         Former\FormerServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
     ],
 
     /*
@@ -187,6 +187,7 @@ return [
         'File'      => Illuminate\Support\Facades\File::class,
         'Gate'      => Illuminate\Support\Facades\Gate::class,
         'Hash'      => Illuminate\Support\Facades\Hash::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
         'Lang'      => Illuminate\Support\Facades\Lang::class,
         'Log'       => Illuminate\Support\Facades\Log::class,
         'Mail'      => Illuminate\Support\Facades\Mail::class,
@@ -205,7 +206,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
         'Former' => 'Former\Facades\Former',
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Lava' => 'Khill\Lavacharts\Laravel\LavachartsFacade',
     ],
 
 ];

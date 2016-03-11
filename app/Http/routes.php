@@ -63,8 +63,8 @@ Route::group(['middleware' => 'web'], function () {
         //This route will add the information to the selected activity.
         Route::post('/activities', 'StudentActivityController@updateInfo');
         
-        
-        
+        //This will register a student if the try to access activies first.
+        //Route::post('/activities', 'StudentInfoController@insertStudent');
     });
     
    /**
@@ -77,17 +77,23 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::group(array('prefix' => 'CD', 'namespace' => 'CD', 
         'middleware' => 'cdmanager'), function () {
-            
-        //Will load a dashboard via the Pages Controller.
-        Route::get('/dashboard', 'PagesController@loadDashboard');
+
+        //Load the dashboard based on whether the user is confirmed or not.
+        Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
+        Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
         //Loads the registration page on first time login.
-        Route::post('/dashboard', 'CDInfoController@insertCD');    
+        Route::post('/register','CDInfoController@insertCD');  
+        Route::get('/register', 'PagesController@loadDashboard');
+        
+        Route::post('/registerError', 'CDInfoController@insertCD');
         
         // Course Assignment Grouping 
-        Route::get('CourseAssignmentMain','CourseAssignmentController@LoadView'); 
-        Route::post('CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
+        Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
+        Route::post('/CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
         
+        Route::post('/CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
+        Route::post('/CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
         Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
         
         //Loads the Activity Manager page.
@@ -113,6 +119,7 @@ Route::group(['middleware' => 'web'], function () {
         
                 //Loads the registration page on first time login.
         Route::post('/dashboard', 'ProfInfoController@insertProf');
+        Route::post('/registerError', 'ProfInfoController@insertProf');
     });
 });
 

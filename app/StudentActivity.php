@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class StudentActivity extends Model
 {
     protected $fillable = ['timeSpent', 'stressLevel', 'comments', 'timeEstimated'];
-     
-    
     /*
      * Table associated with model.
      * 
@@ -27,5 +25,13 @@ class StudentActivity extends Model
      */
     public $timestamps = false;
     
+    public function activities()
+    {
+        return $this->belongsTo('App\Activity', 'activityID');
+    }
     
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'userID');
+    }
 }

@@ -16,11 +16,12 @@ class CreateStudentActivityTable extends Migration
             
             $table->string('userID', 25);
             $table->integer('activityID', false);
-            $table->double('timeSpent');
+            $table->double('timeSpent', 4, 1);
             $table->integer('stressLevel', false);
-            $table->string('comments', 100);
-            $table->double('timeEstimated');
+            $table->string('comments', 300);
+            $table->double('timeEstimated', 4, 1);
             $table->primary(['userID', 'activityID']);
+            $table->boolean('submitted');
         });
         
         Schema::table('StudentActivity', function ($table) {

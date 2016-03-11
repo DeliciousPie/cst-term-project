@@ -6,19 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 {
-    /*
-     * Table associated with model.
-     * 
-     * @var string
-     */
-    protected $table = 'Section';
+    protected $table = 'Section'; 
     
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-       'sectionID', 'sectionType', 'courseID', 'date',
-    ];
+    public $timestamps = false;
+    
+    protected $fillable = ['courseID', 'sectionID','date'];
+    
+    protected $primaryKey = 'sectionID';
+    
+    public function courses()
+    {
+        return $this->belongsTo('App\Course', 'courseID');
+    }
+    
+    public function activities()
+    {
+        return $this->hasMany('App\Activity', 'courseID', 'sectionID');
+    }
+    
 }

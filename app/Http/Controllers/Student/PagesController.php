@@ -47,6 +47,4 @@ class PagesController extends Controller
            return  view('Student/register');
        }
     }
-    
-
 }

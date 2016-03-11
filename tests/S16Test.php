@@ -4,9 +4,12 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\CD\CourseAssignmentController; 
+use App\Professor;
 
 class S16Test extends TestCase
 {
+    
+  
   /*
      * This will clear users/profs/students added in the test cases from the database
      */
@@ -21,6 +24,19 @@ class S16Test extends TestCase
         
         DB::delete('delete from Student where userID ="Stu001" OR userID = '
                 . '"Stu002"');
+        
+        $allProf = Professor::all();
+        
+//        DB::table('Professor')->delete();
+//        
+//        foreach( $allProf as $Prof )
+//        {
+//            DB::table('users')
+//                ->where('userID', '=', $Prof->userID )
+//                ->delete();
+//        }
+        
+        
     }
 
     /**
@@ -45,7 +61,8 @@ class S16Test extends TestCase
             'size' => 173
         ]);
         
-        $this->assertEquals(' All 2 Professors added sucessfully.', 
+        $this->assertEquals('0/4 added sucessfully. Professors Pro010, Pro011, Pro012, '
+                . 'Pro013 already existed.', 
                 $CAC->csvUploadProfessorsToDB());      
         $this->clearDB();
         
@@ -125,7 +142,8 @@ class S16Test extends TestCase
             'size' => 173
         ]);
 
-        $this->assertEquals(' All 2 Students added sucessfully.', 
+        $this->assertEquals('2/9 added sucessfully. Students Stu003, Stu004, '
+                . 'Stu005, Stu006, Stu007, Stu008, Stu009 already existed.', 
                 $CAC->csvUploadStudentToDB());
         $this->clearDB();
         
@@ -204,5 +222,6 @@ class S16Test extends TestCase
         $this->assertEquals('There are no Entries in the CSV File', 
                 $CAC->csvUploadStudentToDB());
         $this->clearDB();
+        
     }
 }

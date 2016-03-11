@@ -12,7 +12,7 @@ class CreateProfessorSectionTable extends Migration
      */
     public function up()
     {        
-        Schema::create('ProfSection', function(Blueprint $table){
+        Schema::create('ProfessorSection', function(Blueprint $table){
         
             $table->string('userID', 25);
             $table->string('sectionID', 20);
@@ -21,7 +21,7 @@ class CreateProfessorSectionTable extends Migration
             
         });
         
-        Schema::table('ProfSection', function ($table) {
+        Schema::table('ProfessorSection', function ($table) {
             $table->foreign('userID')->references('userID')->on('Professor')->onDelete('cascade');
             $table->foreign('sectionID')->references('sectionID')->on('Section')->onDelete('cascade');
         });
@@ -34,6 +34,6 @@ class CreateProfessorSectionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ProfSection');
+        Schema::drop('ProfessorSection');
     }
 }
