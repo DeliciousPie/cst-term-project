@@ -110,32 +110,35 @@ class CourseAssignmentController extends Controller
             $studentList = $_POST['studentList'];
             $professorList = $_POST['professorList'];
 
-            // this will get a list of all the section types in the DB
-            // adds all students selected for this course/section 
-            // into the student section database table 
-            if (isset($_POST['studentList']))
-            {
-                foreach ($studentList as $student)
+                // this will get a list of all the section types in the DB
+                // adds all students selected for this course/section 
+                // into the student section database table 
+                if (isset($_POST['studentList']))
                 {
-                    StudentSection::create([
-                        'userID' => $student,
-                        'sectionID' => $sectionID
-                    ]);
+                    foreach ($studentList as $student)
+                    {
+                        StudentSection::create([
+                            'userID' => $student,
+                            'sectionID' => $sectionID
+                        ]);
+                    }
+                }
+                // adds all professor selected for this course/section 
+                // into the professor section database table 
+                if (isset($_POST['professorList']))
+                {
+                    foreach ($professorList as $professor)
+                    {
+                        ProfessorSection::create([
+                            'userID' => $professor,
+                            'sectionID' => $sectionID
+                        ]);
+                    }
                 }
             }
-            // adds all professor selected for this course/section 
-            // into the professor section database table 
-            if (isset($_POST['professorList']))
-            {
-                foreach ($professorList as $professor)
-                {
-                    ProfessorSection::create([
-                        'userID' => $professor,
-                        'sectionID' => $sectionID
-                    ]);
-                }
-            }
-        }
+            // if the Course/section combination IS in the database notify 
+            // the user that they cannot enter this repeat entry into the database
+        
         // if no errors happend then the success message will be sent back to CD
         if ($returnMsgStrings == '')
         {
