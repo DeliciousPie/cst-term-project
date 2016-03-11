@@ -35,7 +35,7 @@ class S03Test extends TestCase
         $CAC = new CourseAssignmentController();
         // prep post. 
         $_POST = ['courseID' => "CNET 295",
-            'courseSection' => "2",
+            'courseSection' => "L004",
             'courseSectionDescrip' => "",
             'studentList' => (array(
         0 => "Stu009")),
@@ -50,7 +50,7 @@ class S03Test extends TestCase
         $this->assertTrue((strpos($successJsonObj, "CNET 295 sec 2 has been successfully added")) != false);
 
         $_POST = ['courseID' => "CNET 295",
-            'courseSection' => "2",
+            'courseSection' => "L004",
             'courseSectionDescrip' => "",
             'studentList' => (array(
         0 => "Stu009")),
