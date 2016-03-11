@@ -32,9 +32,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
@@ -53,9 +51,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 700.0,
-            'proffEstimate' => 500.0,
-            'cdAlocatedTime' => 500.0,
-            'comments' => "ETA 2020",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
@@ -87,9 +83,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([

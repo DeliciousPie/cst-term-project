@@ -47,7 +47,7 @@ class ActivityManagerController extends Controller
                         if ($stresstimate >= 1 && $stresstimate <= 10)
                         {
                             //This is setting it to the first prof's section only. FIX
-                            $results = DB::table('ProfSection')
+                            $results = DB::table('ProfessorSection')
                                     ->where('userID', $prof)
                                     ->first();
 
@@ -121,7 +121,7 @@ class ActivityManagerController extends Controller
 
             $coursesArray = DB::select('Select courseID, courseName from Course where courseID IN '
                             . '( Select courseID from Section where sectionID IN '
-                            . '(SELECT sectionID from ProfSection WHERE userID = "'
+                            . '(SELECT sectionID from ProfessorSection WHERE userID = "'
                             . $prof
                             . '"))');
 
