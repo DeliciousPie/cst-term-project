@@ -39,7 +39,7 @@ class ColumnChartController extends ColumnChartQueryController
     {
         
         $chart = null;
-        
+       
         //Get the comparisons passed in from the chart form on the db controller
         $comparison1 = $this->chartParameters->comparison1;
         $comparison2 = $this->chartParameters->comparison2;

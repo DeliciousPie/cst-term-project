@@ -11,6 +11,10 @@ use Khill\Lavacharts\Lavacharts;
 use Lava;
 use App\Http\Controllers\CD\CDChartQueries\ColumnChartQueryController;
 use App\Http\Controllers\CD\CDCharts\ColumnChartController;
+use App\Http\Controllers\CD\CDQueryController;
+use App\Http\Controllers\CD\ChartController;
+use App\Http\Controllers\CD\CDCharts\BubbleChartController;
+use App\Http\Controllers\CD\CDChartQueries\BubbleChartQueryController;
 use App\Http\Controllers\CD\CDChartQueries\PieChartQueryController;
 use App\Http\Controllers\CD\CDCharts\LineChartController;
 use Auth;
@@ -59,7 +63,7 @@ class CDDashboardController extends Controller
         $chartParameters->chartSelected ='5';
         $chartParameters->classSelected = 1;
         $chartParameters->comparison1 = 'timeEstimated';
-        $chartParameters->comparison2 ='timeSpent';
+        $chartParameters->comparison2 = 'timeSpent';
         
         //Create a new class.
         $this->chart = new ColumnChartController($chartParameters);
@@ -105,7 +109,7 @@ class CDDashboardController extends Controller
         $chartParameters = $request;
         
         //declare result to be returned.
-        $result;
+        $result = null;
       
         //if ChartParameters are set determine the chart based on them
         if( isset($chartParameters) && count($chartParameters) > 0 ) 
@@ -183,34 +187,9 @@ class CDDashboardController extends Controller
                 break;
             case '4':
                 //Bubble Chart
-  
-
-               // See note below for Laravel
-
-                $datatable = Lava::DataTable()
-                ->addStringColumn('TotalWeight')
-                ->addNumberColumn('Age')
-                ->addNumberColumn('Weight');
-                
-                
-                for ($i=0; $i < 30; $i++) {
-                    $datatable->addRow(['',rand(20,30), rand(150,250)]);
-                }
-
-                $chart = Lava::BubbleChart('StudentParam', $datatable, [
-                    'width' => 400,
-                    'legend' => [
-                        'position' => 'none'
-                    ],
-                    'hAxis' => [
-                        'title' => 'Age'
-                    ],
-                    'vAxis' => [
-                        'title' => 'Weight'
-                    ]
-                ]);
-                
-                $result = array('bubbleChart'=> $chart);
+                $this->chart = new BubbleChartController($chartParameters);
+               
+                $result = $this->chart->determineChartToBeMade();
                 
                 break;
             case '5':

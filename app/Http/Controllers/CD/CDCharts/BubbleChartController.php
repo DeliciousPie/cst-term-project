@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CD\CDChartQueries\BubbleChartQueryController;
+use Lava;
 
 /**
  * Purpose: The purpose of this class is to create dynamic bubble charts. It 
@@ -23,17 +24,16 @@ class BubbleChartController extends BubbleChartQueryController
 {
     /**
      * Purpose: This is called from the CDDashboard controller and is used to 
-     * determine the type of chart to be created.  This could be the default
-     * chart which is a Timed estimated vs Time Actual chart, or it could be
-     * a dynamic chart based on the fields passed in from the from on the 
-     * CD dashboard.  If fields are not filled out when the form is submitted 
-     * the default chart will be shown.
+     * determine the type of bubble chart to be created. This
+     * will be a dynamic chart based on the fields passed in from the form
+     * base on the CD dashboard.  If fields are not filled out when 
+     * the form is submitted the default chart will be shown.
      * 
      * @return type will return the chart to be displayed.
      * 
      * @author Justin Lutzko and Sean Young
      * 
-     * @date Feb 20, 2016
+     * @date March 10, 2016
      */
     public function determineChartToBeMade()
     {
@@ -50,18 +50,20 @@ class BubbleChartController extends BubbleChartQueryController
                 || $this->chartParameters->classSelected === "1" )
         {
          
-            //Use the hard coded query in the ColumnChartQueryController
-            $dataArray =  $this->performAvgComparisonQuery($comparison1,
+            //Here we will determine the queries that will pertain to all 
+            //classes.
+            
+            $dataArray = $this->allCoursesComparison($comparison1, 
                     $comparison2);
             
-            //Generate Strings for dynamic labels
+                        //Generate Strings for dynamic labels
             $comp1String = $this->createChartTitles( $comparison1 );
             
             $comp2String = $this->createChartTitles( $comparison2);
             
             //Create a dynamic chart, based off of standard information passed 
             //from the CDDashboard controller.
-            $chart = $this->createDynamicColumnChart($dataArray, 
+            $chart = $this->createDynamicBubbleChart($dataArray, 
                     $comp1String, $comp2String);
         }
         else
@@ -70,17 +72,7 @@ class BubbleChartController extends BubbleChartQueryController
             //Create a completly custom chart based on a single course.
             $classTitle = $this->chartParameters->classSelected;
             
-            $dataArray =  $this->performAvgComparisonForCourse($comparison1,
-                    $comparison2, $classTitle); 
-            
-            $comp1String = $this->createChartTitles( $comparison1 );
-            
-            $comp2String = $this->createChartTitles( $comparison2);
-
-            $chart = $this->createDynamicColumnChart($dataArray, $comp1String,
-                   $comp2String, $classTitle);  
-            
-
+            //Here we perform queries for individual classes selected.
             
         }
 
@@ -88,9 +80,9 @@ class BubbleChartController extends BubbleChartQueryController
     }
     
     /**
-     * Purpose: This function will create a standardized column chart.
+     * Purpose: This function will create a standardized bubble chart.
      * 
-     * @param type $dataTable - attribute of the ColumnChartClass that will hold
+     * @param type $dataTable - attribute of the BubbleChartClass that will hold
      * the data/table to be placed in the chart.
      * 
      * @param type $chartID - The HTML ID that will be given to the chart.
@@ -105,16 +97,18 @@ class BubbleChartController extends BubbleChartQueryController
      * @date Feb 20, 2016
      * 
      */
-    private function createBubbleChart( $dataTable, $chartID, $chartTitle, $chartLimit = 0 )
+    private function createBubbleChart( $dataTable, $chartID, $chartTitle, 
+            $chartLimit = 0 )
     {
         //This is where we create the chart and add the data to it.
-        $chart = Lava::ColumnChart($chartID, $dataTable, [
+        $chart = Lava::BubbleChart($chartID, $dataTable, [
             //add title
             'title' => $chartTitle,
                 'titleTextStyle' => [
                 'color'    => '#008040',
                 'fontSize' => 14
             ],
+            'hAxis' => ['minValue' => 0],
             //set default start value.
             'vAxis' => ['gridlines' => ['count'=> 5],
                 'minValue' => 0, 'maxValue' => $chartLimit]
@@ -137,7 +131,7 @@ class BubbleChartController extends BubbleChartQueryController
      * @param type $course - $course that we are performing a query for.  Can 
      * also be all courses.
      * 
-     * @return type - returns a Column chart.
+     * @return type - returns a Bubble chart.
      * 
      * @author Justin Lutzko & Sean Young 
      * 
@@ -152,71 +146,32 @@ class BubbleChartController extends BubbleChartQueryController
         
         //TODO:Fix this as titles should change.
         //This is the title that will appear at the top of the chart.
-        $chartTitle = 'Average Student ' . $comp1String . ' Vs ' . 
-                $comp2String . ' For ' . $course;
+        $chartTitle = 'Average Course ' . $comp1String . ' Vs ' . 
+                $comp2String . ' And Total Time Spent For ' . $course;
         
         //TODO:Change this to a datatable for the bubble chart.
         //Create the rows and columns for the datatable.
         $studentData = Lava::Datatable()
-                    ->addStringColumn('All Students')
+                    ->addStringColumn('Courses')
                     ->addNumberColumn($comp1String)
                     ->addNumberColumn($comp2String)
+                    ->addNumberColumn('Total Time Spent:');
                     //Column labels at bottom of chart. plus columns and labels.
-                    ->addRow([$comp1String .' vs '. $comp2String, 
-                       $dataArray['param1'], 
-                       $dataArray['param2']]);
+                    foreach( $dataArray as $data)
+                    {
+                        $studentData->addRow([ 
+                            $data['courseID'],
+                            $data['param1'], 
+                            $data['param2'],
+                            $data['totalHours']]);
+                    }
+                    
         
         //Creates a standard CDP column chart with two bars.
         $chart = $this->createBubbleChart($studentData, 
                 $chartID, $chartTitle );
        
         //return chart as array.
-        return array('studentData'=> $chart);
-    }
-    
-
-    /**
-     * 
-     * Purpose: createChartTitles will allow us to create dynamic titles and
-     * labels for our charts.  The labels are based on the data passed in from
-     * the chart from on the CD dashboard.
-     * 
-     * @param type $comparison - Parameter passed to the controller via the form
-     * on the CD dashboard.
-     * 
-     * @return string - Retunr a string formatted to add to titles and labels.
-     * 
-     * @author Justin Lutzko & Sean Young
-     * 
-     * @date Feb 20 2016
-     */
-    public function createBubbleChartTitles( $comparison )
-    {
-        //result ot be returned.
-        $result = '';
-        
-        //Compare column heading in all if statements.
-        if( $comparison === 'timeEstimated')
-        {
-            //Add string based on column heading.
-            $result = 'Time Estimated';
-        }
-        else if ( $comparison === 'timeSpent' )
-        {
-            $result = 'Time Actual';
-        }
-        elseif ( $comparison === 'stressLevel' )
-        {
-            $result = 'Stress Level';
-        }
-        else if( $comparison === 'spent')
-        {
-            $result = 'Time Actual';
-        }
-        else if( $comparison === 'estimated')
-        {
-            $result = 'Time Estimated';
-        }
-        return $result;
+        return array('bubbleChart'=> $chart);
     }
 }
