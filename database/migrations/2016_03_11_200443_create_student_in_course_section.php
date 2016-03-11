@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateStudentInCourseSection extends Migration
 {
+
      /**
      * Run the migrations.
      *

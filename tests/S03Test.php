@@ -3,7 +3,9 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\Controllers\CD\CSVImportController;
 use App\Http\Controllers\CD\CourseAssignmentController;
+use Illuminate\Support\Facades\Artisan;
 
 class S03Test extends TestCase
 {
@@ -13,7 +15,7 @@ class S03Test extends TestCase
  *   alias clearAndReseed='php artisan migrate:refresh --seed;'
  * 
  */
-    
+    use DatabaseTransactions;
     
     
     /**
@@ -23,7 +25,12 @@ class S03Test extends TestCase
      */
     public function testExample()
     {
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed'); 
+        
         $this->addRequired();
+        
+        
 
         $CAC = new CourseAssignmentController();
         // prep post. 
@@ -66,7 +73,10 @@ class S03Test extends TestCase
 
     protected function addRequired()
     {
-        $CAC = new CourseAssignmentController();
+        $CAC = new CSVImportController();
+        $_POST['courseSection'] = "CNET 295 sec L004";
+        $_POST['Classes'] = "CNET 295";
+        $_POST['Section'] = 'L004';
 
         $CSVFolder = base_path() . '/tests/FilesForTesting/S8/';
 
@@ -102,7 +112,8 @@ class S03Test extends TestCase
                 'size' => 173
         ]);
 
-        $CAC->csvUploadStudentToDB();
+        $sectionID = $CAC->createSectionForStudents();
+        $CAC->csvUploadStudentToDB($sectionID);
     }
 
 }

@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\CD\CourseAssignmentController;
+use App\Http\Controllers\CD\CSVImportController;
+use Illuminate\Support\Facades\Artisan;
 
 class S33Test extends TestCase
 {
@@ -14,6 +16,8 @@ class S33Test extends TestCase
      * 
      */
 
+use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -21,26 +25,28 @@ class S33Test extends TestCase
      */
     public function testExample()
     {
+
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed'); 
+
         $this->addCourseOnly();
 
         $CAC = new CourseAssignmentController();
 
-        $_POST = ['courseID' => "CNET 295"];
+        $_POST['courseSection'] = "CNET 295 sec L004";
+        $_POST['Classes'] = "CNET 295";
+        $_POST['Section'] = 'L004';
 
         $ReturnArray = $CAC->getProfessorAndStudent();
         // no professors in database
         $this->assertTrue((strpos($ReturnArray, '"professors":[]')) != false);
         // no students in database
         $this->assertTrue((strpos($ReturnArray, '"students":[]')) != false);
-        // section from database show up. 
-        $this->assertTrue((strpos($ReturnArray, '"sectionTypes":["1",')) != false);
-        
-        
-        $this->addProfessorAndStudent(); 
+
+
+        $this->addProfessorAndStudent();
         $ReturnArrayWithProfandStu = $CAC->getProfessorAndStudent();
-        
-        // there are professors in database
-        $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"sectionTypes":["1",')) != false);
+
         // there are students in database
         $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"professors":[{"fName":"Scottie",')) != false);
         // section from database show up. 
@@ -54,7 +60,7 @@ class S33Test extends TestCase
 
     protected function addProfessorAndStudent()
     {
-        $CAC = new CourseAssignmentController();
+        $CAC = new CSVImportController();
 
         $CSVFolderPnS = base_path() . '/tests/FilesForTesting/S16/';
 
@@ -77,12 +83,14 @@ class S33Test extends TestCase
                 'size' => 173
         ]);
 
-        $CAC->csvUploadStudentToDB();
+        $sectionID = $CAC->createSectionForStudents();
+
+        $CAC->csvUploadStudentToDB($sectionID);
     }
 
     private function addCourseOnly()
     {
-        $CAC = new CourseAssignmentController();
+        $CAC = new CSVImportController();
 
         $CSVFolder = base_path() . '/tests/FilesForTesting/S8/';
 
