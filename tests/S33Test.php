@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class S33Test extends TestCase
 {
+    
     /*
      * the comand below is used to remigrate and seed the db in one step 
      * 
@@ -51,6 +52,7 @@ use DatabaseTransactions;
         $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"professors":[{"fName":"Scottie",')) != false);
         // section from database show up. 
         $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"students":[{"fName":"Mark",')) != false);
+       
     }
 
     /*

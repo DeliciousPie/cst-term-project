@@ -13,7 +13,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * Purpose: Represents the User table from the DB. Allows for simple
  * modifications.
  * 
- * @author Justin Lutzko CST229
+ * @author Fraiser McBlind
  * 
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -43,6 +43,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public function roles() {
          return $this->belongsToMany('App\Role');
+    }
+    
+    public function studentactivities()
+    {
+        return $this->hasMany('App\StudentActivity');
     }
 
 }

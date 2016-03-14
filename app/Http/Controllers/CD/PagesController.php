@@ -45,7 +45,7 @@ class PagesController extends Controller
             }
             else
             {
-                return  view('CD/register');
+                return view('CD/register');
             }
     }
     
@@ -69,5 +69,14 @@ class PagesController extends Controller
         $user->save();
         
         return view('CD/dashboard');
+    }
+    
+    /**
+     * Returns the manageActivity view
+     * @return view
+     */
+    public function loadManageActivity()
+    {
+        return view('CD/manageActivity');
     }
 }

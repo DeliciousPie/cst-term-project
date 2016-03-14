@@ -40,8 +40,12 @@ class RoleTableSeeder extends Seeder
                 
                 $user = User::find(5);
                 $user->attachRole($Student);
+                
                 $user = User::find(6);
                 $user->attachRole($Student);
+                
+                $user = User::find(7);
+                $user->attachRole($CD);
            
     }
 }

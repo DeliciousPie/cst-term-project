@@ -32,18 +32,16 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
             'activityID' => 1,
-//            'timeSpent' => null,
-//            'stressLevel' => null,
-//            'comments' => null,
-//            'timeEstimated' => null,
+            'timeSpent' => 5,
+            'stressLevel' => 5,
+            'comments' => '',
+            'timeEstimated' => 6,
         ]);
         
         DB::table('Activity')->insert([
@@ -53,14 +51,16 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 700.0,
-            'proffEstimate' => 500.0,
-            'cdAlocatedTime' => 500.0,
-            'comments' => "ETA 2020",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
-            'activityID' => 2
+            'activityID' => 2,
+            'timeSpent' => 21,
+            'stressLevel' => 7,
+            'comments' => '',
+            'timeEstimated' => 15,
         ]);
         
         DB::table('Course')->insert([
@@ -83,18 +83,16 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
             'userID' => '12347',
             'activityID' => 3,
-//            'timeSpent' => null,
-//            'stressLevel' => null,
-//            'comments' => null,
-//            'timeEstimated' => null,
+            'timeSpent' => 12,
+            'stressLevel' => 7,
+            'comments' => '',
+            'timeEstimated' => 14,
         ]);
     }
 }

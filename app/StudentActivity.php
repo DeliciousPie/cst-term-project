@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class StudentActivity extends Model
 {
     protected $fillable = ['timeSpent', 'stressLevel', 'comments', 'timeEstimated'];
-    protected $guarded = ['userID', 'activityID']; 
-    
     /*
      * Table associated with model.
      * 
@@ -27,9 +25,13 @@ class StudentActivity extends Model
      */
     public $timestamps = false;
     
-    public function storeRecordedStudentInfo( StudentActivityRequest $request )
+    public function activities()
     {
-        //'timeSpent' => $request->get('timeSpent'),
+        return $this->belongsTo('App\Activity', 'activityID');
     }
     
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'userID');
+    }
 }

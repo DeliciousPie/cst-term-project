@@ -55,9 +55,6 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
             'assignDate' => $faker->assignDate = new DateTime,
             'dueDate' => $faker->dueDate = new DateTime,
             'estTime' => $faker->estTime = 2.0,
-            'proffEstimate' => $faker->profEstimate = 2.0,
-            'cdAlocatedTime' => $faker->cdAlocatedTime = 2.0,
-            'comments' => "Student better get it done.",
         ];
     
 });
@@ -87,3 +84,4 @@ $factory->define(App\Student::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+

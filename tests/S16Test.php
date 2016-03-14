@@ -24,6 +24,19 @@ class S16Test extends TestCase
 
         DB::delete('delete from Student where userID ="Stu001" OR userID = '
                 . '"Stu002"');
+        
+        $allProf = Professor::all();
+        
+//        DB::table('Professor')->delete();
+//        
+//        foreach( $allProf as $Prof )
+//        {
+//            DB::table('users')
+//                ->where('userID', '=', $Prof->userID )
+//                ->delete();
+//        }
+        
+        
     }
 
     /**
@@ -208,6 +221,7 @@ class S16Test extends TestCase
 
         $this->assertEquals('There are no Entries in the CSV File', $CAC->csvUploadStudentToDB($sectionID));
         $this->clearDB();
+        
     }
 
 }

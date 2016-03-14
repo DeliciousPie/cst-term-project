@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
-    protected $fillable = ['activityType', 'assignDate', 'dueDate', 'estTime',
-        'proffEstimate', 'cdAlocatedTime', 'comments'];
+        
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+       'activityID', 'sectionID', 'activityType', 'assignDate', 
+       'dueDate', 'estTime', 'stresstimate',
+    ];
+    
     protected $guarded = ['sectionID', 'activityID']; 
     
     /*
@@ -18,6 +27,8 @@ class Activity extends Model
     
     protected $table = 'Activity';
     
+    protected $primaryKey = 'activityID';
+    
     /**
      * Indicates if the model should be timestamped.
      *
@@ -25,4 +36,13 @@ class Activity extends Model
      */
     public $timestamps = false;
     
+    public function studentactivities()
+    {
+        $this->hasMany('App\StudentActivity', 'sectionID', 'activityID' );
+    }
+    
+    public function activities()
+    {
+        return $this->belongsTo('App\Section', 'sectionID');
+    }
 }

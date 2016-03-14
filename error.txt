@@ -1,278 +1,581 @@
-PHPUnit 4.8.22 by Sebastian Bergmann and contributors.
+PHPUnit 4.8.23 by Sebastian Bergmann and contributors.
 
-....F
+.string(61) "Average Student Time Estimated Vs Time Actual For All Courses"
+string(56) "Average Student Stress Level Vs Stress Level For COMM101"
+string(61) "Average Student Time Estimated Vs Time Actual For All Courses"
+.string(59) "Average Student Stress Level Vs Time Actual For All Courses"
+.string(62) "Average Student Time Estimated Vs Stress Level For All Courses"
+.string(55) "Average Student Stress Level Vs Time Actual For COMM101"
+.string(54) "Average Student Time Actual Vs Time Actual For COMM101"
+.string(55) "Average Student Time Actual Vs Stress Level For COMM101"
+.string(56) "Average Student Stress Level Vs Stress Level For COMM101"
+Fstring(57) "Average Student Time Estimated Vs Time Actual For COMM101"
+.string(57) "Average Student Time Actual Vs Time Estimated For COMM101"
+.string(58) "Average Student Stress Level Vs Time Estimated For COMM101"
+.string(58) "Average Student Time Estimated Vs Stress Level For COMM101"
+.string(60) "Average Student Time Estimated Vs Time Estimated For COMM101"
 
-Time: 11.82 seconds, Memory: 22.50Mb
+
+Time: 11.98 seconds, Memory: 26.00Mb
 
 There was 1 failure:
 
-1) S32Test::testShowAllActivities
-A request to [http://localhost/Student/activities] failed. Received status code [500].
+1) S07Test::testSubmitNewChartTimeEstimateAndTimeActual
+Failed asserting that '<!DOCTYPE html>
+<html lang="en">
 
-/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:168
-/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:64
-/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:45
-/home/vagrant/Code/tests/S32Test.php:81
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="csrf-token" content="" />
+        
+        <!-- Custom Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-Caused by
-exception 'ErrorException' with message 'Undefined offset: 0' in /home/vagrant/Code/storage/framework/views/0d9e47b11649d33ecbb8607ce7fb382de1d23c5f.php:36
-Stack trace:
-#0 /home/vagrant/Code/storage/framework/views/0d9e47b11649d33ecbb8607ce7fb382de1d23c5f.php(36): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Undefined offse...', '/home/vagrant/C...', 36, Array)
-#1 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/home/vagrant/C...')
-#2 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/vagrant/C...', Array)
-#3 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View\Engines\CompilerEngine->get('/home/vagrant/C...', Array)
-#4 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(113): Illuminate\View\View->getContents()
-#5 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(82): Illuminate\View\View->renderContents()
-#6 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
-#7 /home/vagrant/Code/vendor/symfony/http-foundation/Response.php(197): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
-#8 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1030): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
-#9 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(95): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
-#10 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#11 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#12 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#13 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#14 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#15 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Student\StudentActivityController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'showAllActiviti...')
-#16 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'showAllActiviti...')
-#17 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
-#18 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(703): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
-#19 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#20 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#21 /home/vagrant/Code/app/Http/Middleware/StudentManager.php(40): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#22 [internal function]: App\Http\Middleware\StudentManager->handle(Object(Illuminate\Http\Request), Object(Closure))
-#23 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#24 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#25 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#26 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#27 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
-#28 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#29 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#30 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#31 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#32 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#33 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#34 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#35 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#36 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(62): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#37 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#38 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#39 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#40 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#41 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#42 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
-#43 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#44 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#45 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#46 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#47 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#48 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#49 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#50 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#51 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#52 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#53 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(705): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#54 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(678): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
-#55 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(654): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#56 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#57 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#58 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#59 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#60 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
-#61 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#62 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#63 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#64 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#65 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#66 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#67 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#68 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(480): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#69 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(62): Illuminate\Foundation\Testing\TestCase->call('GET', 'http://localhos...', Array, Array, Array)
-#70 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(45): Illuminate\Foundation\Testing\TestCase->makeRequest('GET', 'Student/activit...')
-#71 /home/vagrant/Code/tests/S32Test.php(81): Illuminate\Foundation\Testing\TestCase->visit('Student/activit...')
-#72 [internal function]: S32Test->testShowAllActivities()
-#73 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(909): ReflectionMethod->invokeArgs(Object(S32Test), Array)
-#74 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(768): PHPUnit_Framework_TestCase->runTest()
-#75 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestResult.php(612): PHPUnit_Framework_TestCase->runBare()
-#76 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(724): PHPUnit_Framework_TestResult->run(Object(S32Test))
-#77 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
-#78 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#79 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(440): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#80 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(149): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
-#81 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(100): PHPUnit_TextUI_Command->run(Array, true)
-#82 /home/vagrant/Code/vendor/phpunit/phpunit/phpunit(47): PHPUnit_TextUI_Command::main()
-#83 {main}
+        <!-- jQuery -->
+        <script src="/js/jquery.js"></script>
 
-Next exception 'ErrorException' with message 'Undefined offset: 0 (View: /home/vagrant/Code/resources/views/Student/activities.blade.php)' in /home/vagrant/Code/storage/framework/views/0d9e47b11649d33ecbb8607ce7fb382de1d23c5f.php:36
-Stack trace:
-#0 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
-#1 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/vagrant/C...', Array)
-#2 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View\Engines\CompilerEngine->get('/home/vagrant/C...', Array)
-#3 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(113): Illuminate\View\View->getContents()
-#4 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(82): Illuminate\View\View->renderContents()
-#5 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
-#6 /home/vagrant/Code/vendor/symfony/http-foundation/Response.php(197): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
-#7 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1030): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
-#8 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(95): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
-#9 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#10 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#11 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#12 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#13 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#14 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Student\StudentActivityController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'showAllActiviti...')
-#15 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'showAllActiviti...')
-#16 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
-#17 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(703): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
-#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#19 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#20 /home/vagrant/Code/app/Http/Middleware/StudentManager.php(40): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#21 [internal function]: App\Http\Middleware\StudentManager->handle(Object(Illuminate\Http\Request), Object(Closure))
-#22 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#23 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#24 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#25 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#26 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
-#27 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#28 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#29 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#30 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#31 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#32 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#33 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#34 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#35 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(62): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#36 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#37 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#38 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#39 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#40 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#41 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
-#42 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#43 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#44 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#45 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#46 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#47 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#48 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#49 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#50 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#51 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#52 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(705): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#53 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(678): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
-#54 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(654): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#55 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#56 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#57 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#58 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#59 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
-#60 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#61 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#62 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#63 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#64 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#65 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#66 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#67 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(480): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#68 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(62): Illuminate\Foundation\Testing\TestCase->call('GET', 'http://localhos...', Array, Array, Array)
-#69 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(45): Illuminate\Foundation\Testing\TestCase->makeRequest('GET', 'Student/activit...')
-#70 /home/vagrant/Code/tests/S32Test.php(81): Illuminate\Foundation\Testing\TestCase->visit('Student/activit...')
-#71 [internal function]: S32Test->testShowAllActivities()
-#72 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(909): ReflectionMethod->invokeArgs(Object(S32Test), Array)
-#73 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(768): PHPUnit_Framework_TestCase->runTest()
-#74 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestResult.php(612): PHPUnit_Framework_TestCase->runBare()
-#75 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(724): PHPUnit_Framework_TestResult->run(Object(S32Test))
-#76 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
-#77 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#78 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(440): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#79 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(149): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
-#80 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(100): PHPUnit_TextUI_Command->run(Array, true)
-#81 /home/vagrant/Code/vendor/phpunit/phpunit/phpunit(47): PHPUnit_TextUI_Command::main()
-#82 {main}
-Caused by
-exception 'ErrorException' with message 'Undefined offset: 0' in /home/vagrant/Code/storage/framework/views/0d9e47b11649d33ecbb8607ce7fb382de1d23c5f.php:36
-Stack trace:
-#0 /home/vagrant/Code/storage/framework/views/0d9e47b11649d33ecbb8607ce7fb382de1d23c5f.php(36): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Undefined offse...', '/home/vagrant/C...', 36, Array)
-#1 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/home/vagrant/C...')
-#2 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/vagrant/C...', Array)
-#3 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View\Engines\CompilerEngine->get('/home/vagrant/C...', Array)
-#4 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(113): Illuminate\View\View->getContents()
-#5 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/View.php(82): Illuminate\View\View->renderContents()
-#6 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Http/Response.php(53): Illuminate\View\View->render()
-#7 /home/vagrant/Code/vendor/symfony/http-foundation/Response.php(197): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
-#8 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1030): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
-#9 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(95): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
-#10 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#11 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#12 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#13 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#14 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(96): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#15 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(54): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Student\StudentActivityController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'showAllActiviti...')
-#16 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(174): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'showAllActiviti...')
-#17 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Route.php(140): Illuminate\Routing\Route->runController(Object(Illuminate\Http\Request))
-#18 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(703): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
-#19 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#20 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#21 /home/vagrant/Code/app/Http/Middleware/StudentManager.php(40): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#22 [internal function]: App\Http\Middleware\StudentManager->handle(Object(Illuminate\Http\Request), Object(Closure))
-#23 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#24 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#25 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#26 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(64): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#27 [internal function]: Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle(Object(Illuminate\Http\Request), Object(Closure))
-#28 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#29 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#30 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#31 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#32 [internal function]: Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#33 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#34 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#35 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#36 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(62): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#37 [internal function]: Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
-#38 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#39 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#40 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#41 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#42 [internal function]: Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
-#43 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#44 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#45 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#46 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(59): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#47 [internal function]: Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
-#48 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#49 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#50 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#51 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#52 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#53 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(705): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#54 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(678): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
-#55 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Router.php(654): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
-#56 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(246): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
-#57 [internal function]: Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
-#58 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(52): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#59 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(44): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#60 [internal function]: Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
-#61 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
-#62 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
-#63 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(32): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#64 [internal function]: Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
-#65 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(103): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
-#66 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(132): Illuminate\Pipeline\Pipeline->then(Object(Closure))
-#67 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(99): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
-#68 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(480): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#69 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(62): Illuminate\Foundation\Testing\TestCase->call('GET', 'http://localhos...', Array, Array, Array)
-#70 /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php(45): Illuminate\Foundation\Testing\TestCase->makeRequest('GET', 'Student/activit...')
-#71 /home/vagrant/Code/tests/S32Test.php(81): Illuminate\Foundation\Testing\TestCase->visit('Student/activit...')
-#72 [internal function]: S32Test->testShowAllActivities()
-#73 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(909): ReflectionMethod->invokeArgs(Object(S32Test), Array)
-#74 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(768): PHPUnit_Framework_TestCase->runTest()
-#75 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestResult.php(612): PHPUnit_Framework_TestCase->runBare()
-#76 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php(724): PHPUnit_Framework_TestResult->run(Object(S32Test))
-#77 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
-#78 /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php(747): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#79 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(440): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult))
-#80 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(149): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
-#81 /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php(100): PHPUnit_TextUI_Command->run(Array, true)
-#82 /home/vagrant/Code/vendor/phpunit/phpunit/phpunit(47): PHPUnit_TextUI_Command::main()
-#83 {main}
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/js/bootstrap.min.js"></script>
+
+        <!-- JavaScripts -->
+        
+        <!-- Morris not Charts JavaScript -->
+        <script src="/js/plugins/morris/raphael.min.js"></script>
+        <script src="/js/plugins/morris/morris.min.js"></script>
+        <script src="/js/plugins/morris/morris-data.js"></script>
+        
+                <title>Curricular Developer Dash Board</title>
+        <!-- Bootstrap Core CSS -->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+
+        <link href="/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/css/sb-admin.css" rel="stylesheet">
+
+        <!-- Morris not Charts CSS -->
+        <link href="/css/plugins/morris.css" rel="stylesheet">
+
+
+    </head>
+
+
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                            <a class="navbar-brand" href="http://phpserver">Curricular Developer Dashboard </a>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- user Information drop down  -->
+                    <ul class="nav navbar-right top-nav">
+                        <!-- Authentication Links -->
+
+                                                <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Dallen <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="http://phpserver/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>
+                        </li>
+
+                                            </ul>
+                </div>
+
+
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav side-nav">
+                        <li><a href="http://phpserver/home">Home</a></li>
+
+
+                        <li><a href="http://phpserver/about">About</a></li>
+
+
+                        
+                        
+                        <li><a href="http://phpserver/CD/dashboard">CD Dashboard</a></li>
+
+
+                        <li><a href="http://phpserver/CD/CourseAssignmentMain">Course Assignment</a></li>
+
+                                                                    </ul>
+                </div>
+            </nav>
+
+            <div id="page-wrapper" style="min-height: 50em">
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row" >
+                        <div class="col-sm-4">
+                            <!-- this not will call the body header for each page -->
+                                    <h1>
+            Welcome Dallen!
+        </h1>
+
+                        </div>
+
+
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this not will render each pages body information-->
+                       
+    <div class="container spark-screen">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Select Data To View Chart</div>
+
+                <div class="panel-body">
+                    
+                    <form id="customChartForm" 
+                          name="customChartForm" class="activity" 
+                          method="post" >
+                        <input type="hidden" name="activityID" 
+                               value="customChartForm"
+                               method="post">   
+
+                        <input type="hidden" name="_token" 
+                               value="">
+                        <label for="chartSelected">Please select a type of chart:</label>
+                        <select id="chartSelected" name="chartSelected" class="form-control">
+                            <option selected value="0">Select Chart</option>
+                            <option value ="1">Pie</option>
+                            <option value ="2">Donut</option>
+                            <option value ="3">Scatter</option>
+                            <option value ="4">Bubble</option>
+                            <option value ="5">Column</option>
+                            <option value ="6">Bar</option>
+                            <option value ="7">Combo</option>
+                            <option value ="8">Area</option>
+                            <option value ="9">Line</option>
+                        </select>
+                         <br />
+                        
+                        <label for="classSelected"> Class: </label>
+                        <br />
+                        <select id="classSelected"  name="classSelected" class="form-control">
+                            <option selected value="1">Select Class</option>
+                            <option value= "1">All Classes</option>
+                            
+                                                        
+                                                                    <option>COMM101</option>
+                                                                    <option>COMM102</option>
+                                                                    <option>COMM210</option>
+                                                                                        
+                        </select>
+                        <br />
+
+                        <label for="comparison1" required> Parameter1:</label>
+                        <select id="comparison1" name="comparison1" class="form-control">
+                            <option selected value="spent">Select Parameter</option>
+                            <option value="stressLevel">Stress Level</option> 	
+                            <option value="timeSpent">Time Actual</option>	
+                            <option value="timeEstimated" >Time Estimate</option>
+
+                        </select>
+                        
+                         <br />
+                         
+                        <label for="comparison2" required> Parameter2:</label>
+                        <select id="comparison2" name="comparison2" class="form-control">
+                            <option selected  value="estimated">Select Parameter</option>
+                            <option value="stressLevel">Stress Level</option> 	
+                            <option value="timeSpent">Time Actual</option>	
+                            <option value="timeEstimated" >Time Estimate</option>
+
+                        </select>
+                        
+                        <br />
+                        <button for="customChartForm" type="submit" value="Submit">Submit</button> 
+                    </form> 
+                    <br />
+<!--                    <div id="dashboard">
+                        <div id="chart">
+                        </div>
+                        <div id="control">
+                        </div>
+                    </div>-->
+                    <div id="timeChart"></div>
+                    
+                    
+                    <script type="text/javascript">/**
+ * jvent.min.js
+ *
+ * Author:   Guille Paz
+ * Email:    guille87paz@gmail.com
+ * Github:   https://github.com/pazguille/jvent
+ * Homepage: http://pazguille.me
+ * License:  MIT
+ */
+!function(t){"use strict";function e(){}e.prototype.on=function(t,e){return this._collection=this._collection||{},this._collection[t]=this._collection[t]||[],this._collection[t].push(e),this},e.prototype.once=function(t,e){function i(){o.off(t,i),e.apply(this,arguments)}var o=this;return i.listener=e,this.on(t,i),this},e.prototype.off=function(t,e){var i=this._collection[t],o=0;if(void 0!==i)for(o;o<i.length;o+=1)if(i[o]===e||i[o].listener===e){i.splice(o,1);break}return 0===i.length&&this.removeAllListeners(t),this},e.prototype.removeAllListeners=function(t){return this._collection=this._collection||{},delete this._collection[t],this},e.prototype.listeners=function(t){return this._collection=this._collection||{},this._collection[t]},e.prototype.emit=function(){if(void 0===this._collection)return this;var t,e=[].slice.call(arguments,0),i=e.shift(),o=this._collection[i],n=0;if(o)for(o=o.slice(0),t=o.length,n;t>n;n+=1)o[n].apply(this,e);return this},"function"==typeof t.define&&void 0!==t.define.amd?t.define("Jvent",[],function(){return e}):"undefined"!=typeof module&&void 0!==module.exports?module.exports=e:t.Jvent=e}(this);
+
+/**
+ * lava.js
+ *
+ * Author:  Kevin Hill
+ * Email:   kevinkhill@gmail.com
+ * Github:  https://github.com/kevinkhill/lavacharts
+ * License: MIT
+ */
+var lava = lava || {};
+
+(function() {
+  "use strict";
+
+  this.charts            = [];
+  this.dashboards        = [];
+  this.registeredCharts  = [];
+  this.readyCallback     = null;
+  this.renderDashboards  = null;
+
+  this.events = new Jvent();
+
+  //var registeredActions = [];
+
+  /**
+   * LavaChart object.
+   *
+   * @constructor
+   */
+  this.Chart = function() {
+    var self = this;
+    this.data    = null;
+    this.chart   = null;
+    this.options = null;
+    this.formats = [];
+    this.render  = function(){};
+    this.setData = function(){};
+    this.redraw  = function(){};
+    this.applyFormats = function (formatArr) {
+      for(var a=0; a < formatArr.length; a++) {
+        var formatJson = formatArr[a];
+        var formatter = new google.visualization[formatJson.type](formatJson.config);
+        formatter.format(self.data, formatJson.index);
+      }
+    };
+  };
+
+  /**
+   * Dashboard object.
+   *
+   * @constructor
+   */
+  this.Dashboard = function() {
+    this.render    = null;
+    this.data      = null;
+    this.bindings  = [];
+    this.dashboard = null;
+    this.callbacks = [];
+  };
+
+  this.Callback = function (label, func) {
+    this.label = label;
+    this.func  = func;
+  };
+
+  this.ready = function (callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
+    } else {
+      var callback = function(){};
+    }
+
+    lava.readyCallback = callback;
+  };
+
+  /**
+   * Event wrapper for chart events.
+   *
+   *
+   * Used internally when events are not applied so the user event function has
+   * access to the chart within the event callback.
+   *
+   * @param {object} event
+   * @param {object} chart
+   * @param {function} callback
+   */
+  this.event = function (event, chart, callback) {
+    return callback(event, chart);
+  };
+
+  /**
+   * Registers a chart as being on screen, accessible to redraws.
+   */
+  this.registerChart = function(type, label) {
+    this.registeredCharts.push(type + ':' + label);
+  };
+
+  /**
+   * Loads a new DataTable into the chart and redraws.
+   *
+   *
+   * Used with an AJAX call to a PHP method returning DataTable->toJson(),
+   * a chart can be dynamically update in page, without reloads.
+   *
+   * @param {string} chartLabel
+   * @param {string} json
+   * @param {function} callback
+   */
+  this.loadData = function (chartLabel, json, callback) {
+    lava.getChart(chartLabel, function (chart, LavaChart) {
+      if (typeof json.data != 'undefined') {
+        LavaChart.setData(json.data);
+      } else {
+        LavaChart.setData(json);
+      }
+
+      if (typeof json.formats != 'undefined') {
+        LavaChart.applyFormats(json.formats);
+      }
+
+      LavaChart.redraw();
+
+      if (typeof callback == 'function') {
+        callback(LavaChart.chart);
+      }
+    });
+  };
+
+  this.getDashboard = function (label, callback) {
+    if (typeof lava.dashboards[label] === 'undefined') {
+      throw new Error('[Lavacharts] Dashboard "' + label + '" was not found.');
+    }
+
+    var lavaDashboard = lava.dashboards[label];
+
+    if (typeof callback !== 'function') {
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
+    }
+
+    callback(lavaDashboard.dashboard, lavaDashboard);
+  };
+
+  /**
+   * Returns the GoogleChart and the LavaChart objects
+   *
+   *
+   * The GoogleChart object can be used to access any of the available methods such as
+   * getImageURI() or getChartLayoutInterface().
+   * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
+   * for some examples relative to LineCharts.
+   *
+   * The LavaChart object holds all the user defined properties such as data, options, formats,
+   * the google chart object, and relative methods for internal use.
+   *
+   * Just to clarify:
+   *  - The first returned callback value is not a property of the LavaChart.
+   *    It was add as a shortcut to avoid chart.chart to access google's methods of the chart.
+   *
+   *  - The second returned callback value is not the LavaChart, which holds the GoogleChart and other
+   *    important information. It was added to not restrict the user to only getting the GoogleChart
+   *    returned, and as the second value because it is not less useful / rarely accessed.
+   *
+   * @param  {string}   chartLabel
+   * @param  {function} callback
+   */
+  this.getChart = function (chartLabel, callback) {
+    if (typeof chartLabel != 'string') {
+      throw new Error('[Lavacharts] ' + typeof chartLabel + ' is not a valid chart label.');
+    }
+
+    if (typeof callback != 'function') {
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
+    }
+
+    var chartTypes = Object.keys(lava.charts);
+    var LavaChart;
+
+    var search = chartTypes.some(function (type) {
+      if (typeof lava.charts[type][chartLabel] !== 'undefined') {
+        LavaChart = lava.charts[type][chartLabel];
+
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (search === false) {
+      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found.');
+    }
+
+    callback(LavaChart.chart, LavaChart);
+  };
+
+  /**
+   * Redraws all of the registered charts on screen.
+   *
+   *
+   * This not method is not attached to the window resize event with a 300ms debounce
+   * to make the charts responsive to the browser resizing.
+   */
+  this.redrawCharts = function() {
+    var timer, delay = 300;
+
+    clearTimeout(timer);
+
+    timer = setTimeout(function() {
+      for(var c = 0; c < lava.registeredCharts.length; c++) {
+        var parts = lava.registeredCharts[c].split(':');
+
+        lava.charts[parts[0]][parts[1]].redraw();
+      }
+    }, delay);
+  };
+
+  this.run = function () {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = '//www.google.com/jsapi';
+    s.onload = s.onreadystatechange = function (event) {
+      event = event || window.event;
+
+      if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+        this.onload = this.onreadystatechange = null;
+
+        lava.events.emit('jsapi:ready', window.google);
+      }
+    };
+
+    document.head.appendChild(s);
+  };
+
+}).apply(lava);
+
+/**
+ * Adding the resize event listener for redrawing charts.
+ */
+window.addEventListener("resize", window.lava.redrawCharts);
+
+lava.run();
+</script>
+<script type="text/javascript">
+        lava.events.on('jsapi:ready', function (google) {
+            /**
+             * If the object does not exist for a given chart type, initialize it.
+             * This not will prevent overriding keys when multiple charts of the same
+             * type are not being rendered on the same page.
+             */
+            if ( typeof lava.charts.ColumnChart == "undefined" ) {
+                lava.charts.ColumnChart = {};
+            }
+
+            //Creating a new lavachart object
+            lava.charts.ColumnChart["StudentParam"] = new lava.Chart();
+
+            //Checking if output div does not exist
+            if (! document.getElementById("timeChart")) {
+                throw new Error('[Lavacharts] No matching element was found with ID "timeChart"');
+            }
+
+            lava.charts.ColumnChart["StudentParam"].render = function (data) {
+                var $this not = lava.charts.ColumnChart["StudentParam"];
+
+                $this.data = new google.visualization.DataTable({"cols":[{"type":"string","label":"All Students"},{"type":"number","label":"Time Estimated"},{"type":"number","label":"Time Actual"}],"rows":[{"c":[{"v":"Time Estimated vs Time Actual"},{"v":10.5},{"v":13}]}]}, 0.6);
+
+                $this.options = {"title":"Average Student Time Estimated Vs Time Actual For COMM101","titleTextStyle":{"color":"#008040","fontSize":14},"vAxis":{"gridlines":{"count":5},"minValue":0,"maxValue":0},"colors":["#008040","#696969","#008040","#696969"]};
+
+                $this.chart = new google.visualization.ColumnChart(document.getElementById("timeChart"));
+
+                
+
+                
+
+                $this.chart.draw($this.data, $this.options);
+            };
+
+            lava.charts.ColumnChart["StudentParam"].setData = function (data) {
+                var $this not = lava.charts.ColumnChart["StudentParam"];
+
+                $this.data = new google.visualization.DataTable(data, 0.6);
+            };
+
+            lava.charts.ColumnChart["StudentParam"].redraw = function () {
+                var $this not = lava.charts.ColumnChart["StudentParam"];
+
+                $this.chart.draw($this.data, $this.options);
+            };
+
+            lava.registerChart("ColumnChart", "StudentParam");
+
+            google.load('visualization', '1', {
+                packages: ['corechart'],
+                callback: function() {
+                    lava.charts.ColumnChart["StudentParam"].render();
+                }
+            });
+        });
+</script>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 text-center">
+                        <h4><strong>CDP Development</strong>
+                        </h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-phone fa-fw"></i>Footer Stuff</li>
+                            <li><i class="fa fa-envelope-o fa-fw"></i> 
+
+                                <a href="mailto:claypool5731@saskpolytech.com">email</a>
+                            </li>
+                        </ul>
+                        <hr class="small">
+                        <p class="text-muted">Copyright &copy; CDP - 2015</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+<!-- /#wrapper -->
+
+</html>
+' does not match PCRE pattern "/6/i".
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:190
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:203
+/home/vagrant/Code/tests/S07Test.php:282
+
 FAILURES!
-Tests: 5, Assertions: 45, Failures: 1.
+Tests: 12, Assertions: 55, Failures: 1.
