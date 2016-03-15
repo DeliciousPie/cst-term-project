@@ -123,7 +123,10 @@
         determineChartType(chartSelectedValue);
            
     });
+    
+    
 
+    
     /**
      * Purpose: This function will determine the chart type selected and load
      * the fields need for that chart.
@@ -219,18 +222,34 @@
                 }});
             $.post( "/CD/dashboard/getAllCourses", function(results){
                 var checkboxes = "";
-                var course;
-                for(course in results) 
+               
+                for( var i = 0; i < results["courses"].length; i++ ) 
                 {
-                   checkboxes = checkboxes 
-                           + "<div class=\"checkbox\"><input type=\"checkbox\" id=\"" 
-                           + course + "\"  name=\"" + course + "\" value=\"" 
-                           + course + "\">" + course + "</label></div>";
+                        checkboxes = checkboxes 
+                           + "<div class=\"checkbox\"><label><input class=\"checkboxInputCourse\" type=\"checkbox\" id=\"" 
+                           + results["courses"][i]["courseID"] + "\"  name=\"" + results["courses"][i]["courseID"] + "\" value=\"" 
+                           + "false\">" + results["courses"][i]["courseID"] + "</label></div>";
+                    
                 }                
-                $("#selectAllCourses").append(checkboxes);
+                $("#courseField").append(checkboxes);
             });    
         
-
+            //
+            $("#selectAllCourses").change(function(){
+                if( !($("#selectAllCourses").val()))
+                {
+                    $(".checkboxInputCourse").prop("checked", true);
+                    $("#selectAllCourses").attr("value", true);
+                    
+                }
+                else
+                {
+                    $(".checkboxInputCourse").prop("checked", false);
+                    $("#selectAllCourses").attr("value", false);
+                    
+                }
+                
+            });
         
     }
     
@@ -268,7 +287,7 @@
             "<label for=\"selectAllCourses\">Please select courses for comparison:</label>" + 
             "<div class=\"checkbox\">" + 
                 "<label><input type=\"checkbox\" id=\"selectAllCourses\"" + 
-            "name=\"selectAll\" value=\"selectAllCourses\">Select All</label></div>");
+            "name=\"selectAll\" value=\"false\">Select All</label></div>");
     
         $("#classSelectedLabel").remove();
         $("#classSelected").remove();

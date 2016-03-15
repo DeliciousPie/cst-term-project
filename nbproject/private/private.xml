@@ -3,32 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/COSA280/Code/database/seeds/UserTableSeeder.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/ChartController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Charts/Chart.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/PieChartController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/ColumnChartQueryController.php</file>
-            <file>file:/G:/COSA280/Code/resources/views/CD/dashboardCustomChart.blade.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/ColumnChartController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/BubbleChartQueryController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Charts/BubbleChart.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/AboutController.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/RoleTableSeeder.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/BubbleChartController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Lavacharts.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/PagesController.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/DatabaseSeeder.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Laravel/LavachartsFacade.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Laravel/BladeTemplateExtensions.php</file>
-            <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Requests/CDDashboardRequest.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CourseAssignmentController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Laravel/LavachartsServiceProvider.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDDashboardController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Charts/BarChart.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/ChartController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/BubbleChartController.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDQueryController.php</file>
-            <file>file:/G:/COSA280/Code/vendor/khill/lavacharts/src/Charts/ScatterChart.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/ColumnChartQueryController.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190108_create_studentActivity_table.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/BubbleChartQueryController.php</file>
+            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/ColumnChartController.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/CD/dashboardCustomChart.blade.php</file>
+            <file>file:/G:/COSA280/Code/config/database.php</file>
             <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/CD/dashboard.blade.php</file>
         </group>
     </open-files>
 </project-private>

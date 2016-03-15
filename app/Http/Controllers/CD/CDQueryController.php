@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CD\ChartController;
 use DB;
+use App\Course;
 use App\StudentActivity;
 /**
  * Purpose: This class will hold all of the queries that will be used by all of

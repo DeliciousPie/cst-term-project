@@ -246,49 +246,10 @@ class CDDashboardController extends Controller
     
     public function getAllCourses()
     {
+        
         $allCoursesQuery = new CDQueryController();
+        
         $allCourses = $allCoursesQuery->getAllCourses();
         return response()->json(['courses'=>$allCourses]);
     }
 }
-
- 
-
-
-//        $datatable = Lava::DataTable();
-//        $datatable->addStringColumn('Name');
-//        $datatable->addNumberColumn('Donuts Eaten');
-//        $datatable->addRows([
-//            ['Michael',   5],
-//            ['Elisa',     7],
-//            ['Robert',    3],
-//            ['John',      2],
-//            ['Jessica',   6],
-//            ['Aaron',     1],
-//            ['Margareth', 8]
-//        ]);
-//        $pieChart = Lava::PieChart('Donuts', $datatable, [
-//            'width' => 400,
-//            'pieSliceText' => 'value'
-//        ]);
-//        $filter  = Lava::NumberRangeFilter(1, [
-//            'ui' => [
-//                'labelStacking' => 'vertical'
-//            ]
-//        ]);
-//        $control = Lava::ControlWrapper($filter, 'control');
-//        $chart   = Lava::ChartWrapper($pieChart, 'chart');
-//        $dash = Lava::Dashboard('Donuts')->bind($control, $chart);
-//         return view( 'CD/dashboard', array('dasher'=> $dash));
-//        dd($fullDashboard);
-//        return $fullDashboard;
-
-//return array($lava);
-//        $chartController = new AreaChartController();
-//        $chart = Lava::ChartWrapper(
-//                $chartController->actualVsEstimatedTime(), 'chart');
-//       
-//        $dashboard = Lava::Dashboard('Curricular Developer DashBoard')->bind($chart);
-        
-        
-//        return array('dash'=>$dashboard);
