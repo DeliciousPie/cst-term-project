@@ -157,8 +157,7 @@
                 addStudentSelectionField();
                 addClassesSelectionField();
                 produceListOfCheckboxCourses();
-                //This will add all the student when the class field is select
-                addStudentsToSelectionFieldOnClassSelect();
+
                 break;
             case '5':
                 //Column Chart
@@ -185,26 +184,31 @@
     /**
      * Purpose: This function will obtain a list of all the students with an
      * associated class
+     * @param {array} course array of course(s)
      * @returns {undefined}
      */
-    function addStudentsToSelectionFieldOnClassSelect()
+    function addStudentsToSelectionFieldOnClassSelect(course)
     {      
-
-        $("#classSelected").select(function(){
-            var valueOfClassSelected = $("#classSelected").val();
-            $.post( "dashboard", {classSelected: valueOfClassSelected}, function(result){
-               var student;
+        
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+            $.post( "/CD/dashboard/getAllStudentByCourse", course.id , function(results){
                 var checkboxes = "";
-                for(student in result) 
+               
+                for( var i = 0; i < results["courseByStudent"].length; i++ ) 
                 {
-                   checkboxes = checkboxes 
-                           + "<div class=\"checkbox\"><input type=\"checkbox\" id=\"" 
-                           + student + "\"  name=\"" + student + "\" value=\"" 
-                           + student + "\">" + student + "</label></div>";
+                    checkboxes = checkboxes 
+                        + "<div class=\"checkbox\"><label><input class=\"checkboxInputStudent\" type=\"checkbox\" id=\"" 
+                        + results["courses"][i]["courseID"] + "\"  name=\"" + results["courses"][i]["courseID"] + "\" value=\"" 
+                        + "false\">" + results["courses"][i]["courseID"] + "</label></div>";
+                    
                 }                
                 $("#allStudents").append(checkboxes);
-            });    
-        });
+            }); 
+            
+
     }
     
     /**
@@ -226,31 +230,14 @@
                 for( var i = 0; i < results["courses"].length; i++ ) 
                 {
                         checkboxes = checkboxes 
-                           + "<div class=\"checkbox\"><label><input class=\"checkboxInputCourse\" type=\"checkbox\" id=\"" 
+                           + "<div class=\"checkbox\"><label><input onchange=\"addStudentsToSelectionFieldOnClassSelect(this)\" "
+                           + "class=\"checkboxInputCourse\" type=\"checkbox\" id=\"" 
                            + results["courses"][i]["courseID"] + "\"  name=\"" + results["courses"][i]["courseID"] + "\" value=\"" 
                            + "false\">" + results["courses"][i]["courseID"] + "</label></div>";
                     
                 }                
                 $("#courseField").append(checkboxes);
-            });    
-        
-            //
-            $("#selectAllCourses").change(function(){
-                if( !($("#selectAllCourses").val()))
-                {
-                    $(".checkboxInputCourse").prop("checked", true);
-                    $("#selectAllCourses").attr("value", true);
-                    
-                }
-                else
-                {
-                    $(".checkboxInputCourse").prop("checked", false);
-                    $("#selectAllCourses").attr("value", false);
-                    
-                }
-                
-            });
-        
+            });       
     }
     
     /**

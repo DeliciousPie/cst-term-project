@@ -82,7 +82,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
         Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
+        //Get all the courses and return a Json object for the form on the 
+        //CD dashboard.
         Route::post('/dashboard/getAllCourses', 'CDDashboardController@getAllCourses');
+        //Get the students based on the courses submitted.
+        Route::post('/dashboard/getAllStudentByCourse', 'CDDashboardController@getAllStudentByCourse');
         
         //Loads the registration page on first time login.
         Route::post('/register','CDInfoController@insertCD');  

@@ -10,6 +10,8 @@ use App\Http\Controllers\CD\ChartController;
 use DB;
 use App\Course;
 use App\StudentActivity;
+use App\Student;
+
 /**
  * Purpose: This class will hold all of the queries that will be used by all of
  * the charts.
@@ -103,6 +105,42 @@ class CDQueryController extends Controller
         
         //Convert objects to string array.
         $result = json_decode(json_encode($courses), true);
+        
+        return $result;
+    }
+    
+    /**
+     * Purpose: This function will get all the students associated with each 
+     * course passed in the courses array.
+     * 
+     * @param type $courses - array of courses.  
+     * 
+     * @return type - text array returned back contain course as the id and 
+     * student array as the data.
+     * 
+     * @author Justin Lutzko and Sean Young
+     * 
+     * @date March 17, 2015
+     */
+    public function getStudentsByCourse( $courses )
+    {
+        $result = array();
+        
+        //for each query perform the following.
+        foreach( $course as $courses )
+        {
+            //perform query for student names.
+            $queryResult = DB::table('Course')
+                ->join('Section', 'Course.courseID', '=', 
+                        'Section.courseID')
+                ->join('Section', 'Section.sectionID', '=' , 'StudentSection.sectionID')
+                ->join('StudentSection', 'StudentSection.userID', '=', 'Student.userID')
+                ->select("(Student.fName + ' ' + Student.lName) as name" )
+                ->where('Course.courseID', $course);
+            
+            //Assign the students to a course.
+            $result[$course] = json_decode(json_encode($queryResult), true);
+        }
         
         return $result;
     }

@@ -19,6 +19,7 @@ use App\Http\Controllers\CD\CDChartQueries\PieChartQueryController;
 use App\Http\Controllers\CD\CDCharts\LineChartController;
 use Auth;
 use App\Course;
+use App\Http\Requests\CDDashboardStudentCourseRequest;
 
 class CDDashboardController extends Controller
 {
@@ -244,12 +245,50 @@ class CDDashboardController extends Controller
  
     }
     
+    /**
+     * Purpose: This function will be called from the CD dashboard page via a
+     * ajax request.  It will return all of course in a JSON object. This 
+     * function will make use of the CDQueryController which holds all of the 
+     * generic queries used by all the charts and various other locations.
+     * 
+     * @return type response() - json object(s)
+     * 
+     * @author Justin Lutzko & Sean Young
+     * 
+     * @date March 17, 2016
+     */
     public function getAllCourses()
-    {
-        
+    {    
+        //Instantiate the CDQueryController
         $allCoursesQuery = new CDQueryController();
         
+        //Get all courses.  Should be a text array returned.
         $allCourses = $allCoursesQuery->getAllCourses();
+        
+        //Return a json object.
         return response()->json(['courses'=>$allCourses]);
+    }
+    
+    /**
+     * Purpose: This function will get all of the students associated with each
+     * Course coming in via an ajac request on the CD dashboard page.
+     * 
+     * @param CDDashboardStudentCourseRequest $request - containing course(s)
+     * 
+     * @return JSON object with all of the students
+     *  associated with each course(s)
+     * 
+     * @author Justin Lutzko & Sean Young
+     * 
+     * @date March 17, 2016
+     */
+    public function getAllStudentByCourse(CDDashboardStudentCourseRequest $request)
+    {
+        //Instantiate the CDQueryController
+        $allStudentByCourseQuery = new CDQueryController();
+        
+        $studentByCourse = $allStudentByCourseQuery->getStudentsByCourse($request);
+
+        return response()->json(['courseByStudent'=>$studentByCourse]);
     }
 }
