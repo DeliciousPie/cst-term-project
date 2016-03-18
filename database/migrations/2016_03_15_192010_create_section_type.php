@@ -3,9 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSectionTypeTable extends Migration
+class CreateSectionType extends Migration
 {
-    /**
+  /**
      * Run the migrations.
      *
      * @return void

@@ -241,8 +241,18 @@ class CSVImportController extends Controller
 
                 if ($classesAdded < $totalCoursesChecked)
                 {
-                    $resultString = $classesAdded . "/" . $totalCoursesChecked .
-                            " added sucessfully. " . $existingCourses;
+                    if (($totalCoursesChecked - $classesAdded) > 8)
+                    {
+                        $alreadyThere = $totalCoursesChecked - $classesAdded;
+                        $resultString = $classesAdded . "/" . $totalCoursesChecked .
+                                " added sucessfully. " . $alreadyThere .
+                                " Professors already in the Database based on their userID. <br/>";
+                    } else
+                    {
+
+                        $resultString = $classesAdded . "/" . $totalCoursesChecked .
+                                " added sucessfully. " . $existingCourses;
+                    }
                 } else //if($classesAdded === $totalCoursesChecked)
                 {
                     $resultString = " All " . $totalCoursesChecked . ' courses added sucessfully.';
@@ -335,8 +345,18 @@ class CSVImportController extends Controller
                 //If some of the imports already existed
                 if ($professorsAdded < $totalProfessorsChecked)
                 {
-                    $resultString = $professorsAdded . "/" . $totalProfessorsChecked .
-                            " added sucessfully. " . $existingProfessors;
+                    if (($totalProfessorsChecked - $professorsAdded) > 8)
+                    {
+                        $alreadyThere = $totalProfessorsChecked - $professorsAdded;
+                        $resultString = $professorsAdded . "/" . $totalProfessorsChecked .
+                                " added sucessfully. " . $alreadyThere .
+                                " Professors already in the Database based on their userID. <br/>";
+                    } else
+                    {
+
+                        $resultString = $professorsAdded . "/" . $totalProfessorsChecked .
+                                " added sucessfully. " . $existingProfessors;
+                    }
                 } else //all imports were successful
                 {
                     $resultString = " All " . $totalProfessorsChecked . ' Professors added sucessfully.';
@@ -361,7 +381,7 @@ class CSVImportController extends Controller
             $totalStudentsChecked = 0;
             $studentsAdded = 0;
             $existingStudents = 'Students ';
-            $alreadyInSection = 0;
+            $existingInSection = 'Students ';
             $assignedToSection = 0;
             $StudentsCSVFile = $_FILES['StudentsCSV'];
 
@@ -375,7 +395,7 @@ class CSVImportController extends Controller
             {
                 $studentsArray['error'] = $errorMessage;
             }
-
+            // if there is an error send it 
             if (isset($studentsArray['error']))
             {
                 $resultString = $studentsArray['error'];
@@ -412,10 +432,6 @@ class CSVImportController extends Controller
                             'educationalInstitution' => $currentStudent['educationalInstitution'],
                             'email' => $currentStudent['email']
                         ]);
-
-
-
-
                         $idFromUser = DB::select('SELECT id FROM users WHERE userID = ?', array($currentStudent['userID']));
 
                         $Student = Role::find(3);
@@ -428,10 +444,13 @@ class CSVImportController extends Controller
                         $existingStudents .= $currentStudent['userID'] . ", ";
                     }
 
-                    $idFromUser = DB::select('select userID from StudentInCourseSection'
-                                    . ' where userID =" ' . $currentStudent["userID"] . '" and sectionID = "' . $sectionID . '"');
+                    // check to see if this combination onf student and course section is 
+                    //      already in the data base 
+                    $studentInSection = DB::select('select userID from StudentInCourseSection'
+                                    . ' where userID ="' . $currentStudent["userID"] . '" and sectionID = "' . $sectionID . '"');
 
-                    if ($idFromUser != '')
+                    // if there is not the combination add them to data base 
+                    if (!$studentInSection)
                     {
                         StudentInCourseSection::create([
                             'userID' => $currentStudent['userID'],
@@ -439,39 +458,59 @@ class CSVImportController extends Controller
                         ]);
                         $assignedToSection ++;
                     } else
-                    {
-                        $alreadyInSection++;
+                    {// if this combination 
+                        $existingInSection .= $currentStudent['userID'] . ", ";
                     }
                 }
+                // cut off the last "," so that the sentance looks cleaner 
                 $existingStudents = rtrim($existingStudents, ', ');
                 $existingStudents .= ' already existed.';
 
-                //Some of the imports already existed
+                $existingInSection = rtrim($existingInSection, ', ');
+                $existingInSection .= ' already assinged ';
+
+                // this block sets up messages that will be returned to the CD
                 if ($studentsAdded < $totalStudentsChecked)
                 {
-                    if (($studentsAdded - $totalStudentsChecked) > 8)
+                    // checks to see if the amount of sudents aready in the DB is 
+                    // greater then 8 then dont show spesific students that are 
+                    // already there. 
+                    if (($totalStudentsChecked - $studentsAdded) > 8)
                     {
+                        $alreadyThere = $totalStudentsChecked - $studentsAdded;
                         $resultString = $studentsAdded . "/" . $totalStudentsChecked .
-                                " added sucessfully to the Database.<br/>";
+                                " added sucessfully to the Database. "
+                                . $alreadyThere . " students already in the Database based on their userID. <br/>";
                     } else
                     {
                         $resultString = $studentsAdded . "/" . $totalStudentsChecked .
-                                " added sucessfully. " . $existingStudents . " in the Database <br/>";
+                                " added sucessfully. " . $existingStudents . " In the Database based on their userID. <br/>";
                     }
                 } else //all imports successful
                 {
                     $resultString = " All " . $totalStudentsChecked . ' Students added sucessfully to the Database.<br/>';
                 }
+
+               // this block sets up messages that will be returned to the CD
                 if ($assignedToSection < $totalStudentsChecked)
-                {
-                    $resultString .= $assignedToSection . "/" . $totalStudentsChecked .
-                            " added sucessfully. " . $existingStudents . " to " . $sectionID . ".";
+                { // checks to see if the amount of sudents aready in the DB is 
+                    // greater then 8 then dont show spesific students that are 
+                    // already there. 
+                    if (($totalStudentsChecked - $assignedToSection) > 8)
+                    {
+                        $resultString .= $assignedToSection . "/" . $totalStudentsChecked . ' Students added sucessfully to ' . $sectionID . '.';
+                    } else
+                    {
+                        $resultString .= $assignedToSection . "/" . $totalStudentsChecked .
+                                " added sucessfully. " . $existingInSection . " to " . $sectionID . ".";
+                    }
                 } else //all imports successful
                 {
                     $resultString .= " All " . $totalStudentsChecked . ' Students added sucessfully to ' . $sectionID . '.';
                 }
             }
         }
+        // returns message back to the CD 
         return $resultString;
     }
 

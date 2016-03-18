@@ -38,14 +38,13 @@ use DatabaseTransactions;
             'courseSection' => "CNET 295 sec L004",
             'courseSectionDescrip' => "",
             'studentList' => (array(
-        0 => "Stu009")),
+        0 => "Stu002")),
             'professorList' => (array(
-        0 => "Pro011"))
+        0 => "Pro002"))
         ];
 
         // submit with section selected and one student and one professor
         $successJsonObj = $CAC->assignToSection();
-
 
         // check that the section assignment was successfull 
         $this->assertTrue((strpos($successJsonObj, "CNET 295 sec L004 has been successfully added")) != false);
@@ -54,15 +53,15 @@ use DatabaseTransactions;
             'courseSection' => "CNET 295 sec L004",
             'courseSectionDescrip' => "",
             'studentList' => (array(
-        0 => "Stu009")),
+        0 => "Stu002")),
             'professorList' => (array(
-        0 => "Pro011"))
+        0 => "Pro002"))
         ];
         // submit with section selected and one student and one professor
         $failCaseJsonObj = $CAC->assignToSection();
-
+        
         // check that the section assignment was already submited and sends back that information
-        $this->assertTrue((strpos($failCaseJsonObj, "CNET 295 sec 2 is already in the Data Base")) != false);
+        $this->assertTrue((strpos($failCaseJsonObj, " Stu002,  Pro002,  are already in CNET 295 sec L004. has been successfully Updated")) != false);
     }
 
     /*

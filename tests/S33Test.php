@@ -28,7 +28,7 @@ use DatabaseTransactions;
     {
 
         Artisan::call('migrate:refresh');
-        Artisan::call('db:seed'); 
+        // 
 
         $this->addCourseOnly();
 
@@ -39,19 +39,22 @@ use DatabaseTransactions;
         $_POST['Section'] = 'L004';
 
         $ReturnArray = $CAC->getProfessorAndStudent();
+        
+        
         // no professors in database
         $this->assertTrue((strpos($ReturnArray, '"professors":[]')) != false);
         // no students in database
         $this->assertTrue((strpos($ReturnArray, '"students":[]')) != false);
 
+        Artisan::call('db:seed');
 
         $this->addProfessorAndStudent();
         $ReturnArrayWithProfandStu = $CAC->getProfessorAndStudent();
 
         // there are students in database
-        $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"professors":[{"fName":"Scottie",')) != false);
+        $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"fName":"Bonny",')) != false);
         // section from database show up. 
-        $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"students":[{"fName":"Mark",')) != false);
+        $this->assertTrue((strpos($ReturnArrayWithProfandStu, '"fName":"Raleigh",')) != false);
        
     }
 

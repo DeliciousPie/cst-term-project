@@ -6,12 +6,12 @@
 
 
 @section('navBarHeader')
-<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer Course Assignment Page </a>
+<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer CSV Import Page </a>
 @stop
 
 @section('bodyHeader')
 <h1 >
-    Course Assignment 
+    CSV Import
 </h1>
 @stop
 

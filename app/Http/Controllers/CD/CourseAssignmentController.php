@@ -90,6 +90,7 @@ class CourseAssignmentController extends Controller
 //        {
 //            array_push($sectionTypes, $sectionTypesFromDB[$i]->sectionID);
 //        }
+//        
         // return all three arrays back to the page 
         return response()->json(['professors' => $professorArray, 'students' => $studentArray]);
     }
@@ -102,7 +103,7 @@ class CourseAssignmentController extends Controller
     public function assignToSection()
     {
         // this local is used to send status of progress back to the user
-        $returnMsgStrings = '';
+        $returnMsgStrings['message'] = '';
         if (isset($_POST['courseSection']))
         {
             // sets local varables 
@@ -110,39 +111,72 @@ class CourseAssignmentController extends Controller
             $studentList = $_POST['studentList'];
             $professorList = $_POST['professorList'];
 
-                // this will get a list of all the section types in the DB
-                // adds all students selected for this course/section 
-                // into the student section database table 
-                if (isset($_POST['studentList']))
+            // this will get a list of all the section types in the DB
+            // adds all students selected for this course/section 
+            // into the student section database table 
+            if (isset($_POST['studentList']))
+            {
+                foreach ($studentList as $student)
                 {
-                    foreach ($studentList as $student)
+                    $alreadyAssigned = DB::select('SELECT userID FROM StudentSection where userID="'
+                                    . $student . '" and sectionID= "' . $sectionID . '"');
+
+
+//                    dd(var_dump($alreadyAssigned));
+                    if (!isset($alreadyAssigned[0]))
                     {
+//                        if ($alreadyAssigned[0]->userID == $student)
+//                        {
+//                        dd($alreadyAssigned);
                         StudentSection::create([
                             'userID' => $student,
                             'sectionID' => $sectionID
                         ]);
+                    } else
+                    {
+
+                        $returnMsgStrings['message'] .= " $student, ";
                     }
                 }
-                // adds all professor selected for this course/section 
-                // into the professor section database table 
-                if (isset($_POST['professorList']))
+            }
+            // adds all professor selected for this course/section 
+            // into the professor section database table 
+            if (isset($_POST['professorList']))
+            {
+
+
+                foreach ($professorList as $professor)
                 {
-                    foreach ($professorList as $professor)
+
+                    $alreadyAssigned = DB::select('SELECT userID FROM ProfessorSection where userID="'
+                                    . $professor . '" and sectionID= "' . $sectionID . '"');
+
+                    if (!isset($alreadyAssigned[0]))
                     {
+//                        if ($alreadyAssigned[0]->userID == $professor)
+//                        {
                         ProfessorSection::create([
                             'userID' => $professor,
                             'sectionID' => $sectionID
                         ]);
+                    } else
+                    {
+                        $returnMsgStrings['message'] .= " $professor,  ";
+                        
                     }
                 }
             }
-            // if the Course/section combination IS in the database notify 
-            // the user that they cannot enter this repeat entry into the database
-        
+        }
+        // if the Course/section combination IS in the database notify 
+        // the user that they cannot enter this repeat entry into the database
         // if no errors happend then the success message will be sent back to CD
-        if ($returnMsgStrings == '')
+        if ($returnMsgStrings['message'] == '')
         {
-            $returnMsgStrings = ['message' => " $sectionID has been successfully added"];
+            $returnMsgStrings['message'] .= " $sectionID has been successfully added";
+        }
+        else
+        {
+            $returnMsgStrings['message'] .= "are already in $sectionID. has been successfully Updated";
         }
 
         // we should return error message codes and a message with 

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\CD\CourseAssignmentController;
+use App\Http\Controllers\CD\CSVImportController;
 use Illuminate\Support\Facades\Artisan;
 
 class S16Test extends TestCase
@@ -11,35 +12,9 @@ class S16Test extends TestCase
     /*
      * This will clear users/profs/students added in the test cases from the database
      */
-    use DatabaseTransactions;
-    
-    public function clearDB()
-    {
 
-        DB::delete('delete from users where userID = "Pro001" OR userID = '
-                . '"Pro002" OR userID = "Stu001" OR userID = "Stu002"');
-
-        DB::delete('delete from Professor where userID = "Pro001" OR userID = '
-                . '"Pro002"');
-
-        DB::delete('delete from Student where userID ="Stu001" OR userID = '
-                . '"Stu002"');
-        
-        $allProf = Professor::all();
-        
-//        DB::table('Professor')->delete();
-//        
-//        foreach( $allProf as $Prof )
-//        {
-//            DB::table('users')
-//                ->where('userID', '=', $Prof->userID )
-//                ->delete();
-//        }
-        
-        
-    }
-
-    /**
+use DatabaseTransactions;
+  /**
      * Tests valid and invalid professor and student imports
      *
      * @return void
@@ -47,18 +22,11 @@ class S16Test extends TestCase
     public function test()
     {
         Artisan::call('migrate:refresh');
-        Artisan::call('db:seed'); 
+        Artisan::call('db:seed');
         
-        $this->clearDB();
-
-        $CAC = new CSVImportController();
+        $CSVIC = new CSVImportController();
 
         $CSVFolder = base_path() . '/tests/FilesForTesting/S16/';
-
-        $_POST['Section'] = 'J03';
-
-        $_POST['Classes'] = 'MED300';
-
         /* Here are we testing Succesful uploading of professors */
         $_FILES = array('ProfessorsCSV' => [
                 'name' => 'Professors.csv',
@@ -68,8 +36,7 @@ class S16Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals(' All 2 Professors added sucessfully.', $CAC->csvUploadProfessorsToDB());
-        $this->clearDB();
+        $this->assertEquals(' All 4 Professors added sucessfully.', $CSVIC->csvUploadProfessorsToDB());
 
 
         /* ProfessorsLengthError */
@@ -86,8 +53,7 @@ class S16Test extends TestCase
                 . 'inserted into the database and will give an error when you '
                 . 'try to upload this file its not good good thing we build the '
                 . 'site to be able to stop this from braking the website! At '
-                . 'row 3)', $CAC->csvUploadProfessorsToDB());
-        $this->clearDB();
+                . 'row 3)', $CSVIC->csvUploadProfessorsToDB());
 
         /* ProfessorsMissingHeader */
         $_FILES = array('ProfessorsCSV' => [
@@ -99,8 +65,7 @@ class S16Test extends TestCase
         ]);
 
         $this->assertEquals('Header userID, not present in the Comma-Seperated'
-                . ' values file(may be spelt wrong).', $CAC->csvUploadProfessorsToDB());
-        $this->clearDB();
+                . ' values file(may be spelt wrong).', $CSVIC->csvUploadProfessorsToDB());
 
         /* ProfessorsMissing any Entries */
         $_FILES = array('ProfessorsCSV' => [
@@ -111,9 +76,7 @@ class S16Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals('There are no Entries in the CSV File', $CAC->csvUploadProfessorsToDB());
-        $this->clearDB();
-
+        $this->assertEquals('There are no Entries in the CSV File', $CSVIC->csvUploadProfessorsToDB());
 
         /* ProfessorNotCSV File test */
         $_FILES = array('ProfessorsCSV' => [
@@ -126,17 +89,17 @@ class S16Test extends TestCase
         ]);
 
         $this->assertEquals('ProfessorsNotCSVFile.docx is not a Comma-'
-                . 'Seperated values file.', $CAC->csvUploadProfessorsToDB());
-        $this->clearDB();
-
-
-
+                . 'Seperated values file.', $CSVIC->csvUploadProfessorsToDB());
 
         //======================================================================
         //              Students
         //======================================================================
-        $sectionID = $CAC->createSectionForStudents();
 
+        $_POST['Section'] = 'J03';
+
+        $_POST['Classes'] = 'CDBM190';
+
+        $sectionID = $CSVIC->createSectionForStudents();
 
         /* Testing Students Successful Upload */
         $_FILES = array('StudentsCSV' => [
@@ -147,8 +110,8 @@ class S16Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals(' All 2 Students added sucessfully.', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
+        $this->assertEquals(' All 9 Students added sucessfully to the Database.<br/> All 9 Students added sucessfully to CDBM190 sec J03.', 
+                $CSVIC->csvUploadStudentToDB($sectionID));
 
 
 
@@ -167,8 +130,7 @@ class S16Test extends TestCase
                 . 'able to be inserted into the database and will give an '
                 . 'error when you try to upload this file its not good good '
                 . 'thing we build the site to be able to stop this from braking '
-                . 'the website! At row 3)', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
+                . 'the website! At row 3)', $CSVIC->csvUploadStudentToDB($sectionID));
 
         /* Testing Students Missing Header */
         $_FILES = array('StudentsCSV' => [
@@ -180,8 +142,7 @@ class S16Test extends TestCase
         ]);
 
         $this->assertEquals('Header userID, not present in the Comma-Seperated'
-                . ' values file(may be spelt wrong).', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
+                . ' values file(may be spelt wrong).', $CSVIC->csvUploadStudentToDB($sectionID));
 
         /* Testing Students Missing Required Rows */
         $_FILES = array('StudentsCSV' => [
@@ -192,8 +153,7 @@ class S16Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals('userID is required but is empty at row 2', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
+        $this->assertEquals('userID is required but is empty at row 2', $CSVIC->csvUploadStudentToDB($sectionID));
 
         /* Students Not CSV File */
         $_FILES = array('StudentsCSV' => [
@@ -206,8 +166,7 @@ class S16Test extends TestCase
         ]);
 
         $this->assertEquals('StudentsNotCSVFile.docx is not a Comma-Seperated '
-                . 'values file.', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
+                . 'values file.', $CSVIC->csvUploadStudentToDB($sectionID));
 
 
         /* Testing Students Missing Required Rows */
@@ -219,9 +178,7 @@ class S16Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals('There are no Entries in the CSV File', $CAC->csvUploadStudentToDB($sectionID));
-        $this->clearDB();
-        
+        $this->assertEquals('There are no Entries in the CSV File', $CSVIC->csvUploadStudentToDB($sectionID));
     }
 
 }
