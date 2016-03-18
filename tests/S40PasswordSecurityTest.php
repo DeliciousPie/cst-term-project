@@ -15,24 +15,24 @@ class S40PasswordSecurityTest extends TestCase
     {
         //Log in as a Student
         $this->visit('/login')
-            ->type('12347', 'userID')
+            ->type('Stu001', 'userID')
             ->type('password', 'password')
             ->press('submit')
             ->seePageIs('http://phpserver/home');
         
         //Log in as a Professor
         $this->visit('/login')
-            ->type('12346', 'userID')
-            ->type('newpassword', 'password')
+            ->type('Pro001', 'userID')
+            ->type('password', 'password')
             ->press('submit')
             ->seePageIs('http://phpserver/home');
                 
         //Log in as a CD
         $this->visit('/login')
-            ->type('12345', 'userID')
+            ->type('54321', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/home');
+            ->seePageIs('http://phpserver/CD/dashboard');
     }
     
     
@@ -68,5 +68,32 @@ class S40PasswordSecurityTest extends TestCase
             ->type('', 'password')
             ->press('submit')
             ->seePageIs('http://phpserver//login');
+    }
+    
+    public function testRegisterPage()
+    {
+        //Log in as a Student
+        $this->visit('/login')
+            ->type('12348', 'userID')
+            ->type('password', 'password')
+            ->press('submit')
+            ->seePageIs('http://phpserver/Student/dashboard')
+            ->see("Student Registration");
+        
+        //Log in as a Professor
+        $this->visit('/login')
+            ->type('12346', 'userID')
+            ->type('password', 'password')
+            ->press('submit')
+            ->seePageIs('http://phpserver/Prof/dashboard')
+            ->see("Professor Registration");
+                
+        //Log in as a CD
+        $this->visit('/login')
+            ->type('12345', 'userID')
+            ->type('password', 'password')
+            ->press('submit')
+            ->seePageIs('http://phpserver/CD/register')
+            ->see("CD Registration");
     }
 }
