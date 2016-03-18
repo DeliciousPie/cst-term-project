@@ -41,7 +41,7 @@ class CDQueryController extends Controller
      */
     public function queryTotalAvgByCourse($courseToFind, $comparison)
     {
-        $comparison = $this->getTimeSpentandTimeEstiamtedColumns($comparison);
+        $comparison = $this->getTimeSpentandTimeEstimatedColumns($comparison);
         
         //Perform the query.
         $queryResult = DB::table('StudentActivity')
@@ -76,7 +76,7 @@ class CDQueryController extends Controller
     
     public function queryTotalHoursSpentOnCourse($courseToFind, $comparison)
     {
-        $comparison = $this->getTimeSpentandTimeEstiamtedColumns($comparison);
+        $comparison = $this->getTimeSpentandTimeEstimatedColumns($comparison);
         
         //Perform the query.
         $queryResult = DB::table('StudentActivity')
@@ -124,24 +124,24 @@ class CDQueryController extends Controller
      */
     public function getStudentsByCourse( $courses )
     {
-        $result = array();
+        
         
         //for each query perform the following.
-        foreach( $course as $courses )
-        {
+
+        
             //perform query for student names.
             $queryResult = DB::table('Course')
-                ->join('Section', 'Course.courseID', '=', 
-                        'Section.courseID')
-                ->join('Section', 'Section.sectionID', '=' , 'StudentSection.sectionID')
-                ->join('StudentSection', 'StudentSection.userID', '=', 'Student.userID')
-                ->select("(Student.fName + ' ' + Student.lName) as name" )
-                ->where('Course.courseID', $course);
+                ->join('Section', 'Section.courseID', '=', 'Course.courseID')
+                ->join('StudentSection', 'StudentSection.sectionID', '=' , 'Section.sectionID')
+                ->join('Student', 'Student.userID', '=', 'StudentSection.userID')   
+                ->select('Student.fName' )
+                ->where('Course.courseID','=', $courses)
+                ->get();
             
             //Assign the students to a course.
-            $result[$course] = json_decode(json_encode($queryResult), true);
-        }
+            $result = json_decode(json_encode($queryResult), true);  
         
+            
         return $result;
     }
     
@@ -151,7 +151,7 @@ class CDQueryController extends Controller
      * @param type $comp - the paramter to be compared.
      * @return string return the proper colulmn name for the queries.
      */
-    public function getTimeSpentandTimeEstiamtedColumns($comp )
+    public function getTimeSpentandTimeEstimatedColumns($comp )
     {
         if( $comp === 'spent' )
         {

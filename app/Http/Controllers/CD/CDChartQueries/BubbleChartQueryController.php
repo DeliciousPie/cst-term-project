@@ -91,8 +91,8 @@ class BubbleChartQueryController extends CDQueryController
     public function avgComparisonForCourseWithTotals($comparison1, $comparison2, 
             $course)
     {
-        $comparison1 = $this->getTimeSpentandTimeEstiamtedColumns($comparison1);
-        $comparison2 = $this->getTimeSpentandTimeEstiamtedColumns($comparison2);
+        $comparison1 = $this->getTimeSpentandTimeEstimatedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstimatedColumns($comparison2);
         
         //Find course DB passed in from the form.  Changes from what user passes
         //in to what the database has.
@@ -101,9 +101,7 @@ class BubbleChartQueryController extends CDQueryController
                 ->get();
         
         //Change from query object to associative string array.
-        $courseToFind = json_decode(json_encode($courseToFind), true);
-        
-        
+        $courseToFind = json_decode(json_encode($courseToFind), true);      
         
         //Query based on first parameter and course. Becomes query object.
         $queryComp1 = $this->queryTotalAvgByCourse($courseToFind, $comparison1);

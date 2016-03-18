@@ -42,8 +42,8 @@ class ColumnChartQueryController extends CDQueryController
      */
     public function performAvgComparisonQuery($comparison1, $comparison2)
     {
-        $comparison1 = $this->getTimeSpentandTimeEstiamtedColumns($comparison1);
-        $comparison2 = $this->getTimeSpentandTimeEstiamtedColumns($comparison2);
+        $comparison1 = $this->getTimeSpentandTimeEstimatedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstimatedColumns($comparison2);
         //perform query on all of the value for comparison1 from the 
         //Student activity table in the DB. Specified on chart form in CD
         //dashboard.
@@ -89,8 +89,8 @@ class ColumnChartQueryController extends CDQueryController
     public function performAvgComparisonForCourse($comparison1, $comparison2, 
             $course)
     {
-        $comparison1 = $this->getTimeSpentandTimeEstiamtedColumns($comparison1);
-        $comparison2 = $this->getTimeSpentandTimeEstiamtedColumns($comparison2);
+        $comparison1 = $this->getTimeSpentandTimeEstimatedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstimatedColumns($comparison2);
         //Find from DB passed in from the form.  Changes from what user passes
         //in to what the database has.
         $courseToFind = Course::select('courseID')

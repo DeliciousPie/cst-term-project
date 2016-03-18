@@ -194,7 +194,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
-            $.post( "/CD/dashboard/getAllStudentByCourse", course.id , function(results){
+            $.post( "/CD/dashboard/getAllStudentByCourse", 'CNET 295' , function(results){
                 var checkboxes = "";
                
                 for( var i = 0; i < results["courseByStudent"].length; i++ ) 
@@ -213,7 +213,7 @@
     
     /**
      *Purpose: The purpsoe of this function will show all of the courses as
-     *checkboxs. 
+     *checkboxes. 
      * 
      * @returns {void} -      
      * 

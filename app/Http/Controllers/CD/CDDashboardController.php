@@ -271,7 +271,7 @@ class CDDashboardController extends Controller
     
     /**
      * Purpose: This function will get all of the students associated with each
-     * Course coming in via an ajac request on the CD dashboard page.
+     * Course coming in via an ajax request on the CD dashboard page.
      * 
      * @param CDDashboardStudentCourseRequest $request - containing course(s)
      * 
@@ -287,8 +287,10 @@ class CDDashboardController extends Controller
         //Instantiate the CDQueryController
         $allStudentByCourseQuery = new CDQueryController();
         
-        $studentByCourse = $allStudentByCourseQuery->getStudentsByCourse($request);
-
+        $requestInfo = $request->all();
+        
+        $studentByCourse = $allStudentByCourseQuery->getStudentsByCourse($requestInfo[0]);
+        
         return response()->json(['courseByStudent'=>$studentByCourse]);
     }
 }

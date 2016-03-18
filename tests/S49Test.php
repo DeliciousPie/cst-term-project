@@ -18,8 +18,9 @@ class S49Test extends TestCase
         
         $CDQuery = new CDQueryController();
         
-        $result = $CDQuery->getStudentsByCourse('COMM101');
+        $result = $CDQuery->getStudentsByCourse('CNET 295');
         
+        $this->assertEquals($result,'Cristin');
         
     }
 }
