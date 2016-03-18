@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class S40PasswordSecurityTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Test successful logins for Student, CD and Prof
      *
      * @return void
      */
@@ -35,7 +35,11 @@ class S40PasswordSecurityTest extends TestCase
             ->seePageIs('http://phpserver/CD/dashboard');
     }
     
-    
+    /**
+     * Test failed login for CD, Prof and Student
+     *
+     * @return void
+     */    
     public function testLoginWrongPassword()
     {
         //fail log in as a Student
@@ -59,7 +63,12 @@ class S40PasswordSecurityTest extends TestCase
             ->press('submit')
             ->seePageIs('http://phpserver//login');
     }
-    
+
+    /**
+     * Test login leaving fields blank
+     *
+     * @return void
+     */    
     public function testLoginBlank()
     {
         //fail log in as a Student
@@ -70,6 +79,11 @@ class S40PasswordSecurityTest extends TestCase
             ->seePageIs('http://phpserver//login');
     }
     
+     /**
+     * Test logging in on unconfirmed CD, Prof and Student
+     *
+     * @return void
+     */
     public function testRegisterPage()
     {
         //Log in as a Student
