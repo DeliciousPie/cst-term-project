@@ -133,8 +133,8 @@ class CDQueryController extends Controller
             $queryResult = DB::table('Course')
                 ->join('Section', 'Section.courseID', '=', 'Course.courseID')
                 ->join('StudentSection', 'StudentSection.sectionID', '=' , 'Section.sectionID')
-                ->join('Student', 'Student.userID', '=', 'StudentSection.userID')   
-                ->select('Student.fName' )
+                ->join('Student', 'Student.userID', '=', 'StudentSection.userID') 
+                ->select('Student.id', 'Student.fName', 'Student.lName')
                 ->where('Course.courseID','=', $courses)
                 ->get();
             

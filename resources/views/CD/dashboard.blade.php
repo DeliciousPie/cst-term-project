@@ -64,7 +64,32 @@
                             
                         </select>
                         
-                        <div id="courseField"></div>
+                       
+
+
+                        <div id="courseField" hidden>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <select name="from[]" id="undo_redo" class="form-control" size="13" multiple="multiple">
+                                        <!--Insert options here. AKA dynamically populate the list-->
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-2">
+                                    <button type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>
+                                    <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                    <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                    <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                    <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                    <button type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>
+                                </div>
+
+
+                                <div class="col-xs-5">
+                                    <select name="to[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple"></select>
+                                </div>
+                            </div>
+                        </div>
                         <div id="studentField"></div>
                         <label for="comparison1" required> Parameter1:</label>
                         <select id="comparison1" name="comparison1" class="form-control">
@@ -108,6 +133,13 @@
         </div>
     </div>
 </div>
+<link href="/css/plugins/prettify.css" rel="stylesheet">
+<link href="/css/plugins/style.css" rel="stylesheet">
+<script src="/js/plugins/multiselect.min.js"></script>
+
+
+
+</script>
 
 <script type='text/javascript'>
     
@@ -194,18 +226,17 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
-            $.post( "/CD/dashboard/getAllStudentByCourse", 'CNET 295' , function(results){
+            $.post( "/CD/dashboard/getAllStudentByCourse", {class: 'CNET 295'} , function(results){
                 var checkboxes = "";
                
                 for( var i = 0; i < results["courseByStudent"].length; i++ ) 
                 {
                     checkboxes = checkboxes 
-                        + "<div class=\"checkbox\"><label><input class=\"checkboxInputStudent\" type=\"checkbox\" id=\"" 
-                        + results["courses"][i]["courseID"] + "\"  name=\"" + results["courses"][i]["courseID"] + "\" value=\"" 
-                        + "false\">" + results["courses"][i]["courseID"] + "</label></div>";
+                        + "<option value=\"" + i + "\">" 
+                        + results["courseByStudent"][i]["fName"] + "</option>";
                     
                 }                
-                $("#allStudents").append(checkboxes);
+                $("#studentField").append(checkboxes);
             }); 
             
 
@@ -219,25 +250,28 @@
      * 
      */
     function produceListOfCheckboxCourses()
-    {       
+    {      
+            $("#courseField").load("/multiSelectBox.html");
+            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
             $.post( "/CD/dashboard/getAllCourses", function(results){
-                var checkboxes = "";
+                var options = "";
                
                 for( var i = 0; i < results["courses"].length; i++ ) 
                 {
-                        checkboxes = checkboxes 
-                           + "<div class=\"checkbox\"><label><input onchange=\"addStudentsToSelectionFieldOnClassSelect(this)\" "
-                           + "class=\"checkboxInputCourse\" type=\"checkbox\" id=\"" 
-                           + results["courses"][i]["courseID"] + "\"  name=\"" + results["courses"][i]["courseID"] + "\" value=\"" 
-                           + "false\">" + results["courses"][i]["courseID"] + "</label></div>";
+                        options = options 
+                           + "<option onchange=\"addStudentsToSelectionFieldOnClassSelect(this)\""
+                           + " value=\"" + i + "\"" 
+                           + results["courses"][i]["courseID"] + "</option>";
                     
                 }                
-                $("#courseField").append(checkboxes);
-            });       
+                $("#undo_redo").append(options);
+            }); 
+            
+            $('#undo_redo').multiselect();
     }
     
     /**
@@ -279,6 +313,9 @@
         $("#classSelectedLabel").remove();
         $("#classSelected").remove();
             
-    }  
+    }
+
 </script>
+    
+
 @endsection

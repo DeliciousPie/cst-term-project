@@ -287,9 +287,9 @@ class CDDashboardController extends Controller
         //Instantiate the CDQueryController
         $allStudentByCourseQuery = new CDQueryController();
         
-        $requestInfo = $request->all();
+        $requestInfo = $request->input('class');
         
-        $studentByCourse = $allStudentByCourseQuery->getStudentsByCourse($requestInfo[0]);
+        $studentByCourse = $allStudentByCourseQuery->getStudentsByCourse($requestInfo);
         
         return response()->json(['courseByStudent'=>$studentByCourse]);
     }
