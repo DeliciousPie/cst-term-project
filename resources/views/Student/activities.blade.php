@@ -2,6 +2,30 @@
 
 @section('title')
         <title>Student Activities</title>
+        <script>
+            var rangeValues =
+            {
+                "0": "0/10 - Not stressed",
+                "1": "1/10 - Not stressed",
+                "2": "2/10 - Hardly Stressed",
+                "3": "3/10 - Hardly Stressed",
+                "4": "4/10 - Somewhat Stressed",
+                "5": "5/10 - Stressed",
+                "6": "6/10 - Stressed",
+                "7": "7/10 - Very Stressed",
+                "8": "8/10 - Very Stressed",
+                "9": "9/10 - Extremely Stressed",
+                "10": "10/10 - Extremely Stressed"
+            };
+            
+                $('#rangeText').text(rangeValues[$('#rangeInput').val()]);
+
+                // setup an event handler to set the text when the range value is dragged (see event for input) or changed (see event for change)
+                $('#stressLevel').on('input change', function () {
+                    alert("t");
+                        $('#stressDescription').text(rangeValues[$(this).val()]);
+                });
+        </script>
 @stop
 
 @section('navBarHeader')

@@ -1,5 +1,3 @@
-
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default" >
@@ -49,24 +47,30 @@
                         </br>
 
                         <label for="stressLevel">Stress Level</label>
-                        <input type="range" id="stressLevel" name="stressLevel" 
-                               min="0" max="10" step="1" value="{{$studAct['stressLevel']}}" list="steplist"
-                               ></input>
-                        <datalist id="steplist">
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </datalist>
-                        <label for="stressLevel" style="font-weight:normal">Not Stressed</label>
-                        <label for="stressLevel" style="float: right;font-weight:normal">Stressed</label>
+	<br />
+	<label for="stressLevel" >Description: </label>
+	<label for="stressLevel" id="stressDescription" name="stressDescription" style=" text-align: center; font-weight:normal">
+            lbl
+	</label>
+	<input type="range" id="stressLevel" name="stressLevel" 
+		   min="0" max="10" step="1" value="{{$studAct['stressLevel']}}" list="steplist"
+		   data-toggle="tooltip" data-placement="top" title="test"
+		   ></input>
+	<datalist id="steplist">
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
+		<option>10</option>
+	</datalist>
+	<label for="stressLevel" style="font-weight:normal">Not Stressed</label>
+	<label for="stressLevel" style="float: right;font-weight:normal">Stressed</label>
                         </br>
                         <label for="stressLevel">Comments</label>
                         <!--Need to check if if submitted or not so we don't get default values-->
