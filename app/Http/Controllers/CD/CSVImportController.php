@@ -21,10 +21,12 @@ use Illuminate\Support\Facades\Auth;
 class CSVImportController extends Controller
 {
 
+    //global atrubute for ammount of entries before just displaying number of entires
+    protected $ENTRY_AMOUNT = 8;
     //Constructor for CourseAssignmentController
     public function _construct()
     {
-        $this->middleware('cdmanager');
+        $this->middleware('cdmanager');   
     }
 
     /*
@@ -66,6 +68,13 @@ class CSVImportController extends Controller
         return view('CD/CSVImport', compact('classes', 'sectionTypes')); //, 'students', 'professors'));
     }
 
+   /*
+    *  this is used to check with the database to see 
+    *   if the course the CD is looking at has any sections already 
+    *   assigned to that course. 
+    *   return an array of course section's if they are found 
+    */
+    
     public function getCoursesSections()
     {
         if (isset($_POST['courseID']))
@@ -93,7 +102,8 @@ class CSVImportController extends Controller
 
     public function uploadCSVFiles()
     {
-        set_time_limit(10000);
+        // this was used to try to handle page timeout do not know if its working properly
+        //set_time_limit(10000);
 
         if (isset($_FILES['CourseCSV']))
         {
@@ -110,10 +120,8 @@ class CSVImportController extends Controller
 
             $_POST['studentsMessage'] = $this->csvUploadStudentToDB($sectionID);
         }
-        //******ended here**********************************
-        //need to modify this to reflect professor and do again for students
-
-        set_time_limit(30);
+        // this was used to try to handle page timeout do not know if its working properly
+        //set_time_limit(30);
 
         //Select all courses from Course
         $courses = DB::select('SELECT courseID FROM Course');
@@ -241,11 +249,11 @@ class CSVImportController extends Controller
 
                 if ($classesAdded < $totalCoursesChecked)
                 {
-                    if (($totalCoursesChecked - $classesAdded) > 8)
+                    if (($totalCoursesChecked - $classesAdded) > $this->ENTRY_AMOUNT)
                     {
                         $alreadyThere = $totalCoursesChecked - $classesAdded;
                         $resultString = $classesAdded . "/" . $totalCoursesChecked .
-                                " added sucessfully. " . $alreadyThere .
+                                " added successfully. " . $alreadyThere .
                                 " Professors already in the Database based on their userID. <br/>";
                     } else
                     {
@@ -255,7 +263,7 @@ class CSVImportController extends Controller
                     }
                 } else //if($classesAdded === $totalCoursesChecked)
                 {
-                    $resultString = " All " . $totalCoursesChecked . ' courses added sucessfully.';
+                    $resultString = " All " . $totalCoursesChecked . ' courses added successfully.';
                 }
             }
         }
@@ -345,11 +353,11 @@ class CSVImportController extends Controller
                 //If some of the imports already existed
                 if ($professorsAdded < $totalProfessorsChecked)
                 {
-                    if (($totalProfessorsChecked - $professorsAdded) > 8)
+                    if (($totalProfessorsChecked - $professorsAdded) > $this->ENTRY_AMOUNT)
                     {
                         $alreadyThere = $totalProfessorsChecked - $professorsAdded;
                         $resultString = $professorsAdded . "/" . $totalProfessorsChecked .
-                                " added sucessfully. " . $alreadyThere .
+                                " added successfully. " . $alreadyThere .
                                 " Professors already in the Database based on their userID. <br/>";
                     } else
                     {
@@ -359,7 +367,7 @@ class CSVImportController extends Controller
                     }
                 } else //all imports were successful
                 {
-                    $resultString = " All " . $totalProfessorsChecked . ' Professors added sucessfully.';
+                    $resultString = " All " . $totalProfessorsChecked . ' Professors added successfully.';
                 }
             }
         }
@@ -401,7 +409,7 @@ class CSVImportController extends Controller
                 $resultString = $studentsArray['error'];
             } else
             {
-                //For every professor
+                //For every student in the CSV loop and create
                 foreach ($studentsArray as $currentStudent)
                 {
                     $totalStudentsChecked++;
@@ -475,20 +483,20 @@ class CSVImportController extends Controller
                     // checks to see if the amount of sudents aready in the DB is 
                     // greater then 8 then dont show spesific students that are 
                     // already there. 
-                    if (($totalStudentsChecked - $studentsAdded) > 8)
+                    if (($totalStudentsChecked - $studentsAdded) > $this->ENTRY_AMOUNT)
                     {
                         $alreadyThere = $totalStudentsChecked - $studentsAdded;
                         $resultString = $studentsAdded . "/" . $totalStudentsChecked .
-                                " added sucessfully to the Database. "
+                                " added successfully to the Database. "
                                 . $alreadyThere . " students already in the Database based on their userID. <br/>";
                     } else
                     {
                         $resultString = $studentsAdded . "/" . $totalStudentsChecked .
-                                " added sucessfully. " . $existingStudents . " In the Database based on their userID. <br/>";
+                                " added successfully. " . $existingStudents . " In the Database based on their userID. <br/>";
                     }
                 } else //all imports successful
                 {
-                    $resultString = " All " . $totalStudentsChecked . ' Students added sucessfully to the Database.<br/>';
+                    $resultString = " All " . $totalStudentsChecked . ' Students added successfully to the Database.<br/>';
                 }
 
                // this block sets up messages that will be returned to the CD
@@ -496,17 +504,17 @@ class CSVImportController extends Controller
                 { // checks to see if the amount of sudents aready in the DB is 
                     // greater then 8 then dont show spesific students that are 
                     // already there. 
-                    if (($totalStudentsChecked - $assignedToSection) > 8)
+                    if (($totalStudentsChecked - $assignedToSection) > $this->ENTRY_AMOUNT)
                     {
-                        $resultString .= $assignedToSection . "/" . $totalStudentsChecked . ' Students added sucessfully to ' . $sectionID . '.';
+                        $resultString .= $assignedToSection . "/" . $totalStudentsChecked . ' Students added successfully to ' . $sectionID . '.';
                     } else
                     {
                         $resultString .= $assignedToSection . "/" . $totalStudentsChecked .
-                                " added sucessfully. " . $existingInSection . " to " . $sectionID . ".";
+                                " added successfully. " . $existingInSection . " to " . $sectionID . ".";
                     }
                 } else //all imports successful
                 {
-                    $resultString .= " All " . $totalStudentsChecked . ' Students added sucessfully to ' . $sectionID . '.';
+                    $resultString .= " All " . $totalStudentsChecked . ' Students added successfully to ' . $sectionID . '.';
                 }
             }
         }
@@ -642,6 +650,13 @@ class CSVImportController extends Controller
         return true;
     }
 
+    
+    /*
+     * this will create the section in the DB so that a student 
+     * can be assigned to the section 
+     * return the section id string 
+     */
+    
     public function createSectionForStudents()
     {
 

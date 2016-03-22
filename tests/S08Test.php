@@ -46,7 +46,7 @@ class S08Test extends TestCase
                 'size' => 173
         ]);
 
-        $this->assertEquals(' All 7 courses added sucessfully.', $CAC->csvUploadCoursesToDB());
+        $this->assertEquals(' All 7 courses added successfully.', $CAC->csvUploadCoursesToDB());
         $this->clearDB();
 
         /* Course Length Error */

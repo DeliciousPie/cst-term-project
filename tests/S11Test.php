@@ -26,7 +26,6 @@ class S11Test extends TestCase
         $this->TestThreeOld18NewStudents();
     }
 
-    
     private function TestThreeNewStudents()
     {
         $CSVIC = new CSVImportController();
@@ -45,19 +44,30 @@ class S11Test extends TestCase
                 'error' => 0,
                 'size' => 173
         ]);
-        
+
         // test upload into database 
         $CSVIC->csvUploadStudentToDB($sectionID);
 
         // check to see that first and last student are added 
-        $this->seeInDatabase('Student', ['userID' => 'Stu060']);
-        $this->seeInDatabase('Student', ['userID' => 'Stu062']);
+        for ($i = 60; $i <= 62; $i++)
+        {
+            $this->seeInDatabase('Student', ['userID' => 'Stu0' . $i]);
+        }
         // test to see that there are no mistakes of an extra user
-        $this->notSeeInDatabase('Student', ['userID' => 'Stu063']);
-        // check to see if the students are added to the course section table 
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu060','sectionID'=>'CDBM190 sec J03']);
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu062','sectionID'=>'CDBM190 sec J03']);
-        $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu063','sectionID'=>'CDBM190 sec J03']);
+        for ($i = 63; $i < 80; $i++)
+        {
+            $this->notSeeInDatabase('Student', ['userID' => 'Stu0' . $i]);
+        }
+
+        // check to see if the students are added to the course section table
+        for ($i = 60; $i < 62; $i++)
+        {
+            $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
+        }
+        for ($i = 63; $i < 80; $i++)
+        {
+            $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
+        }
     }
 
     private function TestThreeOld18NewStudents()
@@ -76,25 +86,25 @@ class S11Test extends TestCase
                 'error' => 0,
                 'size' => 173
         ]);
-        
-        
-         // test upload into database 
+
+
+        // test upload into database 
         $CSVIC->csvUploadStudentToDB($sectionID);
 
         // check to see that first and last student are added 
-        $this->seeInDatabase('Student', ['userID' => 'Stu060']);
-        $this->seeInDatabase('Student', ['userID' => 'Stu062']);
-        $this->seeInDatabase('Student', ['userID' => 'Stu064']);
-        $this->seeInDatabase('Student', ['userID' => 'Stu080']);
+        //#######################make this a loop##################
+        for ($i = 60; $i <= 80; $i++)
+        {
+            $this->seeInDatabase('Student', ['userID' => 'Stu0' . $i]);
+        }
         // test to see that there are no mistakes of an extra user
         $this->notSeeInDatabase('Student', ['userID' => 'Stu081']);
-        // check to see if the students are added to the course section table 
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu060','sectionID'=>'CDBM190 sec J03']);
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu062','sectionID'=>'CDBM190 sec J03']);
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu064','sectionID'=>'CDBM190 sec J03']);
-        $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu080','sectionID'=>'CDBM190 sec J03']);
-        // check to see if extra entries have not been added 
-        $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu081','sectionID'=>'CDBM190 sec J03']);
+        // check to see if all students are added to the course section table 
+        for ($i = 60; $i < 80; $i++)
+        {
+            $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
+        }
+        $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu081', 'sectionID' => 'CDBM190 sec J03']);
     }
 
 }

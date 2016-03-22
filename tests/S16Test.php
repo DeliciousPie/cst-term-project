@@ -36,7 +36,7 @@ use DatabaseTransactions;
                 'size' => 173
         ]);
 
-        $this->assertEquals(' All 4 Professors added sucessfully.', $CSVIC->csvUploadProfessorsToDB());
+        $this->assertEquals(' All 4 Professors added successfully.', $CSVIC->csvUploadProfessorsToDB());
 
 
         /* ProfessorsLengthError */
@@ -110,7 +110,7 @@ use DatabaseTransactions;
                 'size' => 173
         ]);
 
-        $this->assertEquals(' All 9 Students added sucessfully to the Database.<br/> All 9 Students added sucessfully to CDBM190 sec J03.', 
+        $this->assertEquals(' All 9 Students added successfully to the Database.<br/> All 9 Students added successfully to CDBM190 sec J03.', 
                 $CSVIC->csvUploadStudentToDB($sectionID));
 
 

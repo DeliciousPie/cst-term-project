@@ -79,18 +79,7 @@ class CourseAssignmentController extends Controller
         // database request to get students from database 
         $studentArray = DB::select('SELECT fName, lName, userID FROM Student '
                         . 'where userID in(select userID from StudentInCourseSection where sectionID="' . $courseSection . '") ');
-        //. 'where areaOfStudy = (select areaOfStudy from Course where courseID = "' . $courseID . '")');
-        //
-        // database request to get all section types from database 
-//        $sectionTypes = [];
-//        $sectionTypesFromDB = DB::select('SELECT sectionID FROM SectionType');
-//
-//        // format into ajax return type 
-//        for ($i = 0; $i < count($sectionTypesFromDB); $i++)
-//        {
-//            array_push($sectionTypes, $sectionTypesFromDB[$i]->sectionID);
-//        }
-//        
+
         // return all three arrays back to the page 
         return response()->json(['professors' => $professorArray, 'students' => $studentArray]);
     }

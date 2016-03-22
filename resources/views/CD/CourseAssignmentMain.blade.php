@@ -38,71 +38,73 @@
                     <!--this div is for the progress wheel-->
                     <div class="loading"></div>
                     <div id="messageDiv"></div>
-                        <!-- Course Div open -->
-                        <div class="col-md-7" id="CourseDiv">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Course</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <?=
-                                            Former::horizontal_open()
-                                            ->id('CourseSelect')
-                                            ->secure()
-                                            ->rules(['name' => 'required'])
-                                            ->method('POST')
-                                    ?>
+                    <!-- Course Div open -->
+                    <div class="col-md-7" id="CourseDiv">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Course</h3>
+                            </div>
+                            <div class="panel-body">
+                                <?=
+                                        Former::horizontal_open()
+                                        ->id('CourseSelect')
+                                        ->secure()
+                                        ->rules(['name' => 'required'])
+                                        ->method('POST')
+                                ?>
 
-                                    <?=
-                                            Former::select('Classes')->options($classes)->setAttribute('size', '10')
-                                            ->id('courseSelection'),
-                                            Former::actions()
-                                            ->large_primary_submit('Generate Professors and Students')
-                                            ->id('getProfessorAndStudent')
-                                    ?>
+                                <?=
+                                        Former::select('Classes')->options($classes)->setAttribute('size', '10')
+                                        ->id('courseSelection'),
+                                        Former::actions()
+                                        ->large_primary_submit('Generate Professors and Students')
+                                        ->id('getProfessorAndStudent')
+                                ?>
 
-                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- /Course Div close -->
-                        
-                       <!-- Professor select Boxes open  -->
-                        <div class="col-md-7" id="ProfessorDiv">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Professors</h3>
-                                </div>
-                                <div class="panel-body" id="professorBody">       
+                    <!-- /Course Div close -->
 
-                                </div> <!-- body close-->    
+                    <!-- Professor select Boxes open  -->
+                    <div class="col-md-7" id="ProfessorDiv">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Professors</h3>
+                            </div>
+                            <div class="panel-body" id="professorBody">       
+
+                            </div> <!-- body close-->    
+                        </div>
+                    </div>
+                    <!-- /Professor select Boxes close  -->
+
+
+                    <!-- Student select Boxes open  -->
+                    <div class="col-lg-7" id="StudentDiv">
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Students</h3>
+                            </div>
+                            <div class="panel-body" id="StudentBody" >       
+                                <div class="col-lg-7" id="studentColOne"></div>
+                                <div class="col-lg-7" id="studentColTwo"></div>
                             </div>
                         </div>
-                        <!-- /Professor select Boxes close  -->
+                    </div>
 
-
-                        <!-- Student select Boxes open  -->
-                        <div class="col-lg-7" id="StudentDiv">
-                            <div class="panel panel-default">
-
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Students</h3>
-                                </div>
-                                <div class="panel-body" id="StudentBody" >       
-                                    <div class="col-lg-7" id="studentColOne"></div>
-                                    <div class="col-lg-7" id="studentColTwo"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-7" id="FinalSubmitDiv">
-                            <button id="submitSectionAssignment" type="button" class="btn-large btn-primary btn" data-toggle="modal" data-target="#errorModal">Add Professors and Students to Section</button>
-                        </div>
+                    <div class="col-lg-7" id="FinalSubmitDiv">
+                        <button id="submitSectionAssignment" type="button" 
+                                class="btn-large btn-primary btn" data-toggle="modal" 
+                                data-target="#errorModal">Add Professors and Students to Survey</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div id="errorModal" class="modal fade" role="dialog">
@@ -228,7 +230,7 @@ $("#getProfessorAndStudent").click(function (event)
             if (jQuery.isEmptyObject(data.students))
             {
                 $("#StudentBody").html('<div class="alert alert-danger"> there is no Students assigned '
-                + 'to this course section in the Database </div>');
+                        + 'to this course section in the Database </div>');
             }
             else
             {
@@ -287,7 +289,7 @@ $("#getProfessorAndStudent").click(function (event)
             $("#StudentDiv").show();
             $("#FinalSubmitDiv").show();
             $(".loading").hide();
-
+            fade_out();
 
         });
     }
@@ -338,7 +340,7 @@ $("#submitSectionAssignment").click(function (event)
 //        $("$errorModal").modal('show');
 //    }
     // used to load Modal if the CD has not selected one or more Professors
-     if (jQuery.isEmptyObject(professorList))
+    if (jQuery.isEmptyObject(professorList))
     {
         $(".loading").hide();
         $('#errorModMessage').html("There are no professor selected.");
@@ -360,7 +362,7 @@ $("#submitSectionAssignment").click(function (event)
         $(this).removeAttr('data-toggle');
         // this will post all the information when the post is sent 
         // ie. courseID, section name, student list, and prof list 
-        
+
         var postData = {
             'courseSection': courseSection,
             'studentList': studentList,
@@ -395,6 +397,14 @@ $("#submitSectionAssignment").click(function (event)
             {
                 $("#messageDiv").html('<div class="alert alert-success">' + data.message + "</div>");
             }
+
+            setTimeout(fade_out, 20000);
+
+            function fade_out() {
+                $("#messageDiv").fadeOut();
+            }
+
+
         });
     }
 });
