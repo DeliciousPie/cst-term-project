@@ -5,6 +5,14 @@
         <group>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CSVImportController.php</file>
             <file>file:/G:/COSA280/Code/tests/S11Test.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/about.blade.php</file>
+            <file>file:/G:/COSA280/Code/tests/S40PasswordSecurityTest.php</file>
+            <file>file:/G:/COSA280/Code/tests/S32Test.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/welcome.blade.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/auth/login.blade.php</file>
+            <file>file:/G:/COSA280/Code/tests/S07Test.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/home.blade.php</file>
+            <file>file:/G:/COSA280/Code/tests/S1Test.php</file>
         </group>
     </open-files>
 </project-private>
