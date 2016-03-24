@@ -64,13 +64,13 @@
                             
                         </select>
                         
-                       
 
 
+                        <div id="courseFieldLabel"></div>
                         <div id="courseField" hidden>
                             <div class="row">
                                 <div class="col-xs-5">
-                                    <select name="from[]" id="undo_redo" class="form-control" size="13" multiple="multiple">
+                                    <select name="from[]" id="course_redo" class="form-control" size="13" multiple="multiple">
                                         <!--Insert options here. AKA dynamically populate the list-->
                                     </select>
                                 </div>
@@ -86,11 +86,42 @@
 
 
                                 <div class="col-xs-5">
-                                    <select name="to[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple"></select>
+                                    <select name="to[]" id="course_redo_to" class="form-control" size="13" multiple="multiple">
+                                        
+                                    </select>
                                 </div>
                             </div>
+                            <br />
                         </div>
-                        <div id="studentField"></div>
+                        
+                        <div id="studentFieldLabel"></div>
+                        <div id="studentField" hidden>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <select name="from[]" id="student_redo" class="form-control" size="13" multiple="multiple">
+                                        <!--Insert options here. AKA dynamically populate the list-->
+                                    </select>
+                                </div>
+
+                                <div class="col-xs-2">
+                                    <button type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>
+                                    <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                    <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                    <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                    <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                    <button type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>
+                                </div>
+
+
+                                <div class="col-xs-5">
+                                    <select name="to[]" id="student_redo_to" class="form-control" size="13" multiple="multiple">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        
                         <label for="comparison1" required> Parameter1:</label>
                         <select id="comparison1" name="comparison1" class="form-control">
                             <option selected value="spent">Select Parameter</option>
@@ -126,8 +157,7 @@
                         @bubblechart('StudentParam', 'timeChart')
                     
                     @endif
-                    
-                  
+                                      
                 </div>
             </div>
         </div>
@@ -186,9 +216,10 @@
                 
                 //This will show the label and select all button to load a list
                 //of students to submit.
-                addStudentSelectionField();
                 addClassesSelectionField();
-                produceListOfCheckboxCourses();
+                produceListOfCourseCrossSelect();
+                addStudentSelectionField();
+                showStudentCrossSelect();
 
                 break;
             case '5':
@@ -213,13 +244,18 @@
         }
     }
     
+    function showStudentCrossSelect()
+    {
+        $('#studentField').removeAttr("hidden");
+    }
+    
     /**
      * Purpose: This function will obtain a list of all the students with an
      * associated class
      * @param {array} course array of course(s)
      * @returns {undefined}
      */
-    function addStudentsToSelectionFieldOnClassSelect(course)
+    function addStudentsToSelectionFieldOnClassSelect( course )
     {      
         
             $.ajaxSetup({
@@ -227,18 +263,24 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
             $.post( "/CD/dashboard/getAllStudentByCourse", {class: 'CNET 295'} , function(results){
-                var checkboxes = "";
+                var options = "";
                
                 for( var i = 0; i < results["courseByStudent"].length; i++ ) 
                 {
-                    checkboxes = checkboxes 
+                    options = options 
                         + "<option value=\"" + i + "\">" 
                         + results["courseByStudent"][i]["fName"] + "</option>";
                     
                 }                
-                $("#studentField").append(checkboxes);
+                var studentCrossSection = $('#studentField').find('#student_redo');
+                
+                studentCrossSection.append(options);
+                
+               //$('#studentField').removeAttr("hidden");
+               //$("#undo_redo").append(options);
             }); 
-            
+            var studentCrossSection = $('#studentField').find('#student_redo');
+                studentCrossSection.multiselect();
 
     }
     
@@ -249,10 +291,8 @@
      * @returns {void} -      
      * 
      */
-    function produceListOfCheckboxCourses()
-    {      
-            $("#courseField").load("/multiSelectBox.html");
-            
+    function produceListOfCourseCrossSelect()
+    {       
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -263,15 +303,28 @@
                 for( var i = 0; i < results["courses"].length; i++ ) 
                 {
                         options = options 
-                           + "<option onchange=\"addStudentsToSelectionFieldOnClassSelect(this)\""
-                           + " value=\"" + i + "\"" 
-                           + results["courses"][i]["courseID"] + "</option>";
-                    
-                }                
-                $("#undo_redo").append(options);
-            }); 
+                           + "<option"
+                           + " value=\"" + i + "\">" 
+                           + results["courses"][i]["courseID"] + "</option>";                   
+                }      
+                $('#courseField').removeAttr("hidden");
+                var studentCrossSection = $('#courseField').find('#course_redo');
+                studentCrossSection.append(options);
+            });             
+            var studentCrossSection = $('#courseField').find('#course_redo');
+            studentCrossSection.multiselect();
             
-            $('#undo_redo').multiselect();
+            $('#undo_redo_rightAll').click(function(){
+                 
+            });
+            
+            $('#undo_redo_rightSelected').on("click",function(){
+
+                var courses = $('#course_redo_to').find('option'); 
+                courses.each(function(courses){
+                    addStudentsToSelectionFieldOnClassSelect(courses);
+                });
+            });
     }
     
     /**
@@ -286,11 +339,8 @@
      */
     function addStudentSelectionField()
     {
-        $("#studentField").append(
-            "<label for=\"selectAll\">Please select students for comparison:</label>" + 
-            "<div class=\"checkbox\">" + 
-                "<label><input type=\"checkbox\" id=\"selectAll\"" + 
-            "name=\"selectAll\" value=\"selectAll\">Select All</label></div>");
+        $("#studentFieldLabel").append(
+            "<label for=\"selectAll\">Please select students for comparison:</label>");
     } 
     
     /**
@@ -304,11 +354,8 @@
      */
     function addClassesSelectionField()
     {
-        $("#courseField").append(
-            "<label for=\"selectAllCourses\">Please select courses for comparison:</label>" + 
-            "<div class=\"checkbox\">" + 
-                "<label><input type=\"checkbox\" id=\"selectAllCourses\"" + 
-            "name=\"selectAll\" value=\"false\">Select All</label></div>");
+        $("#courseFieldLabel").append(
+            "<label for=\"selectAllCourses\">Please select courses for comparison:</label>");
     
         $("#classSelectedLabel").remove();
         $("#classSelected").remove();
