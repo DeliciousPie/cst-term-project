@@ -34,6 +34,10 @@ class S11Test extends TestCase
         $_POST['Section'] = 'J03';
         $_POST['Classes'] = 'CDBM190';
 
+        $studentsIdAddstartNum = 60;
+        $studentsIdAddendNum = 63;
+        $studentsIdNotInNum = 80;
+
         $sectionID = $CSVIC->createSectionForStudents();
         $CSVFolder = base_path() . '/tests/FilesForTesting/S11/';
         /* Here are we testing Succesful uploading of professors */
@@ -49,22 +53,23 @@ class S11Test extends TestCase
         $CSVIC->csvUploadStudentToDB($sectionID);
 
         // check to see that first and last student are added 
-        for ($i = 60; $i <= 62; $i++)
+        // the user id is from 60 to 80 
+        for ($i = $studentsIdAddstartNum; $i < $studentsIdAddendNum; $i++)
         {
             $this->seeInDatabase('Student', ['userID' => 'Stu0' . $i]);
         }
         // test to see that there are no mistakes of an extra user
-        for ($i = 63; $i < 80; $i++)
+        for ($i = $studentsIdAddendNum; $i < $studentsIdNotInNum; $i++)
         {
             $this->notSeeInDatabase('Student', ['userID' => 'Stu0' . $i]);
         }
 
         // check to see if the students are added to the course section table
-        for ($i = 60; $i < 62; $i++)
+        for ($i = $studentsIdAddstartNum; $i < $studentsIdAddendNum; $i++)
         {
             $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
         }
-        for ($i = 63; $i < 80; $i++)
+        for ($i = $studentsIdAddendNum; $i < $studentsIdNotInNum; $i++)
         {
             $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
         }
@@ -76,6 +81,11 @@ class S11Test extends TestCase
         // set up Post so that they are attatched when functions are ran 
         $_POST['Section'] = 'J03';
         $_POST['Classes'] = 'CDBM190';
+
+        $studentsIdAddstartNum = 60;
+        $studentsIdAddendNum = 80;
+
+
         $sectionID = $CSVIC->createSectionForStudents();
         $CSVFolder = base_path() . '/tests/FilesForTesting/S11/';
         /* Here are we testing Succesful uploading of professors */
@@ -93,14 +103,14 @@ class S11Test extends TestCase
 
         // check to see that first and last student are added 
         //#######################make this a loop##################
-        for ($i = 60; $i <= 80; $i++)
+        for ($i = $studentsIdAddstartNum; $i <= $studentsIdAddendNum; $i++)
         {
             $this->seeInDatabase('Student', ['userID' => 'Stu0' . $i]);
         }
         // test to see that there are no mistakes of an extra user
         $this->notSeeInDatabase('Student', ['userID' => 'Stu081']);
         // check to see if all students are added to the course section table 
-        for ($i = 60; $i < 80; $i++)
+        for ($i = $studentsIdAddstartNum; $i < $studentsIdAddendNum; $i++)
         {
             $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
         }

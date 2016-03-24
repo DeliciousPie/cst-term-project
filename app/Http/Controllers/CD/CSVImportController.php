@@ -23,6 +23,8 @@ class CSVImportController extends Controller
 
     //global atrubute for ammount of entries before just displaying number of entires
     protected $ENTRY_AMOUNT = 8;
+    
+    
     //Constructor for CourseAssignmentController
     public function _construct()
     {
