@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\CD\ActivityManagerController;
-use App\Http\Controllers\CD\CourseAssignmentController;
+use App\Http\Controllers\CD\CSVImportController; 
 
 /**
  * Purpose: PHPunit testing for the AJAX calls
@@ -29,7 +29,7 @@ class S46Test extends TestCase
             $this->assertNotNull($profQuery);
         
         // Test Courses of professors are loaded
-            $_POST = ['profID' => 'Pro003'];
+            $_POST = ['profID' => 'Pro002'];
             
             // Load the courses
             $jsonCourseResult = $AMC->loadSelectedProfsCourses();
@@ -49,14 +49,14 @@ class S46Test extends TestCase
         // Test that Activities are loaded based on selected course
             
             // Add a professor
-            $_POST = ['profID' => 'Pro003'];
+            $_POST = ['profID' => 'Pro002'];
             
             // Add a course
             $courseId = 'MEDC 100.0';
             $_POST = ['courseID' => $courseId];
             
             // Add courses
-            $CAC = new CourseAssignmentController();
+            $CAC = new CSVImportController();
             $CSVFolder = base_path() . '/tests/FilesForTesting/S8/';
 
             /* Here are we testing Succesful uploading of professors */
@@ -82,7 +82,7 @@ class S46Test extends TestCase
             
             // Add a ProfSection
             DB::table('ProfessorSection')->insert([
-                'userID' => 'Pro003',
+                'userID' => 'Pro002',
                 'sectionID' => '1',
                 'created_at' => '2016-01-01 20:00',
                 'updated_at' => '2016-02-02 20:00'

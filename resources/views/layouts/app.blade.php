@@ -38,9 +38,11 @@
 
         <!-- Morris Charts CSS -->
         <link href="/css/plugins/morris.css" rel="stylesheet">
-
-        <!--Load the AJAX API-->
+        
+                <!--Load the AJAX API-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
     </head>
 
 
@@ -101,9 +103,11 @@
                         @if (Auth::user()->hasrole('CD'))
 
                         <li><a href="{{ url('CD/dashboard') }}">CD Dashboard</a></li>
-                        <li><a href="{{ url('CD/manageActivity') }}">CD Activity Manager</a></li>
+
 
                         <li><a href="{{ url('CD/CourseAssignmentMain') }}">Course Assignment</a></li>
+                        <li><a href="{{ url('CD/CSVImport') }}">CSV Import</a></li>
+                        <li><a href="{{ url('CD/manageActivity') }}"> Activity Manager</a></li>
 
                         @elseif ( Auth::user()->hasrole('Prof'))
 

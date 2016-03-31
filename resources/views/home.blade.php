@@ -33,6 +33,34 @@
                 <div class="row" style="padding: 2em; ">
                     @if (Auth::user()->hasrole('CD'))
 
+                     <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row" style="height: 75px;">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-comments fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+
+                                        <div><h3>CSV Import</h3></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a  href="{{ url('CD/CSVImport') }}">
+                                <div class="panel-footer"style="height: 200px;">
+                                    <span class="pull-left"><p style="color: black;">
+                                            You can use this to add courses, professors, and students
+                                            into the Database to and create new Course sections, 
+                                            then assign students 
+                                            to those course sections. 
+                                            Click Here. </p></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-green">
                             <div class="panel-heading">
@@ -49,10 +77,9 @@
                             <a  href="{{ url('CD/CourseAssignmentMain') }}">
                                 <div class="panel-footer"style="height: 200px;">
                                     <span class="pull-left"><p style="color: black;">
-                                            You can use this to add courses, professors, and students
-                                            into the Database to 
-                                            create new Course sections, and assign students 
-                                            and professors to those course sections. 
+                                            You can use this to assign students 
+                                            and professors to those course sections so 
+                                            that they can fill out the survey forms. 
                                             Click Here. </p></span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
