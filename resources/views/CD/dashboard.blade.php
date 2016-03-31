@@ -70,7 +70,7 @@
                         <div id="courseField" hidden>
                             <div class="row">
                                 <div class="col-xs-5">
-                                    <select name="from[]" id="course_redo" class="form-control" size="13" multiple="multiple">
+                                    <select name="from[]" id="undo_redo" class="form-control" size="13" multiple="multiple">
                                         <!--Insert options here. AKA dynamically populate the list-->
                                     </select>
                                 </div>
@@ -86,7 +86,7 @@
 
 
                                 <div class="col-xs-5">
-                                    <select name="to[]" id="course_redo_to" class="form-control" size="13" multiple="multiple">
+                                    <select name="to[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple">
                                         
                                     </select>
                                 </div>
@@ -98,23 +98,23 @@
                         <div id="studentField" hidden>
                             <div class="row">
                                 <div class="col-xs-5">
-                                    <select name="from[]" id="student_redo" class="form-control" size="13" multiple="multiple">
+                                    <select name="from[]" id="studentundo_redo" class="form-control" size="13" multiple="multiple">
                                         <!--Insert options here. AKA dynamically populate the list-->
                                     </select>
                                 </div>
 
                                 <div class="col-xs-2">
-                                    <button type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>
-                                    <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                    <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                    <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                    <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-                                    <button type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>
+                                    <button type="button" id="studentundo_redo_undo" class="btn btn-primary btn-block">undo</button>
+                                    <button type="button" id="studentundo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                    <button type="button" id="studentundo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                    <button type="button" id="studentundo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                    <button type="button" id="studentundo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                    <button type="button" id="studentundo_redo_redo" class="btn btn-warning btn-block">redo</button>
                                 </div>
 
 
                                 <div class="col-xs-5">
-                                    <select name="to[]" id="student_redo_to" class="form-control" size="13" multiple="multiple">
+                                    <select name="to[]" id="studentundo_redo_to" class="form-control" size="13" multiple="multiple">
                                         
                                     </select>
                                 </div>
@@ -243,86 +243,168 @@
 
         }
     }
-    
+    /**
+     * Purpose: This functions job is to show the the student cross selection 
+     * box.
+     * 
+     * @returns {undefined}
+     */
     function showStudentCrossSelect()
     {
         $('#studentField').removeAttr("hidden");
+        //Loop through the remove Attr hidden AKA show the course field
+        $('#courseField').removeAttr("hidden");
     }
     
     /**
      * Purpose: This function will obtain a list of all the students with an
      * associated class
-     * @param {array} course array of course(s)
+     * 
+     * @param {array} a course that will be used to query all the students.
      * @returns {undefined}
      */
     function addStudentsToSelectionFieldOnClassSelect( course )
     {      
-        
+            //Set up/prime an ajax call.
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
-            $.post( "/CD/dashboard/getAllStudentByCourse", {class: 'CNET 295'} , function(results){
+            
+            //this will perform a ajax post request.
+            $.post( "/CD/dashboard/getAllStudentByCourse", {class: course},
+            
+            /**
+             * Purpose: The purpose of this callback function will create 
+             * options for the select boxes.
+             * 
+             * @param {type} results - An array of students that are in the 
+             * course.
+             * @returns {undefined}
+             */
+            function(results){
+                
+                //Will hold html code for options in select boxes.
                 var options = "";
                
+                //Create a course title box.  The class will be used to make 
+                //sure that the course titles can't be moved.
+                options = "<option value=\"" + course + 
+                        "\" class=\"courseTitle\" disabled>" 
+                        + course + "</option>";
+               
+                //Loop through each result (all the students)
                 for( var i = 0; i < results["courseByStudent"].length; i++ ) 
                 {
+                    //Will create options boxes in the format 
+                    //userID lastName, firstName
                     options = options 
-                        + "<option value=\"" + i + "\">" 
-                        + results["courseByStudent"][i]["fName"] + "</option>";
+                        + "<option class=\"" + course + "\" value=\"" + i + "\">" 
+                        + results["courseByStudent"][i]["userID"] + " " 
+                        + results["courseByStudent"][i]["lName"] + ", "
+                    + results["courseByStudent"][i]["fName"] + "</option>";
                     
-                }                
-                var studentCrossSection = $('#studentField').find('#student_redo');
+                }     
                 
+                //Get a hold on the left hand student selection box.
+                var studentCrossSection = $('#studentField').find('#studentundo_redo');
+                
+                //Add the options to the box.
                 studentCrossSection.append(options);
                 
-               //$('#studentField').removeAttr("hidden");
-               //$("#undo_redo").append(options);
+                //Add a course title to the right hand select box.
+                var optionsRight = "<option value=\"" + course + "\" disabled>" 
+                        + courses + "</option>";
+                
+                //Add the options to the right hand side select field.
+                //Will just be course titles.
+                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
+                
+                studentCrossSection.append(optionsRight);
+                
             }); 
-            var studentCrossSection = $('#studentField').find('#student_redo');
-                studentCrossSection.multiselect();
+            
+            //Get handle on the student select box on left.
+            var studentCrossSection = $('#studentField').find('#studentundo_redo');
+            
+            //Add the multiselect ability to the boxes.
+            studentCrossSection.multiselect();
+            
+            $('#studentundo_redo_rightAll').click(function(){
+                 
+            });
+            
+            $('#studentundo_redo_rightSelected').on("click",function(){
 
+                    
+            });
     }
     
     /**
      *Purpose: The purpsoe of this function will show all of the courses as
      *checkboxes. 
      * 
-     * @returns {void} -      
+     * @returns {void}      
      * 
      */
     function produceListOfCourseCrossSelect()
     {       
+            //Set up the ajax call
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }});
+            
+            //Make a post request that will return all of the courses in the DB
             $.post( "/CD/dashboard/getAllCourses", function(results){
+                
+                //hold all the options for the select boxes.
                 var options = "";
                
+                //loop through all courses
                 for( var i = 0; i < results["courses"].length; i++ ) 
                 {
-                        options = options 
-                           + "<option"
-                           + " value=\"" + i + "\">" 
-                           + results["courses"][i]["courseID"] + "</option>";                   
-                }      
-                $('#courseField').removeAttr("hidden");
-                var studentCrossSection = $('#courseField').find('#course_redo');
+                    //Create an options tag that will represent a course.
+                    options = options 
+                        + "<option"
+                        + " value=\"" +results["courses"][i]["courseID"] 
+                        + "\">" 
+                        + results["courses"][i]["courseID"] + "</option>";                   
+                }
+                
+
+                
+                //get a handle on the course select box on the left handside.
+                var studentCrossSection = $('#courseField').find('#undo_redo');
+                
+                //Add the options to the left hand side select box.
                 studentCrossSection.append(options);
-            });             
-            var studentCrossSection = $('#courseField').find('#course_redo');
+            });
+            
+            //get a handle on the course select box on the left handside.
+            var studentCrossSection = $('#courseField').find('#undo_redo');
+            
+            //Add multiselect functionality (Move objects).
             studentCrossSection.multiselect();
+                    
             
             $('#undo_redo_rightAll').click(function(){
                  
             });
             
+            //this will add students to the sutdent select boxes based on the 
+            //courses moved to the right hand side.
             $('#undo_redo_rightSelected').on("click",function(){
-
-                var courses = $('#course_redo_to').find('option'); 
-                courses.each(function(courses){
-                    addStudentsToSelectionFieldOnClassSelect(courses);
+                
+                //Get a handle of the courses that have been moved.
+                var courses = $('#undo_redo_to').find('option');
+                //For each course add the students to the list in the student
+                //select box.
+                courses.each(function(){
+                    
+                    //clearStudent
+                    //The value of the options selected.
+                    addStudentsToSelectionFieldOnClassSelect($(this).val());
                 });
             });
     }
