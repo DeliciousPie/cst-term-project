@@ -83,7 +83,7 @@ class StudentActivityController extends Controller{
         //The view expects it in a associative array named 'studentActivities'
         $studentActivities['studentActivities'] = 
                 json_decode(json_encode($studentAct), true);
-
+        
         //Return laravel magic - studentActivities will be used in acitvites.blade
         return view('Student/activities',$studentActivities);
     }

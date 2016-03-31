@@ -49,10 +49,8 @@
                         <label for="stressLevel">Stress Level</label>
 	<br />
 	<label for="stressLevel" >Description: </label>
-	<label for="stressLevel" id="stressDescription" name="stressDescription" style=" text-align: center; font-weight:normal">
-            lbl
-	</label>
-	<input type="range" id="stressLevel" name="stressLevel" 
+	<label for="stressLevel" id="{{$studAct['activityID']}}stressLevelLabel" name="stressLevelLabel" style=" text-align: center; font-weight:normal"></label>
+	<input type="range" id="{{$studAct['activityID']}}stressLevel" class="stressSliders" name="stressLevel" 
 		   min="0" max="10" step="1" value="{{$studAct['stressLevel']}}" list="steplist"
 		   data-toggle="tooltip" data-placement="top" title="test"
 		   ></input>
