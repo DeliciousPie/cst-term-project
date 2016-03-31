@@ -236,7 +236,7 @@ class S25Test extends TestCase
                 'activityType' => 'DateBoundary1'
             ]);
             
-            // adding activity FAILS because of STRESSTIMATE
+            // adding activity FAILS because the due date is before the start
             $_POST = ['activityName' => 'DateErrorDueBeforeStart',
                 //Due date before start date
                     'startDate' => '2051-01-01',
@@ -269,6 +269,216 @@ class S25Test extends TestCase
             [
                 'activityType' => 'DateMaxedOut'
             ]);  
+            
+            // Min Start year date
+            $_POST = ['activityName' => 'MinStartDAte',
+                'startDate' => '0000-00-00',
+                'dueDate' => '2050-01-01',
+                'workload' => '5',
+                'stresstimate' => '2',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'MinStartDAte'
+            ]); 
+            
+            // Max start date year
+            $_POST = ['activityName' => 'MonthYearMaxedOut',
+                'startDate' => '9999-05-04',
+                'dueDate' => '2050-06-04', 
+                'workload' => '1',
+                'stresstimate' => '1',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'MonthYearMaxedOut'
+            ]);
+            
+            
+            // Test min due date values
+            $_POST = ['activityName' => 'DueDateMin',
+                'startDate' => '2050-01-01',
+                'dueDate' => '0000-00-00',
+                'workload' => '5',
+                'stresstimate' => '2',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'DueDateMin'
+            ]);  
+            
+            // Real case scenarios 
+            $_POST = ['activityName' => 'MonthsFlippedPass',
+                    'startDate' => '2050-04-01',
+                    'dueDate' => '2050-06-01', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->seeInDatabase('Activity',
+            [
+                'activityType' => 'MonthsFlippedPass'
+            ]);  
+            
+            // Fail case of months flipped
+            $_POST = ['activityName' => 'MonthsFlippedFailed',
+                    'startDate' => '2050-06-01',
+                    'dueDate' => '2050-04-01', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'MonthsFlippedFailed'
+            ]);
+            
+            // Month and day confused pass
+            $_POST = ['activityName' => 'DaysFlippedPass',
+                    'startDate' => '2050-04-06',
+                    'dueDate' => '2050-06-04', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->seeInDatabase('Activity',
+            [
+                'activityType' => 'DaysFlippedPass'
+            ]);
+
+            // Month and day confused fail
+            $_POST = ['activityName' => 'DaysFlippedFail',
+                    'startDate' => '2050-06-04',
+                    'dueDate' => '2050-04-06', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'DaysFlippedFail'
+            ]);  
+            
+            // Reverse order
+            $_POST = ['activityName' => 'WholeDateFlipped',
+                    'startDate' => '2050-06-04',
+                    'dueDate' => '03-05-2020', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            $AMC->addActivity();
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'WholeDateFlipped'
+            ]);
+            
+            // Start Date Month maxed out
+            $_POST = ['activityName' => 'MonthMaxedOut',
+                    'startDate' => '2050-99-04',
+                    'dueDate' => '2050-06-04', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            try
+            {
+                $AMC->addActivity();
+            } catch (Exception $ex) {    
+            }
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'MonthMaxedOut'
+            ]);
+            
+            // Start Date Day maxed out
+            $_POST = ['activityName' => 'DayMaxedOut',
+                    'startDate' => '2050-04-99',
+                    'dueDate' => '2050-06-04', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            try
+            {
+                $AMC->addActivity();
+            } catch (Exception $ex) {    
+            }
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'DayMaxedOut'
+            ]);
+            
+            // Due Date Month maxed out
+            $_POST = ['activityName' => 'MonthMaxedOut',
+                    'startDate' => '2050-04-04',
+                    'dueDate' => '2050-99-04', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            try
+            {
+                $AMC->addActivity();
+            } catch (Exception $ex) {    
+            }
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'MonthMaxedOut'
+            ]);
+            
+            // Due Date Day maxed out
+            $_POST = ['activityName' => 'DayMaxedOut',
+                    'startDate' => '2050-04-04',
+                    'dueDate' => '2050-04-99', 
+                    'workload' => '1',
+                    'stresstimate' => '1',
+                    'profID' => 'Pro011',
+                    'courseID' => '3'];
+            
+            try
+            {
+                $AMC->addActivity();
+            } catch (Exception $ex) {    
+            }
+            
+            $this->notSeeInDatabase('Activity',
+            [
+                'activityType' => 'DayMaxedOut'
+            ]);
+            
     }
     
     /**
