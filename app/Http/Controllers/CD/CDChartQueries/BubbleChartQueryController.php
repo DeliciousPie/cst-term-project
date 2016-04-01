@@ -122,5 +122,55 @@ class BubbleChartQueryController extends CDQueryController
         return $result;      
     }
     
+    public function findTotalsBasedStudentsInCourse($comparison1, $comparison2, 
+            $comparison3, $courses, $students)
+    {
+        
+        $allAverages = array();
+        
+        $comparison1 = $this->getTimeSpentandTimeEstimatedColumns($comparison1);
+        $comparison2 = $this->getTimeSpentandTimeEstimatedColumns($comparison2);
+        $comparison3 = $this->getTimeSpentandTimeEstimatedColumns($comparison3);
+        
+        //for each course create one bubble of the average of all students 
+        // the query 
+        foreach ($courses as $indCourse)
+        {
+            $totalComparison1 = 0;
+            $totalComparison2 = 0;
+            $totalComparison3 = 0;
+            
+            
+            // based on the students and the course get the peramiters for each 
+            // student 
+            foreach ($students as $indStudent)
+            {
+                
+                $qurResult1= $this->queryOnCourseIndStudent($indCourse, $comparison1, $indStudent); 
+                 
+                $totalComparison1 += $qurResult1[0][$comparison1]; 
+                              
+                $qurResult2 = $this->queryOnCourseIndStudent($indCourse, $comparison2, $indStudent); 
+                
+                $totalComparison2 += $qurResult2[0][$comparison2];
+                
+                $qurResult3 = $this->queryOnCourseIndStudent($indCourse, $comparison3, $indStudent);
+                
+                $totalComparison3 += $qurResult3[0][$comparison3]; 
+ 
+            }
+            
+            $avgComparison1 = $totalComparison1 / sizeof($indStudent); 
+            $avgComparison2 = $totalComparison2 / sizeof($indStudent); 
+            $avgComparison3 = $totalComparison3 / sizeof($indStudent); 
+            
+            $allAverages[$indCourse] = array("courseID" => $indCourse, "param1" => $avgComparison1, 
+                "param2" => $avgComparison2, "param3" => $avgComparison3, "courseID" => $indCourse);
+            
+        }
+        
+        return $allAverages;
+       
+    }
 
 }

@@ -86,7 +86,7 @@
 
 
                                 <div class="col-xs-5">
-                                    <select name="to[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple">
+                                    <select name="courseList[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple">
                                         
                                     </select>
                                 </div>
@@ -114,7 +114,7 @@
 
 
                                 <div class="col-xs-5">
-                                    <select name="to[]" id="studentundo_redo_to" class="form-control" size="13" multiple="multiple">
+                                    <select name="studentList[]" id="studentundo_redo_to" class="form-control" size="13" multiple="multiple">
                                         
                                     </select>
                                 </div>
@@ -122,7 +122,7 @@
                             <br />
                         </div>
                         
-                        <label for="comparison1" required> Parameter1:</label>
+                        <label for="comparison1" required> Parameter 1:</label>
                         <select id="comparison1" name="comparison1" class="form-control">
                             <option selected value="spent">Select Parameter</option>
                             <option value="stressLevel">Stress Level</option> 	
@@ -133,7 +133,7 @@
                         
                          <br />
                          
-                        <label for="comparison2" required> Parameter2:</label>
+                        <label for="comparison2" required> Parameter 2:</label>
                         <select id="comparison2" name="comparison2" class="form-control">
                             <option selected  value="estimated">Select Parameter</option>
                             <option value="stressLevel">Stress Level</option> 	
@@ -141,7 +141,14 @@
                             <option value="timeEstimated" >Time Estimate</option>
 
                         </select>
-                        
+                        <br />
+                        <label hidden for="comparison3" id="bubbleRadius" required>Bubble Radius:</label>
+                        <select id="comparison1" name="comparison3" class="form-control">
+                            <option selected value="spent">Select Parameter</option>
+                            <option value="stressLevel">Stress Level</option> 	
+                            <option value="timeSpent">Time Actual</option>	
+                            <option value="timeEstimated" >Time Estimate</option>
+                        </select> 
                         <br />
                         <button for="customChartForm" type="submit" value="Submit">Submit</button> 
                     </form> 
@@ -252,8 +259,12 @@
     function showStudentCrossSelect()
     {
         $('#studentField').removeAttr("hidden");
+        
         //Loop through the remove Attr hidden AKA show the course field
         $('#courseField').removeAttr("hidden");
+        
+        //this will show the bubble radius.
+        $('#bubbleRadius').removeAttr("hidden");
     }
     
     /**
@@ -299,7 +310,7 @@
                     //Will create options boxes in the format 
                     //userID lastName, firstName
                     options = options 
-                        + "<option class=\"" + course + "\" value=\"" + i + "\">" 
+                        + "<option class=\"" + course + "\" id=\"studentList[" + course + "]\" value=\"" + results["courseByStudent"][i]["userID"]  + "\">" 
                         + results["courseByStudent"][i]["userID"] + " " 
                         + results["courseByStudent"][i]["lName"] + ", "
                     + results["courseByStudent"][i]["fName"] + "</option>";

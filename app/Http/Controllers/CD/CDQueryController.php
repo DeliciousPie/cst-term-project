@@ -124,11 +124,8 @@ class CDQueryController extends Controller
      */
     public function getStudentsByCourse( $courses )
     {
-        
-        
-        //for each query perform the following.
 
-        
+        //for each query perform the following.
             //perform query for student names.
             $queryResult = DB::table('Course')
                 ->join('Section', 'Section.courseID', '=', 'Course.courseID')
@@ -139,12 +136,10 @@ class CDQueryController extends Controller
                 ->get();
             
             //Assign the students to a course.
-            $result = json_decode(json_encode($queryResult), true);  
-        
-            
+            $result = json_decode(json_encode($queryResult), true);     
         return $result;
     }
-    
+        
     /**
      * Purpose: This will get the default columns if nothing is selected.
      * 
@@ -162,7 +157,44 @@ class CDQueryController extends Controller
         {
             $comp = 'timeEstimated';
         }
+        if($comp === 'Time Actual')
+        {
+            $comp = 'timeSpent'; 
+        }
+        if( $comp === 'Time Estimated' )
+        {
+            $comp = 'timeEstimated';
+        }
+        if( $comp === 'Time Estimated' )
+        {
+            $comp = 'timeEstimated';
+        }
         
         return $comp;
     }
+    
+    
+    
+    
+    
+    
+    public function queryOnCourseIndStudent($courseToFind, $comparison, $indStudent)
+    {
+        //Perform the query.
+        $queryResult = DB::table('StudentActivity')
+            ->join('Activity', 'Activity.activityID', '=','StudentActivity.activityID')
+            ->join('StudentSection', 'StudentSection.sectionID', '=' , 'Activity.sectionID')
+            ->join('Section', 'StudentSection.sectionID', '=', 'Section.sectionID')
+            ->select('StudentActivity.' . $comparison )
+            ->where('Section.courseID', $courseToFind)
+            ->where('StudentActivity.userID',$indStudent)
+            ->get(); 
+        
+        $result = json_decode(json_encode($queryResult), true);    
+        return $result;
+    }
+    
+    
+    
+    
 }

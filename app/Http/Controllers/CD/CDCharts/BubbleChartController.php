@@ -49,15 +49,18 @@ class BubbleChartController extends ChartController
         $chart = null;
         
         //Get the comparisons passed in from the chart form on the db controller
+        //x-axis
         $comparison1 = $this->chartParameters->comparison1;
+        //y-axis
         $comparison2 = $this->chartParameters->comparison2;
+        //Bubble radius
+        $comparison3 = $this->chartParameters->comparison3;
         
         //If the classSelected is all classes represented by a numeric or text
         //value create the default chart.
         if( $this->chartParameters->classSelected === 1 
                 || $this->chartParameters->classSelected === "1" )
         {
-         
             //Here we will determine the queries that will pertain to all 
             //classes.
             
@@ -66,10 +69,11 @@ class BubbleChartController extends ChartController
                     $comparison2);
             
                         //Generate Strings for dynamic labels
-            $comp1String = $this->createChartTitles( $comparison1 );
+            $comp1String = $this->createChartTitles($comparison1);
             
-            $comp2String = $this->createChartTitles( $comparison2);
+            $comp2String = $this->createChartTitles($comparison2);
             
+            $comp3String = $this->createChartTitles($comparison3);
             //Create a dynamic chart, based off of standard information passed 
             //from the CDDashboard controller.
             $chart = $this->createDynamicBubbleChart($dataArray, 
@@ -77,11 +81,24 @@ class BubbleChartController extends ChartController
         }
         else
         {
-           
-            //Create a completly custom chart based on a single course.
-            $classTitle = $this->chartParameters->classSelected;
+            $comp1String = $this->createChartTitles($comparison1);
+            
+            $comp2String = $this->createChartTitles($comparison2);
+            
+            $comp3String = $this->createChartTitles($comparison3);
+            
+            $courseList = $this->chartParameters->courseList;
+            
+            $studentList = $this->chartParameters->studentList;
+            
             
             //Here we perform queries for individual classes selected.
+            $dataArray = $this->bubbleChartQueryController->
+                    findTotalsBasedStudentsInCourse($comparison1, $comparison2,
+                            $comparison3, $courseList, $studentList);
+            
+            $chart = $this->createDynamicBubbleChart($dataArray, 
+                    $comp1String, $comp2String, $comp3String);
             
         }
 
@@ -147,16 +164,16 @@ class BubbleChartController extends ChartController
      * @date Feb 20, 2016
      */
     public function createDynamicBubbleChart($dataArray, $comp1String, 
-            $comp2String, $course='All Courses')
+            $comp2String, $comp3String, $course='All Courses')
     {
-        
+      
         //The chart Id this data will have.
         $chartID = 'StudentParam';
         
         //TODO:Fix this as titles should change.
         //This is the title that will appear at the top of the chart.
-        $chartTitle = 'Average Course ' . $comp1String . ' Vs ' . 
-                $comp2String . ' And Total Time Spent For ' . $course;
+        $chartTitle = 'Average ' . $comp1String . ', ' . 
+                $comp2String . ' And ' .$comp3String ;
         
         //TODO:Change this to a datatable for the bubble chart.
         //Create the rows and columns for the datatable.
@@ -165,16 +182,20 @@ class BubbleChartController extends ChartController
                     ->addNumberColumn($comp1String)
                     ->addNumberColumn($comp2String)
                     ->addStringColumn('Classes')
-                    ->addNumberColumn('Total Time Spent:');
+                ->addNumberColumn($comp3String)
+                    ;
                     //Column labels at bottom of chart. plus columns and labels.
                     foreach( $dataArray as $data)
                     {
+                          
                         $studentData->addRow([ 
                             $data['courseID'],
                             $data['param1'], 
                             $data['param2'],
+                            
                             $data['courseID'],
-                            $data['totalHours']]);
+                            $data['param3'],
+                           ]);
                     }
                     
         
