@@ -157,18 +157,6 @@ class CDQueryController extends Controller
         {
             $comp = 'timeEstimated';
         }
-        if($comp === 'Time Actual')
-        {
-            $comp = 'timeSpent'; 
-        }
-        if( $comp === 'Time Estimated' )
-        {
-            $comp = 'timeEstimated';
-        }
-        if( $comp === 'Time Estimated' )
-        {
-            $comp = 'timeEstimated';
-        }
         
         return $comp;
     }

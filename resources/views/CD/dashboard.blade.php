@@ -310,7 +310,10 @@
                     //Will create options boxes in the format 
                     //userID lastName, firstName
                     options = options 
-                        + "<option class=\"" + course + "\" id=\"studentList[" + course + "]\" value=\"" + results["courseByStudent"][i]["userID"]  + "\">" 
+                        + "<option class=\"" + course + "\"" 
+                        + " value=\"" 
+                        + course + ", " + results["courseByStudent"][i]["userID"]
+                        + "\">" 
                         + results["courseByStudent"][i]["userID"] + " " 
                         + results["courseByStudent"][i]["lName"] + ", "
                     + results["courseByStudent"][i]["fName"] + "</option>";

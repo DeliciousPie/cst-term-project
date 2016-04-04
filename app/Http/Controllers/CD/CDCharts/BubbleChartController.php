@@ -22,7 +22,7 @@ use App\Http\Controllers\CD\ChartController;
  */
 class BubbleChartController extends ChartController
 {
-    public $bubbleChartQueryController;
+    private $bubbleChartQueryController;
     
     public function __construct($chartParameters)
     {
@@ -91,11 +91,42 @@ class BubbleChartController extends ChartController
             
             $studentList = $this->chartParameters->studentList;
             
+            $studentAndCourse = array();
+            
+            //Loop through the student list that was passed in from the
+            // CDDashbaord request object. AKA in chart parameters
+            for( $i = 0; $i < count($studentList); $i++ )
+            {
+                //split the value in the student list to an array.
+                //The firstvalue in the array is the course code and it is 
+                //a string. The second value is teh student id and it is a 
+                //string.
+               $studentAndCourseTemp = explode(", ", $studentList[$i]);
+               
+               //Create a 2-d array. The key to the second array is the course 
+               //and in the seocnd array there are student id's
+               if( isset($studentAndCourse[$studentAndCourseTemp[0]]))
+               {
+                   //push each value onto array two
+                   array_push($studentAndCourse[$studentAndCourseTemp[0]], 
+                           $studentAndCourseTemp[1]);
+               }
+               else
+               {
+                   //create the second id for the course if it does not exist.
+                    $studentAndCourse[$studentAndCourseTemp[0]] = 
+                       array($studentAndCourseTemp[1]);
+               }
+
+               
+               
+            }
+            
             
             //Here we perform queries for individual classes selected.
             $dataArray = $this->bubbleChartQueryController->
                     findTotalsBasedStudentsInCourse($comparison1, $comparison2,
-                            $comparison3, $courseList, $studentList);
+                            $comparison3, $courseList, $studentAndCourse);
             
             $chart = $this->createDynamicBubbleChart($dataArray, 
                     $comp1String, $comp2String, $comp3String);
@@ -191,8 +222,7 @@ class BubbleChartController extends ChartController
                         $studentData->addRow([ 
                             $data['courseID'],
                             $data['param1'], 
-                            $data['param2'],
-                            
+                            $data['param2'], 
                             $data['courseID'],
                             $data['param3'],
                            ]);
