@@ -77,30 +77,35 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::group(array('prefix' => 'CD', 'namespace' => 'CD', 
         'middleware' => 'cdmanager'), function () {
-
-        //Load the dashboard based on whether the user is confirmed or not.
+            
+         //Load the dashboard based on whether the user is confirmed or not.
         Route::get('/dashboard', 'CDDashboardController@createDefaultDashboard');
         Route::post('/dashboard', 'CDDashboardController@createCustomChart' );
         
         //Loads the registration page on first time login.
         Route::post('/register','CDInfoController@insertCD');  
         Route::get('/register', 'PagesController@loadDashboard');
-        
         Route::post('/registerError', 'CDInfoController@insertCD');
+        
+        // handling CSV imports
+        Route::get('/CSVImport','CSVImportController@LoadView'); 
+        Route::post('CSVImport/getSections','CSVImportController@getCoursesSections'); 
+        Route::post('/CSVImport', 'CSVImportController@uploadCSVFiles' );
+        
         
         // Course Assignment Grouping 
         Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
         Route::post('/CourseAssignmentMain', 'CourseAssignmentController@uploadCSVFiles' );
-        
+        // handles ajax reqests 
         Route::post('/CourseAssignmentMain/getProfessorAndStudent','CourseAssignmentController@getProfessorAndStudent'); 
         Route::post('/CourseAssignmentMain/assignToSection','CourseAssignmentController@assignToSection'); 
-        Route::post('CourseAssignmentMain/getProfAndStu','CourseAssignmentController@getProfAndStud'); 
-        
+
         //Loads the Activity Manager page.
         Route::get('/manageActivity', 'ActivityManagerController@loadProfessors');
         Route::post('/manageActivity/loadSelectedProfsCourses', 'ActivityManagerController@loadSelectedProfsCourses');
         Route::post('/manageActivity/loadSelectedCoursesActivities', 'ActivityManagerController@loadSelectedCoursesActivities');
         Route::post('/manageActivity/addActivity', 'ActivityManagerController@addActivity');
+           
     });
     
    /**
@@ -122,13 +127,3 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/registerError', 'ProfInfoController@insertProf');
     });
 });
-
-
-
-
-
-
-
-
-
-

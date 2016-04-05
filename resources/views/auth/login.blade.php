@@ -28,7 +28,8 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
-
+                        
+                        <!--Check for an error on logging in previously, set a class if error-->
                         <div class="form-group{{ $errors->has('userID') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Student Number</label>
 
@@ -37,12 +38,14 @@
 
                                 @if ($errors->has('userID'))
                                     <span class="help-block">
+                                        <!--Print out the error message-->
                                         <strong>{{ $errors->first('userID') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
+                        <!--Check for an error on logging in previously, set a class if error-->
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Password</label>
 
@@ -51,6 +54,7 @@
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
+                                        <!--Print out the error message-->
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
@@ -69,7 +73,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" name="submit">
                                     <i class="fa fa-btn fa-sign-in"></i>Login
                                 </button>
 
