@@ -48,140 +48,143 @@
                         </select>
                         <br />
 
-                        <label id="classSelectedLabel" for="classSelected"> Class: </label>
+                        <div id="formDiv" hidden>          
+                            <label id="classSelectedLabel" for="classSelected"> Class: </label>
 
-                        <select id="classSelected"  name="classSelected" class="form-control">
-                            <option selected value="1">Select Class</option>
-                            <option value= "1">All Classes</option>
+                            <select id="classSelected"  name="classSelected" class="form-control">
+                                <option selected value="1">Select Class</option>
+                                <option value= "1">All Classes</option>
 
-                            @if( isset($courses) && count($courses) > 0 )
+                                @if( isset($courses) && count($courses) > 0 )
 
-                            @foreach($courses as $course)
-                            <option>{{$course['courseID']}}</option>
-                            @endforeach
+                                @foreach($courses as $course)
+                                <option>{{$course['courseID']}}</option>
+                                @endforeach
 
-                            @endif
+                                @endif
 
-                        </select>
+                            </select>
 
-                        <div id="bubbleMultiSelect">
-                            <div id="courseMultiSelect">
-                                <div id="courseFieldLabel"></div>
-                                <div id="courseField" hidden>
-                                    <div class="row">
-                                        <div class="col-xs-5">
-                                            <select name="from[]" id="undo_redo" class="form-control" size="13" multiple="multiple">
-                                                <!--Insert options here. AKA dynamically populate the list-->
-                                            </select>
+                            <div id="bubbleMultiSelect" hidden>
+                                <div id="courseMultiSelect">
+                                    <div id="courseFieldLabel"></div>
+                                    <div id="courseField" hidden>
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <select name="from[]" id="undo_redo" class="form-control" size="13" multiple="multiple">
+                                                    <!--Insert options here. AKA dynamically populate the list-->
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <br />
+                                                <br />
+                                                <!--                                    <button hidden type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
+                                                <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                <!--                                    <button hidden type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
+                                                <br />
+                                            </div>
+
+
+                                            <div class="col-xs-5">
+                                                <select name="courseList[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple">
+
+                                                </select>
+                                            </div>
                                         </div>
-
-                                        <div class="col-xs-2">
-                                            <br />
-                                            <br />
-                                            <!--                                    <button hidden type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
-                                            <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                            <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                            <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                            <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-                                            <!--                                    <button hidden type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
-                                            <br />
-                                        </div>
-
-
-                                        <div class="col-xs-5">
-                                            <select name="courseList[]" id="undo_redo_to" class="form-control" size="13" multiple="multiple">
-
-                                            </select>
-                                        </div>
+                                        <br />
                                     </div>
-                                    <br />
                                 </div>
-                            </div>
-                            <div id="studentMultiSelect">
-                                <div id="studentFieldLabel"></div>
-                                <div id="studentField" hidden>
-                                    <div class="row">
-                                        <div class="col-xs-5">
-                                            <select name="from[]" id="studentundo_redo" class="form-control" size="13" multiple="multiple">
-                                                <!--Insert options here. AKA dynamically populate the list-->
-                                            </select>
+                                <div id="studentMultiSelect">
+                                    <div id="studentFieldLabel"></div>
+                                    <div id="studentField" hidden>
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <select name="from[]" id="studentundo_redo" class="form-control" size="13" multiple="multiple">
+                                                    <!--Insert options here. AKA dynamically populate the list-->
+                                                </select>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <br />
+                                                <br />
+                                                <!--                                    <button type="button" id="studentundo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
+                                                <button type="button" id="studentundo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                <button type="button" id="studentundo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                <button type="button" id="studentundo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                <button type="button" id="studentundo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                <!--                                    <button type="button" id="studentundo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
+                                                <br />
+                                            </div>
+
+
+                                            <div class="col-xs-5">
+                                                <select name="studentList[]" id="studentundo_redo_to" class="form-control" size="13" multiple="multiple">
+
+                                                </select>
+                                            </div>
                                         </div>
-
-                                        <div class="col-xs-2">
-                                            <br />
-                                            <br />
-                                            <!--                                    <button type="button" id="studentundo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
-                                            <button type="button" id="studentundo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                            <button type="button" id="studentundo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                            <button type="button" id="studentundo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                            <button type="button" id="studentundo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-                                            <!--                                    <button type="button" id="studentundo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
-                                            <br />
-                                        </div>
-
-
-                                        <div class="col-xs-5">
-                                            <select name="studentList[]" id="studentundo_redo_to" class="form-control" size="13" multiple="multiple">
-
-                                            </select>
-                                        </div>
+                                        <br />
                                     </div>
-                                    <br />
                                 </div>
-                            </div>
-                        </div><!-- bubble mult select-->
-                        <label for="comparison1" required> Parameter 1:</label>
-                        <select id="comparison1" name="comparison1" class="form-control">
-                            <option selected value="spent">Select Parameter</option>
-                            <option value="stressLevel">Stress Level</option> 	
-                            <option value="timeSpent">Time Actual</option>	
-                            <option value="timeEstimated" >Time Estimate</option>
+                            </div><!-- bubble mult select-->
+                            <label for="comparison1" required> Parameter 1:</label>
+                            <select id="comparison1" name="comparison1" class="form-control">
+                                <option selected value="spent">Select Parameter</option>
+                                <option value="stressLevel">Stress Level</option> 	
+                                <option value="timeSpent">Time Actual</option>	
+                                <option value="timeEstimated" >Time Estimate</option>
 
-                        </select>
+                            </select>
 
-                        <br />
+                            <br />
 
-                        <label for="comparison2" required> Parameter 2:</label>
-                        <select id="comparison2" name="comparison2" class="form-control">
-                            <option selected  value="estimated">Select Parameter</option>
-                            <option value="stressLevel">Stress Level</option> 	
-                            <option value="timeSpent">Time Actual</option>	
-                            <option value="timeEstimated" >Time Estimate</option>
+                            <label for="comparison2" required> Parameter 2:</label>
+                            <select id="comparison2" name="comparison2" class="form-control">
+                                <option selected  value="estimated">Select Parameter</option>
+                                <option value="stressLevel">Stress Level</option> 	
+                                <option value="timeSpent">Time Actual</option>	
+                                <option value="timeEstimated" >Time Estimate</option>
 
-                        </select>
-                        <br />
-                        <label hidden for="comparison3" id="bubbleRadius" required>Bubble Radius:</label>
-                        <select id="comparison3" name="comparison3" class="form-control">
-                            <option selected value="spent">Select Parameter</option>
-                            <option value="stressLevel">Stress Level</option> 	
-                            <option value="timeSpent">Time Actual</option>	
-                            <option value="timeEstimated" >Time Estimate</option>
-                        </select> 
-                        <br />
-                        <button for="customChartForm" type="submit" value="Submit">Submit</button> 
+                            </select>
+                            <br />
+                            <label hidden for="comparison3" id="bubbleRadius" required>Bubble Radius:</label>
+                            <select id="comparison3" name="comparison3" class="form-control">
+                                <option selected value="spent">Select Parameter</option>
+                                <option value="stressLevel">Stress Level</option> 	
+                                <option value="timeSpent">Time Actual</option>	
+                                <option value="timeEstimated" >Time Estimate</option>
+                            </select> 
+                            <br />
+                            <button for="customChartForm" type="submit" value="Submit">Submit</button> 
                     </form> 
-                    <br />
-                    <div id="timeChart"></div>
 
-                    @if( isset($columnChart) ) 
+                    </div>
+                        <br />
+                        <div id="timeChart"></div>
 
-                    @columnchart('StudentParam', 'timeChart')
+                        @if( isset($columnChart) ) 
 
-                    @elseif(isset($bubbleChart))
+                        @columnchart('StudentParam', 'timeChart')
 
-                    @bubblechart('StudentParam', 'timeChart')
+                        @elseif(isset($bubbleChart))
 
-                    @endif
+                        @bubblechart('StudentParam', 'timeChart')
 
+                        @endif
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<link href="/css/plugins/prettify.css" rel="stylesheet">
-<link href="/css/plugins/style.css" rel="stylesheet">
-<script src="/js/plugins/multiselect.min.js"></script>
-
+    <link href="/css/plugins/prettify.css" rel="stylesheet">
+    <link href="/css/plugins/style.css" rel="stylesheet">
+    <script src="/js/plugins/multiselect.min.js"></script>
+    <script src="/js/charts/bubbleChart.js"></script>
 
 
 </script>
@@ -213,6 +216,9 @@ function determineChartType(chartSelectedValue)
 {
     //Use the value obtained from the chart field to obtain the type of 
     //chart.
+
+    $('#formDiv').show();
+    
     switch (chartSelectedValue) {
         case '1':
             //Pie Chart
@@ -229,7 +235,16 @@ function determineChartType(chartSelectedValue)
 
             //This will show the label and select all button to load a list
             //of students to submit.
-            loadBubbleChartForm();
+            if ($('#bubbleMultiSelect').is(':visible'))
+            {
+                $('#bubbleMultiSelect').hide();
+            }
+            else
+            {
+                $('#bubbleMultiSelect').show();
+                 loadBubbleChartForm();
+            }
+
 
             break;
         case '5':
@@ -238,7 +253,7 @@ function determineChartType(chartSelectedValue)
             loadColumnChartForm();
 
             break;
-        case '6':
+        case '6': 
             //Bar Chart
             break;
         case '7':
@@ -259,264 +274,265 @@ function determineChartType(chartSelectedValue)
 function loadColumnChartForm()
 {
     hideStudentCrossSelect();
+    
+    
 }
 
 
-function loadBubbleChartForm()
-{
-    addClassesSelectionField();
-    produceListOfCourseCrossSelect();
-    addStudentSelectionField();
-    showStudentCrossSelect();
-
-}
-
-
-
-function hideStudentCrossSelect()
-{
-    $('#bubbleMultiSelect').hide();
-
-
-    //this will show the bubble radius.
-    $('#bubbleRadius').hide();
-
-    //This will hide the select box for the bubble radius
-    $('#comparison3').hide();
-}
-
-/**
- * Purpose: This functions job is to show the the student cross selection 
- * box.
- * 
- * @returns {undefined}
- */
-function showStudentCrossSelect()
-{
-    $('#studentField').removeAttr("hidden");
-
-    //Loop through the remove Attr hidden AKA show the course field
-    $('#courseField').removeAttr("hidden");
-
-    //this will show the bubble radius.
-    $('#bubbleRadius').removeAttr("hidden");
-}
-
-/**
- * Purpose: This function will obtain a list of all the students with an
- * associated class
- * 
- * @param {array} a course that will be used to query all the students.
- * @returns {undefined}
- */
-function addStudentsToSelectionFieldOnClassSelect(course)
-{
-    //Set up/prime an ajax call.
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }});
-
-    //this will perform a ajax post request.
-    $.post("/CD/dashboard/getAllStudentByCourse", {class: course},
-    /**
-     * Purpose: The purpose of this callback function will create 
-     * options for the select boxes.
-     * 
-     * @param {type} results - An array of students that are in the 
-     * course.
-     * @returns {undefined}
-     */
-    function (results) {
-
-        //Will hold html code for options in select boxes.
-        var options = "";
-
-        //Create a course title box.  The class will be used to make 
-        //sure that the course titles can't be moved.
-        options = "<option value=\"" + course +
-                "\" class=\"" + course + "\" style='color:blue;' disabled>"
-                + course + "</option>";
-
-        //Loop through each result (all the students)
-        for (var i = 0; i < results["courseByStudent"].length; i++)
-        {
-            //Will create options boxes in the format 
-            //userID lastName, firstName
-            options = options
-                    + "<option class=\"" + course + "\""
-                    + " value=\""
-                    + course + ", " + results["courseByStudent"][i]["userID"]
-                    + "\">"
-                    + results["courseByStudent"][i]["userID"] + " "
-                    + results["courseByStudent"][i]["lName"] + ", "
-                    + results["courseByStudent"][i]["fName"] + "</option>";
-
-        }
-
-        //Get a hold on the left hand student selection box.
-        var studentCrossSection = $('#studentField').find('#studentundo_redo');
-
-        //Add the options to the box.
-        studentCrossSection.append(options);
-
-        //Add a course title to the right hand select box.
-//                var optionsRight = "<option value=\"" + course + 
-//                        "\" style='color:blue;'disabled>" + course + "</option>";
-//                
-//                //Add the options to the right hand side select field.
-//                //Will just be course titles.
-//                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
-//                
-//                studentCrossSection.append(optionsRight);
-
-    });
-
-    //Get handle on the student select box on left.
-    var studentCrossSection = $('#studentField').find('#studentundo_redo');
-
-    //Add the multiselect ability to the boxes.
-    studentCrossSection.multiselect();
-
-    $('#studentundo_redo_rightAll').click(function () {
-
-    });
-
-    $('#studentundo_redo_rightSelected').on("click", function () {
-
-    });
-}
-
-/**
- *Purpose: The purpsoe of this function will show all of the courses as
- *checkboxes. 
- * 
- * @returns {void}      
- * 
- */
-function produceListOfCourseCrossSelect()
-{
-    //Set up the ajax call
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }});
-
-    //Make a post request that will return all of the courses in the DB
-    $.post("/CD/dashboard/getAllCourses", function (results) {
-
-        //hold all the options for the select boxes.
-        var options = "";
-
-        //loop through all courses
-        for (var i = 0; i < results["courses"].length; i++)
-        {
-            //Create an options tag that will represent a course.
-            options = options
-                    + "<option"
-                    + " value=\"" + results["courses"][i]["courseID"]
-                    + "\"> "
-                    + results["courses"][i]["courseID"] + "</option>";
-        }
-
-
-
-        //get a handle on the course select box on the left handside.
-        var studentCrossSection = $('#courseField').find('#undo_redo');
-
-        //Add the options to the left hand side select box.
-        studentCrossSection.append(options);
-    });
-
-    //get a handle on the course select box on the left handside.
-    var studentCrossSection = $('#courseField').find('#undo_redo');
-
-    //Add multiselect functionality (Move objects).
-    studentCrossSection.multiselect();
-
-
-    $('#undo_redo_rightAll').click(function () {
-
-        //Get a handle of the courses that have been moved.
-        var courses = $('#undo_redo_to').find('option');
-        //For each course add the students to the list in the student
-        //select box.
-        courses.each(function () {
-
-            //clearStudent
-            $('#studentField').find('#studentundo_redo').html("");
-            $('#studentField').find('#studentundo_redo_to').html("");
-            //The value of the options selected.
-            addStudentsToSelectionFieldOnClassSelect($(this).val());
-        });
-    });
-
-    //this will add students to the sutdent select boxes based on the 
-    //courses moved to the right hand side.
-    $('#undo_redo_rightSelected').on("click", function () {
-
-        //Get a handle of the courses that have been moved.
-        var courses = $('#undo_redo_to').find('option');
-        //For each course add the students to the list in the student
-        //select box.
-        courses.each(function () {
-
-            //clearStudent
-            $('#studentField').find('#studentundo_redo').html("");
-            $('#studentField').find('#studentundo_redo_to').html("");
-            //The value of the options selected.
-            addStudentsToSelectionFieldOnClassSelect($(this).val());
-        });
-    });
-
-    $('#undo_redo_leftSelected').click(function () {
-
-
-
-
-    });
-
-    $('#undo_redo_leftAll').click(function () {
-        $('#studentundo_redo').children().remove();
-    });
-}
-
-
-
-/**
- *Purpose: This function is responsible for creating a selectionfield for
- *the bubble chart.  This list will be populated by the course(s) selected
- *in the course selection checkboxs.  All courses is an option that will
- *populate the student checkboxes.
- *
- *  
- * @returns {void} - will display the field on the form.    
- *  
- */
-function addStudentSelectionField()
-{
-    $("#studentFieldLabel").append(
-            "<label for=\"selectAll\">Please select students for comparison:</label>");
-}
-
-/**
- * Purpose: This function adds a field of checkboxes for each course.
- * The user will be able to select all the checkboxes or can select
- * individual courses.  The course picked will populate the student selection
- * field.
- * 
- * @returns {void} - display a course field and remove the previous class 
- * field and label.
- */
-function addClassesSelectionField()
-{
-    $("#courseFieldLabel").append(
-            "<label for=\"selectAllCourses\">Please select courses for comparison:</label>");
-
-    $("#classSelectedLabel").remove();
-    $("#classSelected").remove();
-
-}
+//function loadBubbleChartForm()
+//{
+//    addClassesSelectionField();
+//    produceListOfCourseCrossSelect();
+//    addStudentSelectionField();
+//    showStudentCrossSelect();
+//
+//}
+//
+//
+//
+//function hideStudentCrossSelect()
+//{
+//    $('#bubbleMultiSelect').hide();
+//
+//    //this will show the bubble radius.
+//    $('#bubbleRadius').hide();
+//    //This will hide the select box for the bubble radius
+//    $('#comparison3').hide();
+//}
+//
+///**
+// * Purpose: This functions job is to show the the student cross selection 
+// * box.
+// * 
+// * @returns {undefined}
+// */
+//function showStudentCrossSelect()
+//{
+//    $('#studentField').show();
+//
+//    //Loop through the remove Attr hidden AKA show the course field
+//    $('#courseField').show();
+//
+//    //this will show the bubble radius.
+//    $('#bubbleRadius').show();
+//    $('#comparison3').show();
+//}
+//
+///**
+// * Purpose: This function will obtain a list of all the students with an
+// * associated class
+// * 
+// * @param {array} a course that will be used to query all the students.
+// * @returns {undefined}
+// */
+//function addStudentsToSelectionFieldOnClassSelect(course)
+//{
+//    //Set up/prime an ajax call.
+//    $.ajaxSetup({
+//        headers: {
+//            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//        }});
+//
+//    //this will perform a ajax post request.
+//    $.post("/CD/dashboard/getAllStudentByCourse", {class: course},
+//    /**
+//     * Purpose: The purpose of this callback function will create 
+//     * options for the select boxes.
+//     * 
+//     * @param {type} results - An array of students that are in the 
+//     * course.
+//     * @returns {undefined}
+//     */
+//    function (results) {
+//
+//        //Will hold html code for options in select boxes.
+//        var options = "";
+//
+//        //Create a course title box.  The class will be used to make 
+//        //sure that the course titles can't be moved.
+//        options = "<option value=\"" + course +
+//                "\" class=\"" + course + "\" style='color:blue;' disabled>"
+//                + course + "</option>";
+//
+//        //Loop through each result (all the students)
+//        for (var i = 0; i < results["courseByStudent"].length; i++)
+//        {
+//            //Will create options boxes in the format 
+//            //userID lastName, firstName
+//            options = options
+//                    + "<option class=\"" + course + "\""
+//                    + " value=\""
+//                    + course + ", " + results["courseByStudent"][i]["userID"]
+//                    + "\">"
+//                    + results["courseByStudent"][i]["userID"] + " "
+//                    + results["courseByStudent"][i]["lName"] + ", "
+//                    + results["courseByStudent"][i]["fName"] + "</option>";
+//
+//        }
+//
+//        //Get a hold on the left hand student selection box.
+//        var studentCrossSection = $('#studentField').find('#studentundo_redo');
+//
+//        //Add the options to the box.
+//        studentCrossSection.append(options);
+//
+//        //Add a course title to the right hand select box.
+////                var optionsRight = "<option value=\"" + course + 
+////                        "\" style='color:blue;'disabled>" + course + "</option>";
+////                
+////                //Add the options to the right hand side select field.
+////                //Will just be course titles.
+////                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
+////                
+////                studentCrossSection.append(optionsRight);
+//
+//    });
+//
+//    //Get handle on the student select box on left.
+//    var studentCrossSection = $('#studentField').find('#studentundo_redo');
+//
+//    //Add the multiselect ability to the boxes.
+//    studentCrossSection.multiselect();
+//
+//    $('#studentundo_redo_rightAll').click(function () {
+//
+//    });
+//
+//    $('#studentundo_redo_rightSelected').on("click", function () {
+//
+//    });
+//}
+//
+///**
+// *Purpose: The purpsoe of this function will show all of the courses as
+// *checkboxes. 
+// * 
+// * @returns {void}      
+// * 
+// */
+//function produceListOfCourseCrossSelect()
+//{
+//    //Set up the ajax call
+//    $.ajaxSetup({
+//        headers: {
+//            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//        }});
+//
+//    //Make a post request that will return all of the courses in the DB
+//    $.post("/CD/dashboard/getAllCourses", function (results) {
+//
+//        //hold all the options for the select boxes.
+//        var options = "";
+//
+//        //loop through all courses
+//        for (var i = 0; i < results["courses"].length; i++)
+//        {
+//            //Create an options tag that will represent a course.
+//            options = options
+//                    + "<option"
+//                    + " value=\"" + results["courses"][i]["courseID"]
+//                    + "\"> "
+//                    + results["courses"][i]["courseID"] + "</option>";
+//        }
+//
+//
+//
+//        //get a handle on the course select box on the left handside.
+//        var studentCrossSection = $('#courseField').find('#undo_redo');
+//
+//        //Add the options to the left hand side select box.
+//        studentCrossSection.append(options);
+//    });
+//
+//    //get a handle on the course select box on the left handside.
+//    var studentCrossSection = $('#courseField').find('#undo_redo');
+//
+//    //Add multiselect functionality (Move objects).
+//    studentCrossSection.multiselect();
+//
+//
+//    $('#undo_redo_rightAll').click(function () {
+//
+//        //Get a handle of the courses that have been moved.
+//        var courses = $('#undo_redo_to').find('option');
+//        //For each course add the students to the list in the student
+//        //select box.
+//        courses.each(function () {
+//
+//            //clearStudent
+//            $('#studentField').find('#studentundo_redo').html("");
+//            $('#studentField').find('#studentundo_redo_to').html("");
+//            //The value of the options selected.
+//            addStudentsToSelectionFieldOnClassSelect($(this).val());
+//        });
+//    });
+//
+//    //this will add students to the sutdent select boxes based on the 
+//    //courses moved to the right hand side.
+//    $('#undo_redo_rightSelected').on("click", function () {
+//
+//        //Get a handle of the courses that have been moved.
+//        var courses = $('#undo_redo_to').find('option');
+//        //For each course add the students to the list in the student
+//        //select box.
+//        courses.each(function () {
+//
+//            //clearStudent
+//            $('#studentField').find('#studentundo_redo').html("");
+//            $('#studentField').find('#studentundo_redo_to').html("");
+//            //The value of the options selected.
+//            addStudentsToSelectionFieldOnClassSelect($(this).val());
+//        });
+//    });
+//
+//    $('#undo_redo_leftSelected').click(function () {
+//
+//
+//
+//
+//    });
+//
+//    $('#undo_redo_leftAll').click(function () {
+//        $('#studentundo_redo').children().remove();
+//    });
+//}
+//
+//
+//
+///**
+// *Purpose: This function is responsible for creating a selectionfield for
+// *the bubble chart.  This list will be populated by the course(s) selected
+// *in the course selection checkboxs.  All courses is an option that will
+// *populate the student checkboxes.
+// *
+// *  
+// * @returns {void} - will display the field on the form.    
+// *  
+// */
+//function addStudentSelectionField()
+//{
+//    $("#studentFieldLabel").append(
+//            "<label for=\"selectAll\">Please select students for comparison:</label>");
+//}
+//
+///**
+// * Purpose: This function adds a field of checkboxes for each course.
+// * The user will be able to select all the checkboxes or can select
+// * individual courses.  The course picked will populate the student selection
+// * field.
+// * 
+// * @returns {void} - display a course field and remove the previous class 
+// * field and label.
+// */
+//function addClassesSelectionField()
+//{
+//    $("#courseFieldLabel").append(
+//            "<label for=\"selectAllCourses\">Please select courses for comparison:</label>");
+//
+//    $("#classSelectedLabel").remove();
+//    $("#classSelected").remove();
+//
+//}
 
 </script>
 
