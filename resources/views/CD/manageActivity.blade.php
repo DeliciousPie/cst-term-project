@@ -101,9 +101,171 @@
                             <!--Should enable when selecting a course-->
                             <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" onclick="javascript:clearFields();" disabled >Add Activity</button>
 
-                            <!--Should enable when an activity is selected-->
-                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
+                            <!-- The modal for adding an activity -->
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="color:black">
+                                        <form id="addActivityForm" method="POST">
+                                            <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                                            @foreach ($errors->all() as $error)
+                                            <p class="alert alert-danger">{{ $error }}</p>
+                                            @endforeach
+                                            @if (session('status'))
+                                            <div class="alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                            @endif
 
+                                            <div class="modal-header" style='background: #008040; color: white;'>
+                                                <h3 class="modal-title" style="font-weight: bold;">Add Activity</h3>
+                                            </div>
+                                            <div class="modal-body center-block">
+                                                <label for="activityName">Activity Name</label>
+                                                <br>
+                                                <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Activity Error Message Box -->
+                                                <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="startDate">Start Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be given.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <label for="dueDate">Due Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be due.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Due Date Error Message Box -->
+                                                <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="workload">Workload(hr)</label>
+                                                <br>
+                                                <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Workload Error Message Box -->
+                                                <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                                                </div>
+
+                                                <label for="stresstimate">Stresstimate</label>
+                                                <br>
+                                                <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" onchange="javascript:validateActivitySubmit();" style="width:100%"> 
+                                                </div>
+
+                                                <br>
+                                                <!-- Stesstimate Error Message Box -->
+                                                <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearFields();">Close</button>
+
+                                                    <!--  Add Activity Modal Button -->
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivitySubmit();" >Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            
+                            <!--Should enable when an activity is selected-->
+                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#editModal" onclick="javascript:clearEditFields();" disabled >Edit Activity</button>
+
+                              <!-- Edit Activity Modal -->
+                            <div id="editModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="color:black">
+                                        <form id="editActivityForm" method="POST">
+                                            <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                                            @foreach ($errors->all() as $error)
+                                            <p class="alert alert-danger">{{ $error }}</p>
+                                            @endforeach
+                                            @if (session('status'))
+                                            <div class="alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                            @endif
+
+                                            <div class="modal-header" style='background: #008040; color: white;'>
+                                                <h3 class="modal-title" style="font-weight: bold;">Edit Activity</h3>
+                                            </div>
+                                            <div class="modal-body center-block">
+                                                <label for="editActivityName">Activity Name</label>
+                                                <br>
+                                                <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Activity Error Message Box-->
+                                                <div id="editModalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="editStartDate">Start Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be given.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editStartDate" class="form-control" name="editStartDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <label for="editDueDate">Due Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be due.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editDueDate" class="form-control" name="editDueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Due Date Error Message Box-->
+                                                <div id="editModalAlertBoxDue" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="editWorkload">Workload(hr)</label>
+                                                <br>
+                                                <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editWorkload" class="form-control" name="editWorkload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Workload Error Message Box-->
+                                                <div id="editModalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                                                </div>
+
+                                                <label for="editStresstimate">Stresstimate</label>
+                                                <br>
+                                                <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editStresstimate" class="form-control" name="editStresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate();" style="width:100%"> 
+                                                </div>
+
+                                                <br>
+                                                <!--Stesstimate Error Message Box-->
+                                                <div id="editModalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields();">Close</button>
+
+                                                    <!--Add Activity Modal Button-->
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivityUpdate();">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!--Should enable when an activity is selected-->
                             <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
 
@@ -121,165 +283,6 @@
             </div>
 
             <p>May take awhile to load professors and courses.</p>
-        </div>
-    </div>
-</div>
-
-<!-- The modal for adding an activity -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="color:black">
-            <form id="addActivityForm" method="POST">
-                <input type="hidden" name='_token' value="{!! csrf_token() !!}">
-                @foreach ($errors->all() as $error)
-                <p class="alert alert-danger">{{ $error }}</p>
-                @endforeach
-                @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <div class="modal-header" style='background: #008040; color: white;'>
-                    <h3 class="modal-title" style="font-weight: bold;">Add Activity</h3>
-                </div>
-                <div class="modal-body center-block">
-                    <label for="activityName">Activity Name</label>
-                    <br>
-                    <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivitySubmit();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Activity Error Message Box-->
-                    <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="startDate">Start Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be given.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
-                    </div>
-                    <br>
-                    <label for="dueDate">Due Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be due.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Due Date Error Message Box-->
-                    <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="workload">Workload(hr)</label>
-                    <br>
-                    <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" onchange="javascript:validateActivitySubmit();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Workload Error Message Box-->
-                    <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
-                    </div>
-
-                    <label for="stresstimate">Stresstimate</label>
-                    <br>
-                    <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" onchange="javascript:validateActivitySubmit();" style="width:100%"> 
-                    </div>
-
-                    <br>
-                    <!--Stesstimate Error Message Box-->
-                    <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearFields();">Close</button>
-
-                        <!--Add Activity Modal Button-->
-                        <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivitySubmit();" >Submit</button>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="editModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="color:black">
-            <form id="editActivityForm" method="POST">
-                <input type="hidden" name='_token' value="{!! csrf_token() !!}">
-                @foreach ($errors->all() as $error)
-                <p class="alert alert-danger">{{ $error }}</p>
-                @endforeach
-                @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <div class="modal-header" style='background: #008040; color: white;'>
-                    <h3 class="modal-title" style="font-weight: bold;">Edit Activity</h3>
-                </div>
-                <div class="modal-body center-block">
-                    <label for="activityName">Activity Name</label>
-                    <br>
-                    <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Activity Error Message Box-->
-                    <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="startDate">Start Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be given.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
-                    </div>
-                    <br>
-                    <label for="dueDate">Due Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be due.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Due Date Error Message Box-->
-                    <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="workload">Workload(hr)</label>
-                    <br>
-                    <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate();" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Workload Error Message Box-->
-                    <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
-                    </div>
-
-                    <label for="stresstimate">Stresstimate</label>
-                    <br>
-                    <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate();" style="width:100%"> 
-                    </div>
-
-                    <br>
-                    <!--Stesstimate Error Message Box-->
-                    <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields();">Close</button>
-
-                        <!--Add Activity Modal Button-->
-                        <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivityUpdate();" >Update</button>
-                    </div>
-            </form>
         </div>
     </div>
 </div>
@@ -414,7 +417,6 @@ $(document).ready(function ()
 
         function selectHandler() {
             var selectedItem = chart.getSelection()[0];
-            console.log(selectedItem);
             if (selectedItem) 
             {
                 var topping = data.getValue(selectedItem.row, 5);
@@ -424,6 +426,24 @@ $(document).ready(function ()
                 
                 //Set the global activityID button for deleting or editing
                 selectedActivityID = data.getValue(selectedItem.row, 5);
+                
+                //Fill the edit activity modal fields
+                $("#editActivityName").val(data.getValue(selectedItem.row, 0));
+                    
+                //Substring the startDate to the required format yyyy-mm-dd
+                var startDate = data.getValue(selectedItem.row, 1).substring(6,10) + "-" +
+                data.getValue(selectedItem.row, 1).substring(0,2) + "-" + 
+                data.getValue(selectedItem.row, 1).substring(3,5);
+                
+                $("#editStartDate").val(startDate);
+                
+                var dueDate = data.getValue(selectedItem.row, 2).substring(6,10) + "-" +
+                data.getValue(selectedItem.row, 2).substring(0,2) + "-" + 
+                data.getValue(selectedItem.row, 2).substring(3,5);
+                    
+                $("#editDueDate").val(dueDate);
+                $("#editWorkload").val(data.getValue(selectedItem.row, 3));
+                $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
                
                 alert('ID:' + topping);
                 
@@ -686,14 +706,14 @@ $(document).ready(function ()
 
     $(document).ready(function()
     {
-        validateActivityUpdate()
+        window.validateActivityUpdate = function()
         {
-            
+            alert("ValidateActivityUpdate");
         }
         
-        clearEditFields()
+        window.clearEditFields = function()
         {
-            
+            alert("ClearEditFields");
         }
     });
 
