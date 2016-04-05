@@ -1,3 +1,12 @@
 id,userID,age,areaOfStudy,fName,lName,educationalInstitution,email
 1,Stu001,25,CST,Mark,Beitel,SIAST,m.beitel@test.com
 2,Stu002,45,CST,Jim,Bob,SIAST,JamminWithJimmer@jimbo.com
+3,Stu101,25,CST,Mark,beitel,SIAST,M.beitel001@SIAST.ca
+4,Stu102,45,CST,"bob ",bill,SIAST,b.bill002@SIAST.ca
+5,Stu103,22,CST,Benton,Kershner,SIAST,B.Kershner003@SIAST.ca
+6,Stu104,25,CST,Tayna,Apperson,SIAST,T.Apperson004@SIAST.ca
+7,Stu105,29,MED,Lovella,Topping,UofS,L.Topping146@SIAST.ca
+8,Stu106,38,MED,Vergie,Bangs,UofS,V.Bangs147@SIAST.ca
+9,Stu107,33,MED,Sharolyn,Martz,UofS,S.Martz148@SIAST.ca
+10,Stu108,21,MED,Raleigh,Labree,UofS,R.Labree149@SIAST.ca
+11,Stu109,37,CST,Cristin,Gilder,SIAST,C.Gilder009@SIAST.ca

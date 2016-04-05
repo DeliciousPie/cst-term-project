@@ -165,16 +165,7 @@ class CSVImportController extends Controller
         }
         $zip->close();
         
-        //readfile($filename);
-
-        //delete all csv files
-        for($curFile = 0; $curFile < count($tables); $curFile++)
-        {
-            //remove the file
-            //unlink(getcwd() . "/" . $tables[$curFile] . ".csv");
-        }
-        
-        return response()->download($filename);
+        return response()->download($filename)->deleteFileAfterSend($filename);
     }
     
     /*

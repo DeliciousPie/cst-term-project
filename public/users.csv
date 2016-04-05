@@ -1,8 +1,8 @@
 id,name,email,userID,confirmed
-1,"Justin ",justin.lutzko@hotmail.ca,12345,1
+1,"Justin Lutzko",justin.lutzko@hotmail.ca,12345,1
 2,"Mark Beitel",beitel9933@saskpolytech.ca,adm219,0
-3,Nathan,nathan@email.com,12346,0
-4,Nixilis,nixiepixie@yahoo.ca,666,0
+3,Ulamog,ulamog@ulamog.ulamog,12346,1
+4,Nixilis,nixipixie@yahoo.ca,666,1
 5,David,david@email.com,12347,1
 6,Lisa,lisa@email.com,12348,0
 7,"CD Epic",CDEpic.ca,54321,1
@@ -21,12 +21,12 @@ id,name,email,userID,confirmed
 20,Mila,M.Lindholm016@SIAST.com,Pro011,0
 21,Bonny,B.Ethridge017@uofs.ca,Pro012,0
 22,Paul,P.Spada018@uofs.ca,Pro013,0
-23,Lizzie,L.Landeros019@uofs.ca,Pro014,0
-24,Eryn,E.Jeanbaptiste020@uofs.ca,Pro015,0
-25,Tanisha,T.Puff021@uofs.ca,Pro016,0
-26,Lawanda,L.Garrels022@uofs.ca,Pro017,0
-27,Deanna,D.Elvin023@uofs.ca,Pro018,0
-28,Tod,T.Alpaugh024@uofs.ca,Pro019,0
-29,Raelene,R.Toepfer025@uofs.ca,Pro020,0
-30,Williams,W.Nowell026@uofs.ca,Pro021,0
-31,Leatha,L.Clow027@uofs.ca,Pro022,0
+23,Mark,M.beitel001@SIAST.ca,Stu101,0
+24,"bob ",b.bill002@SIAST.ca,Stu102,0
+25,Benton,B.Kershner003@SIAST.ca,Stu103,0
+26,Tayna,T.Apperson004@SIAST.ca,Stu104,0
+27,Lovella,L.Topping146@SIAST.ca,Stu105,0
+28,Vergie,V.Bangs147@SIAST.ca,Stu106,0
+29,Sharolyn,S.Martz148@SIAST.ca,Stu107,0
+30,Raleigh,R.Labree149@SIAST.ca,Stu108,0
+31,Cristin,C.Gilder009@SIAST.ca,Stu109,0

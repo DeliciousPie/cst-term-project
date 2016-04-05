@@ -131,15 +131,17 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="panel-body" style="float:left">
+                        <h1 >
+                            CSV Export
+                        </h1>
+                        <a href="/CD/CSVDownload" class="btn btn-primary" id="downloadCSV">Download Database CSVs</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="panel-body" style="float:left">
-                <h1 >
-                    CSV Export
-                </h1>
-                <a href="/CD/CSVDownload" class="btn btn-primary">Download Database CSVs</a>
-            </div>
+            
         </div>
     </div>
 </div>
