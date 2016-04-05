@@ -16,7 +16,7 @@ class CreateActivityTable extends Migration
                     
             $table->integer('activityID', true);
             $table->string('sectionID', 20);
-            $table->string('activityType', 20);
+            $table->string('activityType', 125);
             $table->date('assignDate');
             $table->date('dueDate');
             $table->decimal('estTime', 4, 1);
