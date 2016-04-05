@@ -289,7 +289,8 @@ $(document).ready(function ()
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
         data.addColumn('string', 'Estimated Time');
-        data.addColumn('number', 'Stresstimate')
+        data.addColumn('number', 'Stresstimate');
+        data.addColumn('number', 'ActivityID');
 
         // If there are more than 0 activities
         if (ajaxData.activities.length > 0)
@@ -308,7 +309,8 @@ $(document).ready(function ()
                         ajaxData.activities[count].dueDate.substring(8,10) + "-" +
                         ajaxData.activities[count].dueDate.substring(0,4),
                         ajaxData.activities[count].estTime,
-                        ajaxData.activities[count].stresstimate
+                        ajaxData.activities[count].stresstimate,
+                        ajaxData.activities[count].activityID
                     ]);
                 }
             }
@@ -325,9 +327,22 @@ $(document).ready(function ()
         formatter.format(data, 2);
         formatter.format(data, 3);
 
-        var chart = new google.visualization.Table(document.getElementById('activitySelect'));
-        
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0,1,2,3,4]);
 
+        var chart = new google.visualization.Table(document.getElementById('activitySelect'));
+
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            console.log(selectedItem);
+            if (selectedItem) 
+            {
+                var topping = data.getValue(selectedItem.row, 5);
+                alert('ID:' + topping);
+                
+            }
+        }
+            
 
         // chart styles
         var cssClassNames = {
@@ -344,8 +359,13 @@ $(document).ready(function ()
         // Properties of the table
         var options = {'showRowNumber': false, 'width': '100%', 'height': '150px', 'cssClassNames': cssClassNames};
 
+        //Add the event handler
+        google.visualization.events.addListener(chart, 'select', selectHandler); 
+
+
+        
         // draw the table using the data and options
-        chart.draw(data, options);
+        chart.draw(view, options);
     }
 
 </script>

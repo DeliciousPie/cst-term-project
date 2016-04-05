@@ -99,7 +99,14 @@ class ActivityManagerController extends Controller
 
         return null;
     }
+    
+    /**
+     * Purpose: Edit an activity from the database, with the values that have been
+     *          specified from the Activity Manager page.
+     * @return null
+     * @author  Anthony Fetsch CST223 & Kendal Keller CST228 
 
+     */
     public function editActivity()
     {
         
@@ -178,6 +185,11 @@ class ActivityManagerController extends Controller
 
             return response()->json(['activities' => $activityArray]);
         }
+    }
+    
+    public function loadSelectedActivity()
+    {
+        
     }
 
 }
