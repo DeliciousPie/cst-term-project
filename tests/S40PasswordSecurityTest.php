@@ -32,7 +32,7 @@ class S40PasswordSecurityTest extends TestCase
             ->type('54321', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/CD/dashboard');
+            ->seePageIs('http://phpserver/home');
     }
     
     /**
@@ -91,23 +91,23 @@ class S40PasswordSecurityTest extends TestCase
             ->type('12348', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/Student/dashboard')
-            ->see("Student Registration");
+            ->seePageIs('http://phpserver/home')
+            ->see("Welcome");
         
         //Log in as a Professor
         $this->visit('/login')
             ->type('12346', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/Prof/dashboard')
-            ->see("Professor Registration");
+            ->seePageIs('http://phpserver/home')
+            ->see("Welcome");
                 
         //Log in as a CD
         $this->visit('/login')
             ->type('12345', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/CD/register')
-            ->see("CD Registration");
+            ->seePageIs('http://phpserver/home')
+            ->see("Welcome");
     }
 }
