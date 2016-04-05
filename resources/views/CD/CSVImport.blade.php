@@ -6,7 +6,7 @@
 
 
 @section('navBarHeader')
-<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer CSV Import Page </a>
+<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer CSV Import / Export Page </a>
 @stop
 
 @section('content')
@@ -125,8 +125,6 @@
                                         ?>
                                         <?= Former::close() ?>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
