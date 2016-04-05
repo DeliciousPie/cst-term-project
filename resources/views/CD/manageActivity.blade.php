@@ -205,12 +205,92 @@
     </div>
 </div>
 
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="color:black">
+            <form id="editActivityForm" method="POST">
+                <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                @foreach ($errors->all() as $error)
+                <p class="alert alert-danger">{{ $error }}</p>
+                @endforeach
+                @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+                @endif
+
+                <div class="modal-header" style='background: #008040; color: white;'>
+                    <h3 class="modal-title" style="font-weight: bold;">Edit Activity</h3>
+                </div>
+                <div class="modal-body center-block">
+                    <label for="activityName">Activity Name</label>
+                    <br>
+                    <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                    </div>
+                    <br>
+                    <!--Activity Error Message Box-->
+                    <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                    </div>
+                    <label for="startDate">Start Date</label>
+                    <br>
+                    <h6>The day and time that the activity will be given.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                    </div>
+                    <br>
+                    <label for="dueDate">Due Date</label>
+                    <br>
+                    <h6>The day and time that the activity will be due.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                    </div>
+                    <br>
+                    <!--Due Date Error Message Box-->
+                    <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
+                    </div>
+                    <label for="workload">Workload(hr)</label>
+                    <br>
+                    <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                    </div>
+                    <br>
+                    <!--Workload Error Message Box-->
+                    <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                    </div>
+
+                    <label for="stresstimate">Stresstimate</label>
+                    <br>
+                    <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
+                    <div class="input-group" style="width:100%">
+                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate();" style="width:100%"> 
+                    </div>
+
+                    <br>
+                    <!--Stesstimate Error Message Box-->
+                    <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields();">Close</button>
+
+                        <!--Add Activity Modal Button-->
+                        <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivityUpdate();" >Update</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
 <!--This script is for loading each course the professor is teaching-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
 $(document).ready(function ()
 {
+    var selectedActivityID;
     $(".loading").hide();
     // Load the courses for the selected professor, into the select box
     window.loadCourses = function ()
@@ -222,7 +302,7 @@ $(document).ready(function ()
             $('#addActivityButton').prop('disabled', true);
 
             //These buttons should be enabled when an activity is selected not when a course is selected
-            //$('#editActivityButton').prop('disabled', true);
+            $('#editActivityButton').prop('disabled', true);
             //$('#deleteActivityButton').prop('disabled', true);
 
             // Get the professors id
@@ -278,7 +358,7 @@ $(document).ready(function ()
         $('#addActivityButton').prop('disabled', false);
 
         //            These buttons should be enabled when an activity is selected not when a course is selected
-        //$('#editActivityButton').prop('disabled', false);
+        $('#editActivityButton').prop('disabled', false);
         //$('#deleteActivityButton').prop('disabled', false);
 
         // Actually make the table appear
@@ -338,6 +418,13 @@ $(document).ready(function ()
             if (selectedItem) 
             {
                 var topping = data.getValue(selectedItem.row, 5);
+                
+                //Set the Edit Activity Button to enabled
+                 $('#editActivityButton').prop('disabled', false);
+                
+                //Set the global activityID button for deleting or editing
+                selectedActivityID = data.getValue(selectedItem.row, 5);
+               
                 alert('ID:' + topping);
                 
             }
@@ -593,6 +680,23 @@ $(document).ready(function ()
             });
         }
     });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function()
+    {
+        validateActivityUpdate()
+        {
+            
+        }
+        
+        clearEditFields()
+        {
+            
+        }
+    });
+
 </script>
 
 @endsection
