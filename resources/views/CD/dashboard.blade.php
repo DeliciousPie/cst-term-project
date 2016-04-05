@@ -193,9 +193,7 @@
            
     });
     
-    
 
-    
     /**
      * Purpose: This function will determine the chart type selected and load
      * the fields need for that chart.
@@ -301,8 +299,8 @@
                 //Create a course title box.  The class will be used to make 
                 //sure that the course titles can't be moved.
                 options = "<option value=\"" + course + 
-                        "\" class=\"courseTitle\" disabled>" 
-                        + course + "</option>";
+                        "\" class=\"courseTitle\" style='color:blue;' disabled>" 
+                        + course + "</h2></option>";
                
                 //Loop through each result (all the students)
                 for( var i = 0; i < results["courseByStudent"].length; i++ ) 
@@ -327,14 +325,14 @@
                 studentCrossSection.append(options);
                 
                 //Add a course title to the right hand select box.
-                var optionsRight = "<option value=\"" + course + "\" disabled>" 
-                        + courses + "</option>";
-                
-                //Add the options to the right hand side select field.
-                //Will just be course titles.
-                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
-                
-                studentCrossSection.append(optionsRight);
+//                var optionsRight = "<option value=\"" + course + 
+//                        "\" style='color:blue;'disabled>" + course + "</option>";
+//                
+//                //Add the options to the right hand side select field.
+//                //Will just be course titles.
+//                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
+//                
+//                studentCrossSection.append(optionsRight);
                 
             }); 
             
@@ -349,7 +347,6 @@
             });
             
             $('#studentundo_redo_rightSelected').on("click",function(){
-
                     
             });
     }
@@ -382,7 +379,7 @@
                     options = options 
                         + "<option"
                         + " value=\"" +results["courses"][i]["courseID"] 
-                        + "\">" 
+                        + "\"> " 
                         + results["courses"][i]["courseID"] + "</option>";                   
                 }
                 
@@ -403,7 +400,19 @@
                     
             
             $('#undo_redo_rightAll').click(function(){
-                 
+
+                //Get a handle of the courses that have been moved.
+                var courses = $('#undo_redo_to').find('option');
+                //For each course add the students to the list in the student
+                //select box.
+                courses.each(function(){
+                    
+                    //clearStudent
+                    $('#studentField').find('#studentundo_redo').html(""); 
+                     $('#studentField').find('#studentundo_redo_to').html("");
+                    //The value of the options selected.
+                    addStudentsToSelectionFieldOnClassSelect($(this).val());
+                });
             });
             
             //this will add students to the sutdent select boxes based on the 
@@ -417,10 +426,13 @@
                 courses.each(function(){
                     
                     //clearStudent
+                    $('#studentField').find('#studentundo_redo').html(""); 
+                     $('#studentField').find('#studentundo_redo_to').html("");
                     //The value of the options selected.
                     addStudentsToSelectionFieldOnClassSelect($(this).val());
                 });
             });
+            
     }
     
     /**

@@ -152,58 +152,51 @@ class BubbleChartQueryController extends CDQueryController {
 
         //for each course create one bubble of the average of all students 
         // the query 
-        foreach ($courses as $indCourse) {
+//        foreach ($courses as $indCourse) {
+        // based on the students and the course get the peramiters for each 
+        // student 
+//            if ($indCourse == key($studentAndCourse)) 
+//            {
+
+        foreach ($studentAndCourse as $indCourse => $studentCourse) {
             $totalComparison1 = 0;
             $totalComparison2 = 0;
             $totalComparison3 = 0;
-            // based on the students and the course get the peramiters for each 
-            // student 
-            if ($indCourse == key($studentAndCourse)) 
-            {
-            foreach ($studentAndCourse as $studentCourse) 
-                {
- 
-                    foreach ($studentCourse as $indStudent) 
-                        {
-                        $countComparison1 = 0;
-                        $countComparison2 = 0;
-                        $countComparison3 = 0;
-                        
-                        $qurResult1 = $this->queryOnCourseIndStudent($indCourse, $comparison1, $indStudent);
+            $countComparison1 = 0;
+            $countComparison2 = 0;
+            $countComparison3 = 0;
+            foreach ($studentCourse as $indStudent) {
 
-                        if ($qurResult1 != null) {
-                            $totalComparison1 += $qurResult1[0][$comparison1];
-                            $countComparison1++;
-                        }
+                $qurResult1 = $this->queryOnCourseIndStudent($indCourse, $comparison1, $indStudent);
 
-                        $qurResult2 = $this->queryOnCourseIndStudent($indCourse, $comparison2, $indStudent);
+                if ($qurResult1 != null) {
+                    $totalComparison1 += $qurResult1[0][$comparison1];
+                    $countComparison1++;
+                }
 
-                        if ($qurResult2 != null) {
-                            $totalComparison2 += $qurResult2[0][$comparison2];
-                            $countComparison2++;
-                        }
+                $qurResult2 = $this->queryOnCourseIndStudent($indCourse, $comparison2, $indStudent);
 
-                        $qurResult3 = $this->queryOnCourseIndStudent($indCourse, $comparison3, $indStudent);
+                if ($qurResult2 != null) {
+                    $totalComparison2 += $qurResult2[0][$comparison2];
+                    $countComparison2++;
+                }
 
-                        if ($qurResult3 != null) {
-                            $totalComparison3 += $qurResult3[0][$comparison3];
-                            $countComparison3++;
-                        }   
-                    }
-                    
-                    $avgComparison1 = $totalComparison1 / sizeof($countComparison1);
-                    $avgComparison2 = $totalComparison2 / sizeof($countComparison2);
-                    $avgComparison3 = $totalComparison3 / sizeof($countComparison3);
+                $qurResult3 = $this->queryOnCourseIndStudent($indCourse, $comparison3, $indStudent);
+
+                if ($qurResult3 != null) {
+                    $totalComparison3 += $qurResult3[0][$comparison3];
+                    $countComparison3++;
+                }
+            }
+            $avgComparison1 = $totalComparison1 / $countComparison1;
+            $avgComparison2 = $totalComparison2 / $countComparison2;
+            $avgComparison3 = $totalComparison3 / $countComparison3;
 
             $allAverages[$indCourse] = array("courseID" => $indCourse, "param1" => $avgComparison1,
                 "param2" => $avgComparison2, "param3" => $avgComparison3, "courseID" => $indCourse);
-            
-                }
-            }
-
-
         }
-
+        //}
+        //}
         return $allAverages;
     }
 
