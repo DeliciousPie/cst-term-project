@@ -214,7 +214,7 @@ if (typeof jQuery === 'undefined') {
                     e.preventDefault();
 
                     var $options = self.$right.find('option:selected');
-
+                    
                     if ( $options.length ) {
                         self.moveToLeft($options, e);
                     }

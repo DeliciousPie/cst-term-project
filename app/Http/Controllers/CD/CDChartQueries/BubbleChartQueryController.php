@@ -165,6 +165,11 @@ class BubbleChartQueryController extends CDQueryController {
             $countComparison1 = 0;
             $countComparison2 = 0;
             $countComparison3 = 0;
+            
+            $avgComparison1 = 0;
+            $avgComparison2 = 0;
+            $avgComparison3 =0;
+            
             foreach ($studentCourse as $indStudent) {
 
                 $qurResult1 = $this->queryOnCourseIndStudent($indCourse, $comparison1, $indStudent);
@@ -188,9 +193,21 @@ class BubbleChartQueryController extends CDQueryController {
                     $countComparison3++;
                 }
             }
-            $avgComparison1 = $totalComparison1 / $countComparison1;
-            $avgComparison2 = $totalComparison2 / $countComparison2;
-            $avgComparison3 = $totalComparison3 / $countComparison3;
+            
+            if( $countComparison1 != 0 )
+            {
+                $avgComparison1 = $totalComparison1 / $countComparison1;
+            }
+            
+            if( $countComparison1 != 0 )
+            {
+                $avgComparison2 = $totalComparison2 / $countComparison2;
+            }
+            
+            if( $countComparison1 != 0 )
+            {
+                 $avgComparison3 = $totalComparison3 / $countComparison3;
+            }
 
             $allAverages[$indCourse] = array("courseID" => $indCourse, "param1" => $avgComparison1,
                 "param2" => $avgComparison2, "param3" => $avgComparison3, "courseID" => $indCourse);
