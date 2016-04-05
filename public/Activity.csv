@@ -1,0 +1,4 @@
+activityID,sectionID,activityType,assignDate,dueDate,estTime,stresstimate
+1,1,Assignment,2016-04-04,2016-04-04,2.0,4
+2,1,Assignment2,2016-04-04,2016-04-04,700.0,4
+3,3,Assignment3,2016-04-04,2016-04-04,2.0,4
