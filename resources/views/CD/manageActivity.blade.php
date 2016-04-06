@@ -183,7 +183,7 @@
                             </div>
                             
                             <!--Should enable when an activity is selected-->
-                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#editModal" onclick="javascript:clearEditFields();" disabled >Edit Activity</button>
+                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#editModal" disabled >Edit Activity</button>
 
                               <!-- Edit Activity Modal -->
                             <div id="editModal" class="modal fade" role="dialog">
@@ -503,6 +503,7 @@ $(document).ready(function ()
                 drawTable(data);
                 $(".loading").hide();
                 $('#myModal').hide();
+                $('#editModal').hide();
                 $('.modal-backdrop').hide();
                 clearFields();
             });
@@ -653,9 +654,7 @@ $(document).ready(function ()
             activityNameValid = false;
             datesValid = false;
             workloadValid = false;
-
         }
-        
     }
     );
 
@@ -859,7 +858,23 @@ $(document).ready(function ()
         
         window.clearEditFields = function()
         {
-            //alert("ClearEditFields");
+            $('#editActivityName').val("");
+            $('#editStartDate').val("");
+            $('#editDueDate').val("");
+            $('#editWorkload').val("");
+            $('#editStresstimate').val("");
+            
+            $('#editModalAlertBoxActivity').hide();
+            $('#editModalAlertBoxDue').hide();
+            $('#editModalAlertBoxWorkload').hide();
+            $('#editModalAlertBoxStresstimate').hide();
+
+            editStressValid = false;
+            editActivityNameValid = false;
+            editDatesValid = false;
+            editWorkloadValid = false;
+            
+            $('#editActivityButton').prop('disabled', true);
         }
     });
 
