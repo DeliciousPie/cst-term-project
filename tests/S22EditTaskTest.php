@@ -64,6 +64,7 @@ class S22EditTaskTest extends TestCase
 //
     // 1. Change the name to be blank 
         $_POST = ['activityName' => '',
+                'activityID' => 99,
                 'startDate' => '2016-01-11',
                 'dueDate' => '2016-01-11', 
                 'workload' => '3',
@@ -77,6 +78,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "",
+            'activityID' => 99,
             'assignDate' => "2016-01-11",
             'dueDate' => "2016-01-11", 
             'estTime' => "3",
@@ -87,6 +89,7 @@ class S22EditTaskTest extends TestCase
         $_POST = ['activityName' => 'Thisisanamethatislongerthanonehundredtwenty'
             . 'fivecharactersanditshouldfailforthetestingofstorytwentytwowhichis'
             . 'editingactivitiesortests',
+                'activityID' => 99,
                 'startDate' => '2016-01-11',
                 'dueDate' => '2016-01-11', 
                 'workload' => '3',
@@ -102,6 +105,7 @@ class S22EditTaskTest extends TestCase
             'activityType' => "Thisisanamethatislongerthanonehundredtwenty'
             . 'fivecharactersanditshouldfailforthetestingofstorytwentytwowhichis'
             . 'editingactivitiesortests",
+            'activityID' => 99,
             'assignDate' => "2016-01-11",
             'dueDate' => "2016-01-11", 
             'estTime' => "3",
@@ -112,6 +116,7 @@ class S22EditTaskTest extends TestCase
         
     // 3. Change the start date to a date after the due date 
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-12',
                 'dueDate' => '2016-01-11', 
                 'workload' => '3',
@@ -125,6 +130,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-12",
             'dueDate' => "2016-01-11", 
             'estTime' => "3",
@@ -134,6 +140,7 @@ class S22EditTaskTest extends TestCase
     // 4. Change the start date to be empty
         $_POST = ['activityName' => 'S22Test',
                 'startDate' => '',
+                'activityID' => 99,
                 'dueDate' => '2016-01-11', 
                 'workload' => '3',
                 'stresstimate' => '3',
@@ -146,6 +153,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "",
             'dueDate' => "2016-01-11", 
             'estTime' => "3",
@@ -154,6 +162,7 @@ class S22EditTaskTest extends TestCase
         
     // 5. Change the due date to be before the start date
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-11',
                 'dueDate' => '2016-01-10', 
                 'workload' => '3',
@@ -167,6 +176,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-11",
             'dueDate' => "2016-01-10", 
             'estTime' => "3",
@@ -175,6 +185,7 @@ class S22EditTaskTest extends TestCase
         
     // 6. Change the due date to be empty
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-11',
                 'dueDate' => '', 
                 'workload' => '3',
@@ -188,6 +199,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-11",
             'dueDate' => "", 
             'estTime' => "3",
@@ -196,6 +208,7 @@ class S22EditTaskTest extends TestCase
         
     // 7. Change the start dates month to be 13
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-13-11',
             //Making sure it fails on the 13th month, not the difference.
                 'dueDate' => '2016-14-11', 
@@ -204,12 +217,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-13-11",
             'dueDate' => "2016-14-11", 
             'estTime' => "3",
@@ -218,6 +236,7 @@ class S22EditTaskTest extends TestCase
         
     // 8. Change the due dates month to be 13
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-1-11',
                 'dueDate' => '2016-13-11', 
                 'workload' => '3',
@@ -225,12 +244,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-1-11",
             'dueDate' => "2016-13-11", 
             'estTime' => "3",
@@ -239,6 +263,7 @@ class S22EditTaskTest extends TestCase
         
     // 9. Change the start dates day to be 32
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-1-32',
                 'dueDate' => '2016-2-11', 
                 'workload' => '3',
@@ -246,12 +271,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-1-32",
             'dueDate' => "2016-2-11", 
             'estTime' => "3",
@@ -260,6 +290,7 @@ class S22EditTaskTest extends TestCase
         
     // 10. Change the due dates day to be 32
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-1-11',
                 'dueDate' => '2016-2-32', 
                 'workload' => '3',
@@ -267,12 +298,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-1-11",
             'dueDate' => "2016-2-32", 
             'estTime' => "3",
@@ -281,6 +317,7 @@ class S22EditTaskTest extends TestCase
         
     // 11. Change the start dates day to be 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-1-0',
                 'dueDate' => '2016-2-11', 
                 'workload' => '3',
@@ -288,12 +325,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-1-0",
             'dueDate' => "2016-2-11", 
             'estTime' => "3",
@@ -302,6 +344,7 @@ class S22EditTaskTest extends TestCase
         
     // 12. Change the due dates day to be 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-1-11',
                 'dueDate' => '2016-2-0', 
                 'workload' => '3',
@@ -309,12 +352,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-1-11",
             'dueDate' => "2016-2-0", 
             'estTime' => "3",
@@ -323,6 +371,7 @@ class S22EditTaskTest extends TestCase
         
     // 13. Change the start dates month to be 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-0-11',
                 'dueDate' => '2016-2-11', 
                 'workload' => '3',
@@ -330,12 +379,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-0-11",
             'dueDate' => "2016-2-11", 
             'estTime' => "3",
@@ -344,6 +398,7 @@ class S22EditTaskTest extends TestCase
 
     // 14. Change the due dates month to be 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-0-5',
                 'dueDate' => '2016-0-11', 
                 'workload' => '3',
@@ -351,12 +406,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-0-5",
             'dueDate' => "2016-0-11", 
             'estTime' => "3",
@@ -364,7 +424,8 @@ class S22EditTaskTest extends TestCase
         ]);
         
     // 15. Test the min start date of 0000-00-00
-        $_POST = ['activityName' => 'S22Test',
+        $_POST = ['activityName' => 'S22Test', 
+                'activityID' => 99,
                 'startDate' => '0000-00-00',
                 'dueDate' => '2016-2-11', 
                 'workload' => '3',
@@ -372,12 +433,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "0000-00-00",
             'dueDate' => "2016-2-11", 
             'estTime' => "3",
@@ -386,6 +452,7 @@ class S22EditTaskTest extends TestCase
         
     // 16. Test the min due date of 0000-00-00
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '0000-00-00',
                 'dueDate' => '0000-00-00', 
                 'workload' => '3',
@@ -393,12 +460,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "0000-00-00",
             'dueDate' => "0000-00-00", 
             'estTime' => "3",
@@ -407,6 +479,7 @@ class S22EditTaskTest extends TestCase
         
     // 17. Test the max start date of 2999-12-31, by using 3000-01-01
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '3000-01-31',
                 'dueDate' => '3000-02-22', 
                 'workload' => '3',
@@ -414,12 +487,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "3000-01-31",
             'dueDate' => "3000-02-22", 
             'estTime' => "3",
@@ -428,6 +506,7 @@ class S22EditTaskTest extends TestCase
         
     // 18. Test the max due date of 2999-12-31, by using 3000-01-01
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2999-12-31',
                 'dueDate' => '3000-01-01', 
                 'workload' => '3',
@@ -435,12 +514,17 @@ class S22EditTaskTest extends TestCase
                 'profID' => 'Pro011',
                 'courseID' => '3'];
             
-        $AMC->editActivity();
+        try
+        {
+            $AMC->editActivity();
+        } catch (Exception $ex) {    
+        }
             
         // Assert that the Activity added is not actually in the database
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2999-12-31",
             'dueDate' => "3000-01-01", 
             'estTime' => "3",
@@ -451,6 +535,7 @@ class S22EditTaskTest extends TestCase
         
     // 19. Test the workload min of 1 by using 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '0',
@@ -464,6 +549,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "0",
@@ -472,6 +558,7 @@ class S22EditTaskTest extends TestCase
         
     // 20. Test the workload max of 800 by using 801
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '801',
@@ -485,6 +572,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "801",
@@ -493,6 +581,7 @@ class S22EditTaskTest extends TestCase
         
     // 21. Test the negative workload
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '-10',
@@ -506,6 +595,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "-10",
@@ -516,6 +606,7 @@ class S22EditTaskTest extends TestCase
         
     // 22. Test the min stresstimate of 1 by using 0
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '10',
@@ -529,6 +620,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "10",
@@ -537,6 +629,7 @@ class S22EditTaskTest extends TestCase
         
     // 23. Test the max stresstimate of 10 by using 11
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '10',
@@ -550,6 +643,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "10",
@@ -558,6 +652,7 @@ class S22EditTaskTest extends TestCase
         
     // 24. Test the negative stresstimate
         $_POST = ['activityName' => 'S22Test',
+                'activityID' => 99,
                 'startDate' => '2016-01-01',
                 'dueDate' => '2016-01-01', 
                 'workload' => '10',
@@ -571,6 +666,7 @@ class S22EditTaskTest extends TestCase
         $this->notSeeInDatabase('Activity',
         [
             'activityType' => "S22Test",
+            'activityID' => 99,
             'assignDate' => "2016-01-01",
             'dueDate' => "2016-01-01", 
             'estTime' => "10",
@@ -656,10 +752,175 @@ class S22EditTaskTest extends TestCase
             'estTime' => "3",
             'stresstimate' => "3"
         ]);
+            
+    /////////////Workload////////////////
         
-    //////////////Dates//////////////////
+    // 4. Change the workload to 1, the accepted minimum
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '1',
+                'stresstimate' => '3',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "1",
+            'stresstimate' => "3"
+        ]);
         
-    // 4. Change the start date and due date to values that are the same
+    // 5. Change the workload to 800, the accepted maximum
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '800',
+                'stresstimate' => '3',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "800",
+            'stresstimate' => "3"
+        ]);
+        
+    // 6. Change the workload to a normal value
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '24',
+                'stresstimate' => '3',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "24",
+            'stresstimate' => "3"
+        ]);
+        
+    /////////////Stresstimate///////////////
+        
+    // 7. Change the stresstimate to a 1, the accepted minimum
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '24',
+                'stresstimate' => '1',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "24",
+            'stresstimate' => "1"
+        ]);
+        
+    // 8. Change the stresstimate to a 10, the accepted max
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '24',
+                'stresstimate' => '10',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "24",
+            'stresstimate' => "10"
+        ]);
+        
+    // 9. Change the stresstimate to a 6, a normal value
+        $_POST = ['activityName' => 'S22TestChanged',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '24',
+                'stresstimate' => '6',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "S22TestChanged",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "24",
+            'stresstimate' => "6"
+        ]);
+        
+    // 10. Modify all values to normal values
+        $_POST = ['activityName' => 'Assignment3',
+                'activityID' => 99,
+                'startDate' => '2016-12-12',
+                'dueDate' => '2016-12-12', 
+                'workload' => '26',
+                'stresstimate' => '8',
+                'profID' => 'Pro011',
+                'courseID' => '3'];
+            
+        $AMC->editActivity();
+            
+        // Assert that the Activity added is actually in the database
+        $this->seeInDatabase('Activity',
+        [
+            'activityType' => "Assignment3",
+            'activityID' => 99,
+            'assignDate' => "2016-12-12",
+            'dueDate' => "2016-12-12", 
+            'estTime' => "26",
+            'stresstimate' => "8"
+        ]);
+     
+//////////////Dates//////////////////
+        
+    // 11. Change the start date and due date to values that are the same
         $_POST = ['activityName' => 'S22TestChanged',
                 'activityID' => 99,
                 'startDate' => '2016-01-11',
@@ -682,11 +943,11 @@ class S22EditTaskTest extends TestCase
             'stresstimate' => "3"
         ]);
         
-    // 5. Change the start date to the max
+    // 12. Change the start date to the max
         $_POST = ['activityName' => 'S22TestChanged',
                 'activityID' => 99,
-                'startDate' => '2999-12-31',
-                'dueDate' => '2999-12-31', 
+                'startDate' => '2999-12-30',
+                'dueDate' => '2999-12-30', 
                 'workload' => '3',
                 'stresstimate' => '3',
                 'profID' => 'Pro011',
@@ -699,17 +960,17 @@ class S22EditTaskTest extends TestCase
         [
             'activityType' => "S22TestChanged",
             'activityID' => 99,
-            'assignDate' => "2999-12-31",
-            'dueDate' => "2999-12-31", 
+            'assignDate' => "2999-12-30",
+            'dueDate' => "2999-12-30", 
             'estTime' => "3",
             'stresstimate' => "3"
         ]);
         
-    // 6. Change the due date to the max
+    // 13. Change the due date to the max
         $_POST = ['activityName' => 'S22TestChanged',
                 'activityID' => 99,
-                'startDate' => '2016-12-31',
-                'dueDate' => '2999-12-31', 
+                'startDate' => '2016-12-30',
+                'dueDate' => '2999-12-30', 
                 'workload' => '3',
                 'stresstimate' => '3',
                 'profID' => 'Pro011',
@@ -722,13 +983,13 @@ class S22EditTaskTest extends TestCase
         [
             'activityType' => "S22TestChanged",
             'activityID' => 99,
-            'assignDate' => "2016-12-31",
-            'dueDate' => "2999-12-31", 
+            'assignDate' => "2016-12-30",
+            'dueDate' => "2999-12-30", 
             'estTime' => "3",
             'stresstimate' => "3"
         ]);
         
-    // 7. Change the start date to the min
+    // 14. Change the start date to the min
         $_POST = ['activityName' => 'S22TestChanged',
                 'activityID' => 99,
                 'startDate' => '0000-01-01',
@@ -751,7 +1012,7 @@ class S22EditTaskTest extends TestCase
             'stresstimate' => "3"
         ]);
         
-    // 8. Change the start and due dates to the min
+    // 15. Change the start and due dates to the min
         $_POST = ['activityName' => 'S22TestChanged',
                 'activityID' => 99,
                 'startDate' => '0000-01-01',
@@ -774,193 +1035,6 @@ class S22EditTaskTest extends TestCase
             'stresstimate' => "3"
         ]);
         
-    // 9. Change the dates to a normal thing
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-30', 
-                'workload' => '10',
-                'stresstimate' => '3',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-30", 
-            'estTime' => "10",
-            'stresstimate' => "3"
-        ]);
-    
-    /////////////Workload////////////////
-        
-    // 10. Change the workload to 1, the accepted minimum
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '1',
-                'stresstimate' => '3',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "1",
-            'stresstimate' => "3"
-        ]);
-        
-    // 11. Change the workload to 800, the accepted maximum
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '800',
-                'stresstimate' => '3',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "800",
-            'stresstimate' => "3"
-        ]);
-        
-    // 12. Change the workload to a normal value
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '24',
-                'stresstimate' => '3',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "24",
-            'stresstimate' => "3"
-        ]);
-        
-    /////////////Stresstimate///////////////
-        
-    // 13. Change the stresstimate to a 1, the accepted minimum
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '24',
-                'stresstimate' => '1',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "24",
-            'stresstimate' => "1"
-        ]);
-        
-    // 14. Change the stresstimate to a 10, the accepted max
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '24',
-                'stresstimate' => '10',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "24",
-            'stresstimate' => "10"
-        ]);
-        
-    // 15. Change the stresstimate to a 6, a normal value
-        $_POST = ['activityName' => 'S22TestChanged',
-                'activityID' => 99,
-                'startDate' => '2016-1-22',
-                'dueDate' => '2016-1-23', 
-                'workload' => '24',
-                'stresstimate' => '6',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "S22TestChanged",
-            'activityID' => 99,
-            'assignDate' => "2016-1-22",
-            'dueDate' => "2016-1-23", 
-            'estTime' => "24",
-            'stresstimate' => "6"
-        ]);
-        
-    // 16. Modify all values to normal values
-        $_POST = ['activityName' => 'Assignment3',
-                'activityID' => 99,
-                'startDate' => '2016-2-22',
-                'dueDate' => '2016-3-20', 
-                'workload' => '26',
-                'stresstimate' => '8',
-                'profID' => 'Pro011',
-                'courseID' => '3'];
-            
-        $AMC->editActivity();
-            
-        // Assert that the Activity added is actually in the database
-        $this->seeInDatabase('Activity',
-        [
-            'activityType' => "Assignment3",
-            'activityID' => 99,
-            'assignDate' => "2016-2-22",
-            'dueDate' => "2016-3-20", 
-            'estTime' => "26",
-            'stresstimate' => "8"
-        ]);
         
     }
     

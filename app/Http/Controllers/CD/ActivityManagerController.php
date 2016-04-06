@@ -139,26 +139,25 @@ class ActivityManagerController extends Controller
      * Purpose: Edit an activity from the database, with the values that have been
      *          specified from the Activity Manager page.
      * @return null
-     * @author  Anthony Fetsch CST223 & Kendal Keller CST228 
+     * @author  Anthony Fetsch CST223
 
      */
     public function editActivity()
     {
-         //Get rid of the html special characters to prevent SQL injections
-        $activityName = htmlspecialchars($_POST['activityName']);
-        $startDate = htmlspecialchars ($_POST['startDate']);
-        $dueDate = htmlspecialchars ($_POST['dueDate']);
-        $workload = htmlspecialchars ($_POST['workload']);
-        $stresstimate = htmlspecialchars ($_POST['stresstimate']);
-        if(isset($_POST['activityID']))
-        {
-            $activityID = htmlspecialchars ($_POST['activityID']);
-        }
+         
         
         // Check that all the fields are set
-        if (isset($activityName) && isset($startDate) && isset($dueDate) 
-                && isset($workload) && isset($stresstimate) && isset($activityID))
+        if (isset($_POST['activityName']) && isset($_POST['startDate']) && isset($_POST['dueDate']) 
+                && isset($_POST['workload']) && isset($_POST['stresstimate']) && isset($_POST['activityID']))
         {
+            //Get rid of the html special characters to prevent SQL injections
+            $activityName = htmlspecialchars($_POST['activityName']);
+            $startDate = htmlspecialchars ($_POST['startDate']);
+            $dueDate = htmlspecialchars ($_POST['dueDate']);
+            $workload = htmlspecialchars ($_POST['workload']);
+            $stresstimate = htmlspecialchars ($_POST['stresstimate']);
+            $activityID = htmlspecialchars ($_POST['activityID']);
+            
             // Check if all are empty
             if (!empty($activityName) && !empty($startDate) && !empty($dueDate) 
                     && !empty($workload) && !empty($stresstimate) 
@@ -166,31 +165,82 @@ class ActivityManagerController extends Controller
             {
                 // Check if activity name is valid
                 if (strlen($activityName) > 0 && strlen($activityName) < 125)
-                {
-                    // Check that startDate and dueDate are valid
-                    $startDateObj = new \DateTime($startDate);
-                    $dueDateObj = new \DateTime($dueDate);
+                {                                       
+                    $dateMaxOk = false;
+                    $dateMinOk = false;
+                    $intervalOk = false;
+                    $dueDateValid = false;
+                    $startDateValid = false;
+                    
+                    // Make datetime objects to validate, and set the max and min values
                     $minDateObj = new \DateTime('0000-00-00');
                     $maxDateObj = new \DateTime('2999-12-31');
                     
-                    $interval = $startDateObj->diff($dueDateObj);
-                    $dateDiff = $interval->format('%R%a');
-                    $minInterval = $startDateObj->diff($minDateObj);
-                    $minDiff = $minInterval->format('%R%a');
-                    $maxInterval = $startDateObj->diff($maxDateObj);
-                    $maxDiff = $minInterval->format('%R%a');
-                    
-                    // dueDate is greater than startDate
-                    if ($dateDiff >= 0 && $minDiff < 0)
+                    //Check if the start date is valid
+                    $d = \DateTime::createFromFormat('Y-m-d', $startDate);
+                    $startDateValid = $d->format('Y-m-d') == $startDate;
+
+                    if($startDateValid)
                     {
+                        $startDateObj = new \DateTime($startDate);
+                    }
+                    
+                    //Check if the due date is valid
+                    $d = \DateTime::createFromFormat('Y-m-d', $dueDate);
+                    $dueDateValid = $d->format('Y-m-d') == $dueDate; 
+
+                    if($dueDateValid)
+                    {
+                        $dueDateObj = new \DateTime($dueDate);
+                    }
+                    
+                    if($startDateValid && $dueDateValid)
+                    {
+                        //Make sure that the due date is after the start date
+                        $interval = $startDateObj->diff($dueDateObj);
+                        $dateDiff = $interval->format('%R%a');
+
+                        //Due date is greater than the startDate
+                        if($dateDiff  >= 0)
+                        {
+                            $intervalOk = true;
+                        }
+                        //Make sure that the date is not less than the minimum
+                        $minInterval = $startDateObj->diff($minDateObj);
+                        $minDiff = $minInterval->format('%R%a');
+
+                        if($minDiff < 0)
+                        {
+                            $dateMinOk = true;
+                        }
+
+                        //Make sure that the date is not more than the max
+                        $maxInterval = $startDateObj->diff($maxDateObj);
+                        $maxDiff = $maxInterval->format('%R%a');
+
+                        if($maxDiff > 0)
+                        {
+                            $dateMaxOk = true;
+                        }                    
+                    }
+
+                    // Ensure that all of the dates are valid and ok
+                    if($dateMaxOk === true && $dateMinOk === true &&
+                                $intervalOk === true && $dueDateValid === true
+                                && $startDateValid === true)
+                    {
+                        echo('2');
                         // Check that workload is valid
                         if ($workload > 0 && $workload <= 800)
                         {
+                            echo('3');
                             // Check that stresstimate is valid
                             if ($stresstimate >= 1 && $stresstimate <= 10)
                             {
+                                echo('4');
                                 if(isset($activityID) && !empty($activityID))
                                 {
+                                    echo('5');
                                     // If everything is valid, perform the update 
                                     $id = DB::table('Activity')
                                         ->where('activityID', $activityID)
