@@ -208,7 +208,7 @@
                                                 <br>
                                                 <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <!--Activity Error Message Box-->
@@ -218,14 +218,14 @@
                                                 <br>
                                                 <h6>The day and time that the activity will be given.</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editStartDate" class="form-control" name="editStartDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                    <input id="editStartDate" class="form-control" name="editStartDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <label for="editDueDate">Due Date</label>
                                                 <br>
                                                 <h6>The day and time that the activity will be due.</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editDueDate" class="form-control" name="editDueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                    <input id="editDueDate" class="form-control" name="editDueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <!--Due Date Error Message Box-->
@@ -235,7 +235,7 @@
                                                 <br>
                                                 <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editWorkload" class="form-control" name="editWorkload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate();" style="width:100%">
+                                                    <input id="editWorkload" class="form-control" name="editWorkload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <!--Workload Error Message Box-->
@@ -246,7 +246,7 @@
                                                 <br>
                                                 <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editStresstimate" class="form-control" name="editStresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate();" style="width:100%"> 
+                                                    <input id="editStresstimate" class="form-control" name="editStresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate(false);" style="width:100%"> 
                                                 </div>
 
                                                 <br>
@@ -258,7 +258,7 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields(); ">Close</button>
 
                                                     <!--Add Activity Modal Button-->
-                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivityUpdate();">Update</button>
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:pressingButton();">Update</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -506,6 +506,7 @@ $(document).ready(function ()
                 $('#editModal').hide();
                 $('.modal-backdrop').hide();
                 clearFields();
+                clearEditFields();
             });
         }
     });
@@ -528,12 +529,8 @@ $(document).ready(function ()
             // Check that all the fields are valid then enable or disable the submit button
             if (activityNameValid === true && datesValid === true && workloadValid === true && stressValid === true)
             {
-                if(updateButtonPressed)
-                {
-                    $(".loading").show();
-                    submitActivity();
-                }
-
+                $(".loading").show();
+                submitActivity();
             }
             else 
             {
@@ -746,15 +743,11 @@ $(document).ready(function ()
         var editWorkloadValid = false;
         var editStressValid = false;
         
-        window.validateActivityUpdate = function()
+        window.validateActivityUpdate = function(updateButtonPressed)
         {
-            // Check that all the fields are valid then enable or disable the submit button
-            if (editActivityNameValid === true && editDatesValid === true && editWorkloadValid === true && editStressValid === true)
-            {
-                $(".loading").show();
-                editActivity();                
-            }
-            else 
+            // Check that all the fields are valid          
+            if(editActivityNameValid !== true || editDatesValid !== true || 
+                    editWorkloadValid !== true || editStressValid !== true)
             {
                 if(editActivityNameValid === false)
                 {
@@ -771,6 +764,24 @@ $(document).ready(function ()
                 if(editStressValid === false)
                 {
                     editValidateActivityStresstimate();    
+                }
+            }
+            else //If they are all valid
+            {   //And the update button has been pressed
+                if(updateButtonPressed === true)
+                {
+                    //Revalidate all of the fields as a second check.
+                    editValidateActivityStresstimate(); 
+                    editValidateActivityWorkload();
+                    editValidateActivityDate();
+                    editValidateActivityName();
+                    if (editActivityNameValid === true && editDatesValid === true && editWorkloadValid === true && editStressValid === true)
+                    { 
+                        //If everything is valid, then update it.
+                       $(".loading").show();
+                       editActivity();
+                       updateButtonPressed = false;
+                    }      
                 }
             }
         }
@@ -875,6 +886,11 @@ $(document).ready(function ()
             editWorkloadValid = false;
             
             $('#editActivityButton').prop('disabled', true);
+        }
+        
+        window.pressingButton = function()
+        {
+            validateActivityUpdate(true);
         }
     });
 
