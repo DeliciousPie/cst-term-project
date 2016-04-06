@@ -103,16 +103,21 @@ class ActivityManagerController extends Controller
     /**
      * Purpose: Delete an activity from the database by using it's activityID
      * 
+     * Note: May need to remove this from the StudentActivity table later, 
+     *       depends on hows the Activity table and StudentActivity table will 
+     *       be linked
+     * 
      * Author: Kendal Keller
      * Date:   4/5/2016
      */
     public function deleteActivity()
     {
-        // sanitize the activityID
+        // sanitize the activityID we got from the post
         $activityID = htmlspecialchars($_POST['activityID']);
         
         if ( isset($activityID) )
         {
+            // delete the currenlty selected activity from the Activity table 
             DB::table('Activity')->where('activityID', '=', $activityID)->delete();
         }
     }

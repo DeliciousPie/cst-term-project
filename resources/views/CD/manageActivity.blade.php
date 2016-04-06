@@ -208,7 +208,7 @@
 </div>
 </div>
     
-<!-- Confirm Delete -->
+<!-- Confirm Delete Modal -->
 <div id="confirmDeleteModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -222,11 +222,11 @@
         <p>Are you sure you want to delete the selected activity? </p>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:deleteActivity();">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:deleteActivity();">Confirm</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
-
+    
   </div>
 </div>
     
@@ -364,11 +364,14 @@ $(document).ready(function ()
             if (selectedItem) 
             {
                 var topping = data.getValue(selectedItem.row, 5);
+                var currentSelectedActivityName = data.getValue(selectedItem.row, 0);
                 
                 $('#editActivityButton').prop('disabled', false);
                 $('#deleteActivityButton').prop('disabled', false);
                 
                 window.selectedActivityID = topping;
+                $('#deleteModalBody').html('<p><strong>Are you sure you want to delete  ' 
+                        + currentSelectedActivityName + '? </strong></p>')
             }
         }
             
@@ -632,13 +635,14 @@ $(document).ready(function ()
 
         window.deleteActivity = function ()
         {   
+            // Get the global selectedActivityID 
             var activityID = window.selectedActivityID;
             
             // Check if activityID is not null or not undefined
             if ( activityID !== null && typeof activityID !== 'undefined' )
             {    
                 var activity = {
-                    // set the activityID from the global variable activityID
+                    // set the activityID to the local variable
                     'activityID': activityID
                 };
 
