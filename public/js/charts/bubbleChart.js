@@ -14,6 +14,17 @@ function loadBubbleChartForm()
 
 }
 
+function hideBubbleChartSelections()
+{
+    $('#bubbleMultiSelect').hide();
+
+    //this will show the bubble radius.
+    $('#bubbleRadius').hide();
+    //This will hide the select box for the bubble radius
+    $('#comparison3').hide();
+}
+
+
 /**
  * Purpose: This functions job is to show the the student cross selection 
  * box.
@@ -263,7 +274,7 @@ function addClassesSelectionField()
     $("#courseFieldLabel").append(
             "<label for=\"selectAllCourses\">Please select courses for comparison:</label>");
 
-    $("#classSelectedLabel").remove();
-    $("#classSelected").remove();
+    $("#classSelectedLabel").hide();
+    $("#classSelected").hide();
 
 }
