@@ -105,7 +105,7 @@
                             <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
 
                             <!--Should enable when an activity is selected-->
-                            <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
+                            <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#confirmDeleteModal" disabled >Delete Activity</button>
 
                             <!--Assignment Select Google Chart Table-->
                             <br><br>
@@ -204,11 +204,37 @@
         </div>
     </div>
 </div>
+</div>
+    
+<!-- Confirm Delete -->
+<div id="confirmDeleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style='background: #008040; color: white;'>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div id="deleteModalBody" class="modal-body">
+        <p>Are you sure you want to delete the selected activity? </p>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:deleteActivity();">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    
+    
 <!--This script is for loading each course the professor is teaching-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
+var selectedActivityID;
+    
 $(document).ready(function ()
 {
     $(".loading").hide();
@@ -220,10 +246,8 @@ $(document).ready(function ()
             $('#activitySelect').html('');
             $('#courseSelect').html('');
             $('#addActivityButton').prop('disabled', true);
-
-            //These buttons should be enabled when an activity is selected not when a course is selected
-            //$('#editActivityButton').prop('disabled', true);
-            //$('#deleteActivityButton').prop('disabled', true);
+            $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
 
             // Get the professors id
             var profID = $('#profSelect').val();
@@ -289,7 +313,8 @@ $(document).ready(function ()
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
         data.addColumn('string', 'Estimated Time');
-        data.addColumn('number', 'Stresstimate')
+        data.addColumn('number', 'Stresstimate');
+        data.addColumn('number', 'ActivityID');
 
         // If there are more than 0 activities
         if (ajaxData.activities.length > 0)
@@ -308,7 +333,8 @@ $(document).ready(function ()
                         ajaxData.activities[count].dueDate.substring(8,10) + "-" +
                         ajaxData.activities[count].dueDate.substring(0,4),
                         ajaxData.activities[count].estTime,
-                        ajaxData.activities[count].stresstimate
+                        ajaxData.activities[count].stresstimate,
+                        ajaxData.activities[count].activityID
                     ]);
                 }
             }
@@ -325,10 +351,25 @@ $(document).ready(function ()
         formatter.format(data, 2);
         formatter.format(data, 3);
 
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0,1,2,3,4]);
+
         var chart = new google.visualization.Table(document.getElementById('activitySelect'));
-        
 
-
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            console.log(selectedItem);
+            if (selectedItem) 
+            {
+                var topping = data.getValue(selectedItem.row, 5);
+                
+                $('#editActivityButton').prop('disabled', false);
+                $('#deleteActivityButton').prop('disabled', false);
+                
+                window.selectedActivityID = topping;
+            }
+        }
+            
         // chart styles
         var cssClassNames = {
             'headerRow': 'bold-font',
@@ -344,8 +385,13 @@ $(document).ready(function ()
         // Properties of the table
         var options = {'showRowNumber': false, 'width': '100%', 'height': '150px', 'cssClassNames': cssClassNames};
 
+        //Add the event handler
+        google.visualization.events.addListener(chart, 'select', selectHandler); 
+
+
+        
         // draw the table using the data and options
-        chart.draw(data, options);
+        chart.draw(view, options);
     }
 
 </script>
@@ -359,6 +405,9 @@ $(document).ready(function ()
         window.loadActivities = function ()
         {
             $(".loading").fadeIn("slow");
+            $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
+            
             // Get the courseID
             var courseID = $('#courseSelect').val();
 
@@ -568,7 +617,35 @@ $(document).ready(function ()
             $.post('/CD/manageActivity/addActivity', activity, function(data)
             {
                 // Once we insert the new Activity, reload the Activity table
-                
+                loadActivities();
+            });
+        }
+    });
+</script>
+
+<!--Delete Activity Script-->
+<script type="text/javascript" >
+
+    $(document).ready(function () {
+
+        window.deleteActivity = function ()
+        {   
+            var activityID = window.selectedActivityID;
+            
+            var activity = {
+                'activityID': activityID
+            };
+
+            // Specify the token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            // Ajax call to the Activity Manager Controller to delete the activity from the database
+            $.post('/CD/manageActivity/deleteActivity', activity, function(data)
+            {
+                // Once we delete the activity, reload the Activity table
                 loadActivities();
             });
         }

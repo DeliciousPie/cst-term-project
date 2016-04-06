@@ -84,11 +84,6 @@ class ActivityManagerController extends Controller
                                                 'estTime' => $workload,
                                                 'stresstimate' => $stresstimate]
                                     );
-                                    
-                                    if ( $id != null )
-                                    {
-                                        $result = true;
-                                    }
                                 }
                             }
                         }
@@ -105,9 +100,21 @@ class ActivityManagerController extends Controller
         
     }
 
+    /**
+     * Purpose: Delete an activity from the database by using it's activityID
+     * 
+     * Author: Kendal Keller
+     * Date:   4/5/2016
+     */
     public function deleteActivity()
     {
+        // sanitize the activityID
+        $activityID = htmlspecialchars($_POST['activityID']);
         
+        if ( isset($activityID) )
+        {
+            DB::table('Activity')->where('activityID', '=', $activityID)->delete();
+        }
     }
 
     /**
