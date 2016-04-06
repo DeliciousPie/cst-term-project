@@ -170,7 +170,6 @@ class BubbleChartController extends ChartController
             'vAxis' => ['gridlines' => ['count'=> 5 ],'title' => $comp2Parameter,
                 'minValue' => 0, 'maxValue' => $chartLimit]
         ]);
-        
         return $chart;
     }
     

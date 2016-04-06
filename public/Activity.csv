@@ -1,0 +1,6 @@
+activityID,sectionID,activityType,assignDate,dueDate,estTime,stresstimate
+1,1,Assignment,2016-04-05,2016-04-05,2.0,4
+2,1,Assignment2,2016-04-05,2016-04-05,700.0,4
+3,3,Assignment3,2016-04-05,2016-04-05,2.0,4
+15,COSA110.5,AssignmentTest,2016-04-05,2016-04-05,2.0,4
+16,"CNET293 sec J08","Test ",2016-04-05,2016-04-12,4.0,8

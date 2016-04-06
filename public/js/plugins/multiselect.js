@@ -296,9 +296,9 @@ if (typeof jQuery === 'undefined') {
                         self.redoStack = [];
                     }
                     
-                    if ( typeof self.callbacks.sort == 'function' && !silent ) {
-                        self.$right.mSort(self.callbacks.sort);
-                    }
+//                    if ( typeof self.callbacks.sort == 'function' && !silent ) {
+//                        self.$right.mSort(self.callbacks.sort);
+//                    }
                     
                     if ( typeof self.callbacks.afterMoveToRight == 'function' && !silent ) {
                         self.callbacks.afterMoveToRight( self.$left, self.$right, $options );
@@ -345,9 +345,9 @@ if (typeof jQuery === 'undefined') {
                         self.redoStack = [];
                     }
                     
-                    if ( typeof self.callbacks.sort == 'function' && !silent ) {
-                        self.$left.mSort(self.callbacks.sort);
-                    }
+//                    if ( typeof self.callbacks.sort == 'function' && !silent ) {
+//                        self.$left.mSort(self.callbacks.sort);
+//                    }
                     
                     if ( typeof self.callbacks.afterMoveToLeft == 'function' && !silent ) {
                         self.callbacks.afterMoveToLeft( self.$left, self.$right, $options );
