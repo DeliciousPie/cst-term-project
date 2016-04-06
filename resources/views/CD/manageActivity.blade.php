@@ -98,6 +98,8 @@
 
                             <!--Assignments Select Box-->
                             <h2>Activities</h2>
+                            <p>Select the assignment you would like to edit or delete.</p>
+                            
                             <!--Should enable when selecting a course-->
                             <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" onclick="javascript:clearFields();" disabled >Add Activity</button>
 
@@ -632,22 +634,27 @@ $(document).ready(function ()
         {   
             var activityID = window.selectedActivityID;
             
-            var activity = {
-                'activityID': activityID
-            };
+            // Check if activityID is not null or not undefined
+            if ( activityID !== null && typeof activityID !== 'undefined' )
+            {    
+                var activity = {
+                    // set the activityID from the global variable activityID
+                    'activityID': activityID
+                };
 
-            // Specify the token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }});
+                // Specify the token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }});
 
-            // Ajax call to the Activity Manager Controller to delete the activity from the database
-            $.post('/CD/manageActivity/deleteActivity', activity, function(data)
-            {
-                // Once we delete the activity, reload the Activity table
-                loadActivities();
-            });
+                // Ajax call to the Activity Manager Controller to delete the activity from the database
+                $.post('/CD/manageActivity/deleteActivity', activity, function(data)
+                {
+                    // Once we delete the activity, reload the Activity table
+                    loadActivities();
+                });
+            }
         }
     });
 </script>
