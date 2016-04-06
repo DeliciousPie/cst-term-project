@@ -34,6 +34,11 @@ class ActivityManagerController extends Controller
         $stresstimate = htmlspecialchars ($_POST['stresstimate']);
         $prof = htmlspecialchars ($_POST['profID']);
         $course = htmlspecialchars ($_POST['courseID']);
+        if(isset($_POST['activityID']))
+        {
+            $activityID = htmlspecialchars ($_POST['activityID']);
+        }
+
         
         // Check that all the fields are set
         if (isset($activityName) && isset($startDate) && isset($dueDate) 
@@ -67,27 +72,57 @@ class ActivityManagerController extends Controller
                             // Check that stresstimate is valid
                             if ($stresstimate >= 1 && $stresstimate <= 10)
                             {
-                                //This is setting it to the first prof's section only.
-                                $results = DB::table('ProfessorSection')
+                                if(isset($activityID) && !empty($activityID))
+                                {
+                                    //This is setting it to the first prof's section only.
+                                    $results = DB::table('ProfessorSection')
                                         ->where('userID', $prof)
                                         ->where('sectionID', $course);
 
-                                // Check that the profID and sectionID exist in the database
-                                if (!empty($results))
-                                {
-                                    // If everything is valid insert into the database
-                                    $id = DB::table('Activity')->insertGetId(
-                                            ['sectionID' => $course,
-                                                'activityType' => $activityName,
-                                                'assignDate' => $startDate,
-                                                'dueDate' => $dueDate,
-                                                'estTime' => $workload,
-                                                'stresstimate' => $stresstimate]
-                                    );
-                                    
-                                    if ( $id != null )
+                                    // Check that the profID and sectionID exist in the database
+                                    if (!empty($results))
                                     {
-                                        $result = true;
+                                        // If everything is valid insert into the database
+                                        $id = DB::table('Activity')->insertGetId(
+                                                ['activityID' => $activityID,
+                                                    'sectionID' => $course,
+                                                    'activityType' => $activityName,
+                                                    'assignDate' => $startDate,
+                                                    'dueDate' => $dueDate,
+                                                    'estTime' => $workload,
+                                                    'stresstimate' => $stresstimate]
+                                        );
+
+                                        if ( $id != null )
+                                        {
+                                            $result = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    //This is setting it to the first prof's section only.
+                                    $results = DB::table('ProfessorSection')
+                                        ->where('userID', $prof)
+                                        ->where('sectionID', $course);
+
+                                    // Check that the profID and sectionID exist in the database
+                                    if (!empty($results))
+                                    {
+                                        // If everything is valid insert into the database
+                                        $id = DB::table('Activity')->insertGetId(
+                                                ['sectionID' => $course,
+                                                    'activityType' => $activityName,
+                                                    'assignDate' => $startDate,
+                                                    'dueDate' => $dueDate,
+                                                    'estTime' => $workload,
+                                                    'stresstimate' => $stresstimate]
+                                        );
+
+                                        if ( $id != null )
+                                        {
+                                            $result = true;
+                                        }
                                     }
                                 }
                             }
@@ -115,7 +150,10 @@ class ActivityManagerController extends Controller
         $dueDate = htmlspecialchars ($_POST['dueDate']);
         $workload = htmlspecialchars ($_POST['workload']);
         $stresstimate = htmlspecialchars ($_POST['stresstimate']);
-        $activityID = htmlspecialchars ($_POST['activityID']);
+        if(isset($_POST['activityID']))
+        {
+            $activityID = htmlspecialchars ($_POST['activityID']);
+        }
         
         // Check that all the fields are set
         if (isset($activityName) && isset($startDate) && isset($dueDate) 
@@ -151,15 +189,22 @@ class ActivityManagerController extends Controller
                             // Check that stresstimate is valid
                             if ($stresstimate >= 1 && $stresstimate <= 10)
                             {
-                                // If everything is valid insert into the database
-                                $id = DB::table('Activity')
+                                if(isset($activityID) && !empty($activityID))
+                                {
+                                    // If everything is valid, perform the update 
+                                    $id = DB::table('Activity')
                                         ->where('activityID', $activityID)
                                         ->update(['activityType' => $activityName,
                                             'assignDate' => $startDate,
                                             'dueDate' => $dueDate,
                                             'estTime' => $workload,
                                             'stresstimate' => $stresstimate]
-                                            );
+                                        );
+                                }
+                                else
+                                {
+                                    
+                                }
                             }
                         }
                     }

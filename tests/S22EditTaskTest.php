@@ -26,6 +26,15 @@ class S22EditTaskTest extends TestCase
         // Create an Activty Manager Controller object
         $AMC = new ActivityManagerController();
         
+        //Ensure the activity 99 doesn't already exist.
+        $activity = Activity::where('activityID', 99);
+
+        // If the activity exists, delete it
+        if ( $activity != null )
+        {
+            $activity->delete();
+        }
+        
         //Create the activity that will be modified during the testing
         $_POST = ['activityName' => 'S22Test',
                 'activityID' => 99,
