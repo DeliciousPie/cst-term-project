@@ -255,7 +255,7 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields();">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields(); ">Close</button>
 
                                                     <!--Add Activity Modal Button-->
                                                     <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivityUpdate();">Update</button>
@@ -444,9 +444,6 @@ $(document).ready(function ()
                 $("#editDueDate").val(dueDate);
                 $("#editWorkload").val(data.getValue(selectedItem.row, 3));
                 $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
-               
-                alert('ID:' + topping);
-                
             }
         }
             
@@ -530,8 +527,12 @@ $(document).ready(function ()
             // Check that all the fields are valid then enable or disable the submit button
             if (activityNameValid === true && datesValid === true && workloadValid === true && stressValid === true)
             {
-                $(".loading").show();
-                submitActivity();
+                if(updateButtonPressed)
+                {
+                    $(".loading").show();
+                    submitActivity();
+                }
+
             }
             else 
             {
@@ -655,7 +656,8 @@ $(document).ready(function ()
 
         }
         
-    });
+    }
+    );
 
 </script>
 
@@ -699,6 +701,39 @@ $(document).ready(function ()
                 loadActivities();
             });
         }
+        
+        window.editActivity = function()
+        {
+            // Get all of the values for the Activity to add
+            var activityName = $('#editActivityName').val();
+            var startDate = $('#editStartDate').val();
+            var dueDate = $('#editDueDate').val();
+            var workload = $('#editWorkload').val();
+            var stresstimate = $('#editStresstimate').val();
+            var activityID = selectedActivityID;
+
+            var activity = {
+                'activityName': activityName,
+                'startDate': startDate,
+                'dueDate': dueDate,
+                'workload': workload,
+                'stresstimate': stresstimate,
+                'activityID': activityID
+            };
+
+            // Specify the token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            // Ajax call to the Activity Manager Controller to insert the activity into the database
+            $.post('/CD/manageActivity/editActivity', activity, function(data)
+            {
+                // Once we insert the new Activity, reload the Activity table
+                loadActivities();
+            });
+        }
     });
 </script>
 
@@ -706,14 +741,125 @@ $(document).ready(function ()
 
     $(document).ready(function()
     {
+        //Variables that determine if the submit button is enabled or not
+        var editActivityNameValid = false;
+        var editDatesValid = false;
+        var editWorkloadValid = false;
+        var editStressValid = false;
+        
         window.validateActivityUpdate = function()
         {
-            alert("ValidateActivityUpdate");
+            // Check that all the fields are valid then enable or disable the submit button
+            if (editActivityNameValid === true && editDatesValid === true && editWorkloadValid === true && editStressValid === true)
+            {
+                $(".loading").show();
+                editActivity();                
+            }
+            else 
+            {
+                if(editActivityNameValid === false)
+                {
+                    editValidateActivityName();
+                }
+                if(editDatesValid === false)
+                {
+                    editValidateActivityDate();
+                }
+                if(editWorkloadValid === false)
+                {
+                    editValidateActivityWorkload();
+                }
+                if(editStressValid === false)
+                {
+                    editValidateActivityStresstimate();    
+                }
+            }
+        }
+        
+        window.editValidateActivityName = function()
+        {
+            editActivityNameValid = false;
+            
+            var activityName = $('#editActivityName').val();
+            // Check that the activity length is valid
+            if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
+            {
+                editActivityNameValid = true;
+                $("#editModalAlertBoxActivity").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
+                $("#editModalAlertBoxActivity").show();
+            }
+        }
+        
+        window.editValidateActivityDate = function()
+        {
+            editDatesValid = false;
+            
+            var startDateString = $('#editStartDate').val();
+            var dueDateString = $('#editDueDate').val();
+            
+            var startDate = new Date(startDateString);
+            var dueDate = new Date(dueDateString);
+            
+            // Check that the dates are valid going from year, month, to day of month
+            if (startDate <= dueDate)
+            {
+                editDatesValid = true;
+                $("#editModalAlertBoxDue").hide();
+            }
+
+            // If the dates are invalid, alert the user
+            if (editDatesValid === false)
+            {
+                $("#editModalAlertBoxDue").html("<strong>Due date must be after start date.</strong><br>");
+                $("#editModalAlertBoxDue").show();
+            }
+        }
+        
+        window.editValidateActivityWorkload = function()
+        {
+            editWorkloadValid = false;
+            
+            var workload = $('#editWorkload').val();
+             
+             // Check that the workload is valid
+            if (workload > 0 && workload <= 800)
+            {
+                editWorkloadValid = true;
+                $("#editModalAlertBoxWorkload").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
+                $("#editModalAlertBoxWorkload").show();
+            }
+        }
+        
+        window.editValidateActivityStresstimate = function()
+        {
+            editStressValid = false;
+            
+            var stresstimate = $('#editStresstimate').val();
+            
+            // Check if the stresstimate is valid
+            if (stresstimate >= 1 && stresstimate <= 10)
+            {
+                editStressValid = true;
+                $("#editModalAlertBoxStresstimate").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
+                $("#editModalAlertBoxStresstimate").show();
+            }
         }
         
         window.clearEditFields = function()
         {
-            alert("ClearEditFields");
+            //alert("ClearEditFields");
         }
     });
 
