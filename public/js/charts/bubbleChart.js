@@ -101,25 +101,14 @@ function addStudentsToSelectionFieldOnClassSelect(course)
         //Add the options to the box.
         studentCrossSection.append(options);
 
-        //Add a course title to the right hand select box.
-//                var optionsRight = "<option value=\"" + course + 
-//                        "\" style='color:blue;'disabled>" + course + "</option>";
-//                
-//                //Add the options to the right hand side select field.
-//                //Will just be course titles.
-//                var studentCrossSection = $('#studentField').find('#studentundo_redo_to');
-//                
-//                studentCrossSection.append(optionsRight);
 
     });
 
     //Get handle on the student select box on left.
     var studentCrossSection = $('#studentField').find('#studentundo_redo');
-    //var studentCrossToSection = $('#studentField').find('#studentundo_redo_to');
 
     //Add the multiselect ability to the boxes.
     studentCrossSection.multiselect({selectableOptgroup: true});
-    //studentCrossToSection.multiselect({selectableOptgroup: true});
 
     $('#studentundo_redo_rightAll').click(function () {
 
