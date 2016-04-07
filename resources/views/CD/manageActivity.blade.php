@@ -370,8 +370,11 @@ $(document).ready(function ()
                 $('#deleteActivityButton').prop('disabled', false);
                 
                 window.selectedActivityID = topping;
-                $('#deleteModalBody').html('<p><strong>Are you sure you want to delete  ' 
-                        + currentSelectedActivityName + '? </strong></p>')
+                
+                var deleteModalbodyText = '<p><strong>Are you sure you want to delete  ' 
+                        + currentSelectedActivityName + '? </strong></p>'
+                
+                $('#deleteModalBody').html(deleteModalbodyText);
             }
         }
             

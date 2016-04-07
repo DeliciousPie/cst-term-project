@@ -37,17 +37,17 @@ class S23Test extends TestCase
 
                 $AMC->addActivity();
 
-                // Assert that the Activity added is actualy in the database
-                $this->seeInDatabase('Activity',
-                [
-                    'activityType' => 'S23TestActivityAdded1'
-                ]);
-
                 // Get the id of the activity we just added
                 $testActivityID1 = DB::table('Activity')
                         ->where('activityType', 'S23TestActivityAdded1')
                         ->value('activityID');
-
+                
+                // Assert that the Activity added is actualy in the database
+                $this->seeInDatabase('Activity',
+                [
+                    'activityID' => $testActivityID1
+                ]);
+                
                 // Send a post across with the activity ID because that's what 
                 // we use to delete the activity
                 $_POST['activityID'] = $testActivityID1;
@@ -64,10 +64,10 @@ class S23Test extends TestCase
             
         /// Another test of adding and deleting an activity with different dates ///
         
-                // adding activity so we have something to test with
+                // POST to create an activity
                 $_POST = ['activityName' => 'S23TestActivityAdded2',
-                        'startDate' => '2017-04-07',
-                        'dueDate' => '2017-05-09', 
+                        'startDate' => '2017-03-06',
+                        'dueDate' => '2017-06-09', 
                         'workload' => '3',
                         'stresstimate' => '3',
                         'profID' => 'Pro011',
@@ -75,21 +75,21 @@ class S23Test extends TestCase
 
                 $AMC->addActivity();
 
-                // Assert that the Activity added is actualy in the database
-                $this->seeInDatabase('Activity',
-                [
-                    'activityType' => 'S23TestActivityAdded2'
-                ]);
-
                 // Get the id of the activity we just added
                 $testActivityID2 = DB::table('Activity')
                         ->where('activityType', 'S23TestActivityAdded2')
                         ->value('activityID');
-
+                
+                // Assert that the Activity added is actualy in the database
+                $this->seeInDatabase('Activity',
+                [
+                    'activityID' => $testActivityID2
+                ]);
+                
                 // Send a post across with the activity ID because that's what 
                 // we use to delete the activity
                 $_POST['activityID'] = $testActivityID2;
-
+                
                 // Test deleting it now
                 $AMC->deleteActivity();
 
@@ -97,35 +97,6 @@ class S23Test extends TestCase
                 $this->notSeeInDatabase('Activity',
                 [
                     'activityID' => $testActivityID2
-                ]);
-        
-            
-        /// Test deleting an activity where the id is null ///
-                $_POST = ['activityName' => 'S23TestActivityAdded3',
-                        'startDate' => '2016-05-03',
-                        'dueDate' => '2017-02-09', 
-                        'workload' => '2',
-                        'stresstimate' => '2',
-                        'profID' => 'Pro011',
-                        'courseID' => '3'];
-
-                $AMC->addActivity();
-
-                // Assert that the Activity added is actualy in the database
-                $this->seeInDatabase('Activity',
-                [
-                    'activityType' => 'S23TestActivityAdded3'
-                ]);
-
-                $_POST['activityID'] = null;
-
-                // Test deleting it now
-                $AMC->deleteActivity();
-
-                // It should still be in the databae because we couldn't delete it
-                $this->seeInDatabase('Activity',
-                [
-                    'activityType' => 'S23TestActivityAdded3'
                 ]);
                 
     }
