@@ -5,7 +5,9 @@
         <group>
             <file>file:/G:/COSA280/Code/resources/views/CD/manageActivity.blade.php</file>
             <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/ActivityManagerController.php</file>
+            <file>file:/G:/COSA280/Code/tests/S22EditTaskTest.php</file>
             <file>file:/G:/COSA280/Code/app/Http/routes.php</file>
+            <file>file:/G:/COSA280/Code/tests/S25Test.php</file>
         </group>
     </open-files>
 </project-private>

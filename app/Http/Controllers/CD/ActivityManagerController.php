@@ -144,8 +144,6 @@ class ActivityManagerController extends Controller
      */
     public function editActivity()
     {
-         
-        
         // Check that all the fields are set
         if (isset($_POST['activityName']) && isset($_POST['startDate']) && isset($_POST['dueDate']) 
                 && isset($_POST['workload']) && isset($_POST['stresstimate']) && isset($_POST['activityID']))
@@ -165,7 +163,7 @@ class ActivityManagerController extends Controller
             {
                 // Check if activity name is valid
                 if (strlen($activityName) > 0 && strlen($activityName) < 125)
-                {                                       
+                {
                     $dateMaxOk = false;
                     $dateMinOk = false;
                     $intervalOk = false;
@@ -229,18 +227,14 @@ class ActivityManagerController extends Controller
                                 $intervalOk === true && $dueDateValid === true
                                 && $startDateValid === true)
                     {
-                        echo('2');
                         // Check that workload is valid
                         if ($workload > 0 && $workload <= 800)
                         {
-                            echo('3');
                             // Check that stresstimate is valid
                             if ($stresstimate >= 1 && $stresstimate <= 10)
                             {
-                                echo('4');
                                 if(isset($activityID) && !empty($activityID))
                                 {
-                                    echo('5');
                                     // If everything is valid, perform the update 
                                     $id = DB::table('Activity')
                                         ->where('activityID', $activityID)

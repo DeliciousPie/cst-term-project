@@ -118,6 +118,26 @@ class ActivitySeeder extends Seeder
             'stresstimate' => 4,
         ]);
         
+        DB::table('Activity')->insert([
+            'activityID' => 16,
+            'sectionID' => 'COSA110.5',
+            'activityType' => 'Midterm 1',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 3.0,
+            'stresstimate' => 9,
+        ]);
+                
+        DB::table('Activity')->insert([
+            'activityID' => 17,
+            'sectionID' => 'COSA110.5',
+            'activityType' => 'Assignment 2',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 55,
+            'stresstimate' => 6,
+        ]);
+        
         DB::table('ProfessorSection')->insert([
             'sectionID' => 'COSA110.5',
             'userID' => 'Pro002',

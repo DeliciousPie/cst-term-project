@@ -26,9 +26,14 @@
         background-color: white;
     }
 
-    .purple-select{
+    .blue-select{
+        background-color: #99ccff;
+    }
+    
+    .grey-hover{
         background-color: #cdcdcd;
     }
+    
     .loading {
         position: fixed;
         left: 0px;
@@ -258,7 +263,7 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields(); ">Close</button>
 
                                                     <!--Add Activity Modal Button-->
-                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:pressingButton();">Update</button>
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:pressingButton();">Save Changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -360,9 +365,9 @@ $(document).ready(function ()
         // enable the activity button
         $('#addActivityButton').prop('disabled', false);
 
-        //            These buttons should be enabled when an activity is selected not when a course is selected
+        // These buttons should be enabled when an activity is selected not when a course is selected
         $('#editActivityButton').prop('disabled', false);
-        //$('#deleteActivityButton').prop('disabled', false);
+        $('#deleteActivityButton').prop('disabled', false);
 
         // Actually make the table appear
         var data = new google.visualization.DataTable();
@@ -402,7 +407,7 @@ $(document).ready(function ()
         {
             // If there were no activities
             data.addRows([
-                ['There are no activities for the selected course', null, null, null, null],
+                ['There are no activities for the selected course', null, null, null, null, null],
             ]);
         }
 
@@ -418,32 +423,44 @@ $(document).ready(function ()
         function selectHandler() {
             var selectedItem = chart.getSelection()[0];
             if (selectedItem) 
+            {   
+                if(data.getValue(selectedItem.row, 0) === "There are no activities for the selected course")
+                {
+                    $('#editActivityButton').prop('disabled', true);
+                    $('#deleteActivityButton').prop('disabled', true);
+                }
+                else
+                {
+                     //Set the Edit Activity Button to enabled
+                    $('#editActivityButton').prop('disabled', false);
+                    $('#deleteActivityButton').prop('disabled', false);
+
+                    //Set the global activityID button for deleting or editing
+                    selectedActivityID = data.getValue(selectedItem.row, 5);
+
+                    //Fill the edit activity modal fields
+                    $("#editActivityName").val(data.getValue(selectedItem.row, 0));
+
+                    //Substring the startDate to the required format yyyy-mm-dd
+                    var startDate = data.getValue(selectedItem.row, 1).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 1).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 1).substring(3,5);
+
+                    $("#editStartDate").val(startDate);
+
+                    var dueDate = data.getValue(selectedItem.row, 2).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 2).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 2).substring(3,5);
+
+                    $("#editDueDate").val(dueDate);
+                    $("#editWorkload").val(data.getValue(selectedItem.row, 3));
+                    $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
+                }
+            }
+            else
             {
-                var topping = data.getValue(selectedItem.row, 5);
-                
-                //Set the Edit Activity Button to enabled
-                 $('#editActivityButton').prop('disabled', false);
-                
-                //Set the global activityID button for deleting or editing
-                selectedActivityID = data.getValue(selectedItem.row, 5);
-                
-                //Fill the edit activity modal fields
-                $("#editActivityName").val(data.getValue(selectedItem.row, 0));
-                    
-                //Substring the startDate to the required format yyyy-mm-dd
-                var startDate = data.getValue(selectedItem.row, 1).substring(6,10) + "-" +
-                data.getValue(selectedItem.row, 1).substring(0,2) + "-" + 
-                data.getValue(selectedItem.row, 1).substring(3,5);
-                
-                $("#editStartDate").val(startDate);
-                
-                var dueDate = data.getValue(selectedItem.row, 2).substring(6,10) + "-" +
-                data.getValue(selectedItem.row, 2).substring(0,2) + "-" + 
-                data.getValue(selectedItem.row, 2).substring(3,5);
-                    
-                $("#editDueDate").val(dueDate);
-                $("#editWorkload").val(data.getValue(selectedItem.row, 3));
-                $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
+                $('#editActivityButton').prop('disabled', true);
+                $('#deleteActivityButton').prop('disabled', true);
             }
         }
             
@@ -453,8 +470,8 @@ $(document).ready(function ()
             'headerRow': 'bold-font',
             'tableRow': '',
             'oddTableRow': 'white-background',
-            'selectedTableRow': '',
-            'hoverTableRow': 'purple-select',
+            'selectedTableRow': 'blue-select',
+            'hoverTableRow': 'grey-hover',
             'headerCell': '',
             'tableCell': '',
             'rowNumberCell': '',
@@ -886,6 +903,7 @@ $(document).ready(function ()
             editWorkloadValid = false;
             
             $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
         }
         
         window.pressingButton = function()
