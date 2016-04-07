@@ -1,0 +1,22 @@
+courseID,areaOfStudy,courseName,description
+BUS182,CST,"Business Principles",
+CDBM190,CST,"Introduction to Database Management",
+CDBM280,CST,"Database Management Systems",
+"CNET 295",CST,"Directory Services",
+CNET184,CST,"Data Communications and Networking 1",
+CNET190,CST,"Network Administration 1",
+CNET280,CST,"Data Communications and Networking 2",
+CNET293,CST,"Network Administration 2",
+CNET295,CST,"Directory Services",
+COAP173,CST,"Data and Document Management",
+"COET 295",CST,"Emerging Technologies",
+COET295,CST,"Emerging Technologies",
+COHS190,CST,Hardware,
+COHS280,CST,"Service and Support",
+COMM101,,"Intro to Business","Learn about business."
+COMM210,,Accounting,"Learn about business."
+"CSEC 295",CST,"Security Topics",
+"MEDC 100.0",MED,medicine,"apply medicine something"
+"MEDC 101.0",MED,medicineNext,"apply more medicine"
+"MEDC 111.0",MED,medicineDoctor," description "
+"TCOM 291",CST,"Career Path Search",

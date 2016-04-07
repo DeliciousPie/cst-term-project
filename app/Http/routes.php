@@ -92,6 +92,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('CSVImport/getSections','CSVImportController@getCoursesSections'); 
         Route::post('/CSVImport', 'CSVImportController@uploadCSVFiles' );
         
+        Route::get('/CSVDownload', 'CSVImportController@downloadCSVFiles' );
+        
         
         // Course Assignment Grouping 
         Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
