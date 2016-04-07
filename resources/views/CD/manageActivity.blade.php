@@ -129,7 +129,7 @@
                                                 <br>
                                                 <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                    <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" maxlength="125" onchange="javascript:validateActivitySubmit();" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <!-- Activity Error Message Box -->
@@ -213,7 +213,7 @@
                                                 <br>
                                                 <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
                                                 <div class="input-group" style="width:100%">
-                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
+                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" maxlength="125" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
                                                 </div>
                                                 <br>
                                                 <!--Activity Error Message Box-->
@@ -766,22 +766,15 @@ $(document).ready(function ()
             if(editActivityNameValid !== true || editDatesValid !== true || 
                     editWorkloadValid !== true || editStressValid !== true)
             {
-                if(editActivityNameValid === false)
-                {
+
                     editValidateActivityName();
-                }
-                if(editDatesValid === false)
-                {
+
                     editValidateActivityDate();
-                }
-                if(editWorkloadValid === false)
-                {
+
                     editValidateActivityWorkload();
-                }
-                if(editStressValid === false)
-                {
+
                     editValidateActivityStresstimate();    
-                }
+
             }
             else //If they are all valid
             {   //And the update button has been pressed
