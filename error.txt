@@ -1,22 +1,48 @@
-PHPUnit 4.8.23 by Sebastian Bergmann and contributors.
-
-Farray(1) {
-  [0] =>
-  class stdClass#294 (1) {
-    public $fName =>
-    string(7) "Cristin"
-  }
-}
+ PHPUnit 4.8.23 by Sebastian Bergmann and contributors.
 
 
-Time: 7.5 seconds, Memory: 13.00Mb
+                                                           
+  [Symfony\Component\Debug\Exception\FatalErrorException]  
+  Class 'CreateStudentInCourseSection' not found           
+                                                           
 
-There was 1 failure:
 
-1) S49Test::testGetStudentsByCourse
-'Cristin' does not match expected type "array".
+Fatal error: Class 'CreateStudentInCourseSection' not found in /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php on line 336
 
-/home/vagrant/Code/tests/S49Test.php:23
+Call Stack:
+    0.0008     229568   1. {main}() /home/vagrant/Code/vendor/phpunit/phpunit/phpunit:0
+    0.7461    1073984   2. PHPUnit_TextUI_Command::main() /home/vagrant/Code/vendor/phpunit/phpunit/phpunit:47
+    0.7461    1074608   3. PHPUnit_TextUI_Command->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php:100
+    9.9297    7701776   4. PHPUnit_TextUI_TestRunner->doRun() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php:149
+    9.9593    7886832   5. PHPUnit_Framework_TestSuite->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/TestRunner.php:440
+    9.9716    7902680   6. PHPUnit_Framework_TestSuite->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php:747
+    9.9808    7906776   7. PHPUnit_Framework_TestCase->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php:747
+    9.9808    7908416   8. PHPUnit_Framework_TestResult->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:724
+   10.0308    7973400   9. PHPUnit_Framework_TestCase->runBare() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestResult.php:612
+   12.0755   14828400  10. PHPUnit_Framework_TestCase->runTest() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:768
+   12.0756   14829160  11. ReflectionMethod->invokeArgs() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:909
+   12.0756   14829344  12. S03Test->testExample() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:909
+   12.0862   14837320  13. Illuminate\Support\Facades\Artisan::call() /home/vagrant/Code/tests/S03Test.php:28
+   12.0862   14837672  14. Illuminate\Support\Facades\Facade::__callStatic() /home/vagrant/Code/tests/S03Test.php:28
+   12.0863   14838008  15. Illuminate\Foundation\Console\Kernel->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:218
+   13.0796   18971488  16. Illuminate\Console\Application->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php:159
+   13.1848   19493248  17. Symfony\Component\Console\Application->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Application.php:64
+   13.1849   19494608  18. Symfony\Component\Console\Application->doRun() /home/vagrant/Code/vendor/symfony/console/Application.php:117
+   13.1851   19495592  19. Symfony\Component\Console\Application->doRunCommand() /home/vagrant/Code/vendor/symfony/console/Application.php:186
+   13.1851   19495736  20. Illuminate\Console\Command->run() /home/vagrant/Code/vendor/symfony/console/Application.php:791
+   13.2239   19711880  21. Symfony\Component\Console\Command\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:155
+   13.2244   19715984  22. Illuminate\Console\Command->execute() /home/vagrant/Code/vendor/symfony/console/Command/Command.php:256
+   13.2244   19716424  23. Illuminate\Container\Container->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:169
+   13.2245   19716792  24. call_user_func_array:{/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507}() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
+   13.2245   19717152  25. Illuminate\Database\Console\Migrations\RefreshCommand->fire() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
+   13.2247   19718280  26. Illuminate\Console\Command->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/RefreshCommand.php:46
+   13.2248   19719752  27. Illuminate\Console\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:185
+   13.2291   19735808  28. Symfony\Component\Console\Command\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:155
+   13.2296   19739008  29. Illuminate\Console\Command->execute() /home/vagrant/Code/vendor/symfony/console/Command/Command.php:256
+   13.2296   19739448  30. Illuminate\Container\Container->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:169
+   13.2296   19739816  31. call_user_func_array:{/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507}() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
+   13.2296   19740272  32. Illuminate\Database\Console\Migrations\ResetCommand->fire() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
+   13.3016   20027424  33. Illuminate\Database\Migrations\Migrator->reset() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/ResetCommand.php:69
+   13.3174   20411680  34. Illuminate\Database\Migrations\Migrator->runDown() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php:206
+   13.3174   20411736  35. Illuminate\Database\Migrations\Migrator->resolve() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php:227
 
-FAILURES!
-Tests: 1, Assertions: 1, Failures: 1.

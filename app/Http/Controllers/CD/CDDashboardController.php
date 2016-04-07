@@ -99,6 +99,7 @@ class CDDashboardController extends Controller
     {
          //Checks if user is confirmed and if they are continue else get a 
         //redirect to CD registration page.
+        
         $isRegistered = $this->isUserConfirmed();
         
         if( isset($isRegistered) )

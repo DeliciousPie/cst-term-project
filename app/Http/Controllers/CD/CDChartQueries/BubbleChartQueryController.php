@@ -180,14 +180,15 @@ class BubbleChartQueryController extends CDQueryController {
                 }
 
                 $qurResult2 = $this->queryOnCourseIndStudent($indCourse, $comparison2, $indStudent);
-
+                
                 if ($qurResult2 != null) {
+                    
                     $totalComparison2 += $qurResult2[0][$comparison2];
                     $countComparison2++;
                 }
 
                 $qurResult3 = $this->queryOnCourseIndStudent($indCourse, $comparison3, $indStudent);
-
+                
                 if ($qurResult3 != null) {
                     $totalComparison3 += $qurResult3[0][$comparison3];
                     $countComparison3++;
@@ -214,6 +215,7 @@ class BubbleChartQueryController extends CDQueryController {
         }
         //}
         //}
+
         return $allAverages;
     }
 

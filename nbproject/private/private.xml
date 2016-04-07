@@ -3,12 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDDashboardController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDCharts/BubbleChartController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDQueryController.php</file>
-            <file>file:/G:/COSA280/Code/app/Http/Controllers/CD/CDChartQueries/BubbleChartQueryController.php</file>
-            <file>file:/G:/COSA280/Code/public/js/charts/bubbleChart.js</file>
+            <file>file:/G:/COSA280/Code/database/seeds/UserTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/sectionTypeSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ActivitySeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ActivityTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190106_create_section_table.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ProfessorTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/RoleTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/SectionTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/resources/views/CD/bubbleChart.blade.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/ProfSectionTableSeeder.php</file>
+            <file>file:/G:/COSA280/Code/database/migrations/2016_01_08_190105_create_course_table.php</file>
             <file>file:/G:/COSA280/Code/resources/views/CD/dashboard.blade.php</file>
+            <file>file:/G:/COSA280/Code/database/seeds/DatabaseSeeder.php</file>
         </group>
     </open-files>
 </project-private>

@@ -32,9 +32,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
@@ -53,9 +51,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 700.0,
-            'proffEstimate' => 500.0,
-            'cdAlocatedTime' => 500.0,
-            'comments' => "ETA 2020",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
@@ -87,9 +83,7 @@ class ActivitySeeder extends Seeder
             'assignDate' => new DateTime,
             'dueDate' => new DateTime,
             'estTime' => 2.0,
-            'proffEstimate' => 2.0,
-            'cdAlocatedTime' => 2.0,
-            'comments' => "Student better get it done.",
+            'stresstimate' => 4,
         ]);
         
         DB::table('StudentActivity')->insert([
@@ -99,6 +93,36 @@ class ActivitySeeder extends Seeder
             'stressLevel' => 7,
             'comments' => '',
             'timeEstimated' => 14,
+        ]);
+        
+         DB::table('Course')->insert([
+                
+                'courseID' => 'COSA110',
+                'courseName' => 'Intro to Projects',
+                'description' => 'Learn about projects!',
+            ]);
+        
+        DB::table('Section')->insert([
+            'sectionID' => 'COSA110.5',
+            'courseID' => 'COSA110',
+            'date' => new DateTime,
+        ]);
+        
+        DB::table('Activity')->insert([
+            'activityID' => 15,
+            'sectionID' => 'COSA110.5',
+            'activityType' => 'AssignmentTest',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 2.0,
+            'stresstimate' => 4,
+        ]);
+        
+        DB::table('ProfessorSection')->insert([
+            'sectionID' => 'COSA110.5',
+            'userID' => 'Pro002',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
         ]);
     }
 }

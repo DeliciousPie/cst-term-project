@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfSection extends Model
 {
-      protected $table = 'ProfSection'; 
+    /*
+     * Table associated with model.
+     * 
+     * @var string
+     */
+    protected $table = 'ProfSection';
     
-    protected $fillable = [ 'userID','sectionID'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+       'userID', 'sectionID', 
+    ];
 }

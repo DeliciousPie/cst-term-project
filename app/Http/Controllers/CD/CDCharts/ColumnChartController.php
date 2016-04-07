@@ -75,6 +75,7 @@ class ColumnChartController extends ChartController
             //Create a completly custom chart based on a single course.
             $classTitle = $this->chartParameters->classSelected;
             
+            
             $dataArray =  $this->columnChartQueryController->performAvgComparisonForCourse($comparison1,
                     $comparison2, $classTitle); 
             

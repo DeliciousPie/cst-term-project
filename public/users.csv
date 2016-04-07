@@ -1,0 +1,40 @@
+id,name,email,userID,confirmed
+1,"Justin Lutzko",justin.lutzko@hotmail.ca,12345,0
+2,"Mark Beitel",beitel9933@saskpolytech.ca,adm219,1
+3,Nathan,nathan@email.com,12346,0
+4,Nixilis,nixiepixie@yahoo.ca,666,0
+5,David,david@email.com,12347,1
+6,Lisa,lisa@email.com,12348,0
+7,"CD Epic",CDEpic.ca,54321,1
+8,"Mark Bietel",m.b@test.com,Pro001,1
+9,"Tim Jim",timmer.jimmer@timjim.com,Pro002,1
+10,"Magan Heinlen",M.Heinlein008@SIAST.com,Pro003,1
+11,"Cristin Gilder",C.Gilder009@SIAST.com,Pro005,1
+12,"Len Crouch",L.Crouch011@SIAST.com,Pro004,1
+13,"Alysa Burroughs",A.Burroughs010@SIAST.com,Pro006,1
+14,"Ashley Giron",A.Giron012@SIAST.com,Pro007,1
+15,"Heath Wilker",H.Wilker013@SIAST.com,Pro008,1
+16,"Joseph Sprang",J.Spang014@SIAST.com,Pro009,1
+17,"Mark Bietel",m.beitel@test.com,Stu001,1
+18,"Jim Bob",JamminWithJimmer@jimbo.com,Stu002,1
+19,Gary,G.Levison060@SIAST.ca,Stu060,0
+20,Ouida,O.Reineck061@SIAST.ca,Stu061,0
+21,Venessa,V.Vrieze062@SIAST.ca,Stu062,0
+22,Carly,C.Leonard063@SIAST.ca,Stu063,0
+23,Vonnie,V.Leib064@SIAST.ca,Stu064,0
+24,Thelma,T.Dally065@SIAST.ca,Stu065,0
+25,Elijah,E.Myers066@SIAST.ca,Stu066,0
+26,Becki,B.Berrey067@SIAST.ca,Stu067,0
+27,Eladia,E.Purdue068@SIAST.ca,Stu068,0
+28,Dalton,D.Summers069@SIAST.ca,Stu069,0
+29,Dorsey,D.Oliver070@SIAST.ca,Stu070,0
+30,Maya,M.Bucy071@SIAST.ca,Stu071,0
+31,Leana,L.Rodger072@SIAST.ca,Stu072,0
+32,Lourie,L.Hands073@SIAST.ca,Stu073,0
+33,Saundra,S.Scrivner074@SIAST.ca,Stu074,0
+34,Damian,D.Tabron075@SIAST.ca,Stu075,0
+35,Aida,A.Legrande076@SIAST.ca,Stu076,0
+36,Berry,B.Glenn077@SIAST.ca,Stu077,0
+37,Ettie,E.Wadlow078@SIAST.ca,Stu078,0
+38,Clare,C.Mccalister079@SIAST.ca,Stu079,0
+39,Lloyd,L.Haven080@SIAST.ca,Stu080,0

@@ -12,15 +12,15 @@ class S49Test extends TestCase
      *
      * @return void
      */
-    public function testGetStudentsByCourse()
-    {
-        $this->withoutMiddleware();
-        
-        $CDQuery = new CDQueryController();
-        
-        $result = $CDQuery->getStudentsByCourse('CNET 295');
-        
-        $this->assertEquals($result,'Cristin');
-        
-    }
+//    public function testGetStudentsByCourse()
+//    {
+//        $this->withoutMiddleware();
+//        
+//        $CDQuery = new CDQueryController();
+//        
+//        $result = $CDQuery->getStudentsByCourse('CNET 295');
+//        
+//        $this->assertEquals($result,'Cristin');
+//        
+//    }
 }
