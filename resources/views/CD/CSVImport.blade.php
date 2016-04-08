@@ -6,13 +6,7 @@
 
 
 @section('navBarHeader')
-<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer CSV Import Page </a>
-@stop
-
-@section('bodyHeader')
-<h1 >
-    CSV Import
-</h1>
+<a class="navbar-brand" href="{{ url('/') }}">Curricular Developer CSV Import / Export Page </a>
 @stop
 
 @section('content')
@@ -21,9 +15,11 @@
 
         <div class="panel panel-default">
 
-            <div class="panel-body">
+            <div class="panel-body" style="float:left">
                 <div id='mainBody' class="panel-body">
-
+                    <h1 >
+                        CSV Import
+                    </h1>
                     <style> .loading {
                             position: fixed;
                             left: 0px;
@@ -40,7 +36,7 @@
 
                     <!-- Course Div open -->
                     <div class="row">
-                        <div class="col-md-7" id="ImportDiv">
+                        <div class="col-md-9" id="ImportDiv">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> CSV files</h3>
@@ -76,7 +72,7 @@
                             </div>
                         </div>
                         <!-- Course Div open -->
-                        <div class="col-md-7" id="CourseDiv">
+                        <div class="col-md-9" id="CourseDiv">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Course</h3>
@@ -84,9 +80,9 @@
                                 <div class="panel-body">
                                     <?php
                                     $selectHTML = '<div class="form-group"> ' .
-                                            '<label for="courseSelection" class="control-label col-lg-2 col-sm-4">' .
-                                            'Classes</label><div class="col-lg-10 col-sm-8">' .
-                                            '<select class="form-control" size="10" id="courseSelection" name="Classes">';
+                                        '<label for="courseSelection" class="control-label col-lg-2 col-sm-4">' .
+                                        'Classes</label><div class="col-lg-10 col-sm-8">' .
+                                        '<select class="form-control" size="10" id="courseSelection" name="Classes">';
 
                                     foreach ($classes as $key => $class)
                                     {
@@ -129,14 +125,21 @@
                                         ?>
                                         <?= Former::close() ?>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="panel-body" style="float:left">
+                        <h1 >
+                            CSV Export
+                        </h1>
+                        <a href="/CD/CSVDownload" class="btn btn-primary" id="downloadCSV">Download Database CSVs</a>
+                    </div>
                 </div>
             </div>
+
+            
         </div>
     </div>
 </div>

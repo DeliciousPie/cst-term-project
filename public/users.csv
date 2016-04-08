@@ -1,0 +1,32 @@
+id,name,email,userID,confirmed
+1,"Justin Lutzko",justin.lutzko@hotmail.ca,12345,1
+2,"Mark Beitel",beitel9933@saskpolytech.ca,adm219,0
+3,Ulamog,ulamog@ulamog.ulamog,12346,1
+4,Nixilis,nixipixie@yahoo.ca,666,1
+5,David,david@email.com,12347,1
+6,Lisa,lisa@email.com,12348,0
+7,"CD Epic",CDEpic.ca,54321,1
+8,"Mark Bietel",m.b@test.com,Pro001,1
+9,"Tim Jim",timmer.jimmer@timjim.com,Pro002,1
+10,"Magan Heinlen",M.Heinlein008@SIAST.com,Pro003,1
+11,"Cristin Gilder",C.Gilder009@SIAST.com,Pro005,1
+12,"Len Crouch",L.Crouch011@SIAST.com,Pro004,1
+13,"Alysa Burroughs",A.Burroughs010@SIAST.com,Pro006,1
+14,"Ashley Giron",A.Giron012@SIAST.com,Pro007,1
+15,"Heath Wilker",H.Wilker013@SIAST.com,Pro008,1
+16,"Joseph Sprang",J.Spang014@SIAST.com,Pro009,1
+17,"Mark Bietel",m.beitel@test.com,Stu001,1
+18,"Jim Bob",JamminWithJimmer@jimbo.com,Stu002,1
+19,Scottie,S.Konecny015@SIAST.com,Pro010,0
+20,Mila,M.Lindholm016@SIAST.com,Pro011,0
+21,Bonny,B.Ethridge017@uofs.ca,Pro012,0
+22,Paul,P.Spada018@uofs.ca,Pro013,0
+23,Mark,M.beitel001@SIAST.ca,Stu101,0
+24,"bob ",b.bill002@SIAST.ca,Stu102,0
+25,Benton,B.Kershner003@SIAST.ca,Stu103,0
+26,Tayna,T.Apperson004@SIAST.ca,Stu104,0
+27,Lovella,L.Topping146@SIAST.ca,Stu105,0
+28,Vergie,V.Bangs147@SIAST.ca,Stu106,0
+29,Sharolyn,S.Martz148@SIAST.ca,Stu107,0
+30,Raleigh,R.Labree149@SIAST.ca,Stu108,0
+31,Cristin,C.Gilder009@SIAST.ca,Stu109,0

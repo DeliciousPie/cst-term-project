@@ -8,76 +8,255 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Activity;
 
+/**
+ * Purpose: Control the AJAX loading of the professors, courses/sections, and activities.
+ *          And the adding, editing, and deleting of activities.
+ * 
+ * @author  Anthony Fetsch CST223 & Kendal Keller CST228 
+ */
 class ActivityManagerController extends Controller
 {
+
+    /**
+     * Purpose: Add an activity into the database, with the values that have been
+     *          specified from the Activity Manager page.
+     * @return null
+     * @author  Anthony Fetsch CST223 & Kendal Keller CST228 
+
+     */
     public function addActivity()
     {
-        // sanitize all of the post fields
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        $activityName = $_POST['activityName'];
-        $startDate = $_POST['startDate'];
-        $dueDate = $_POST['dueDate'];
-        $workload = $_POST['workload'];
-        $stresstimate = $_POST['stresstimate'];
-        $prof = $_POST['profID'];
-
-        // Check that all the fields are set
-        if (isset($activityName) && isset($startDate) && isset($dueDate) && isset($workload) && isset($stresstimate) && isset($prof))
+        //Get rid of the html special characters to prevent SQL injections
+        $activityName = htmlspecialchars($_POST['activityName']);
+        $startDate = htmlspecialchars ($_POST['startDate']);
+        $dueDate = htmlspecialchars ($_POST['dueDate']);
+        $workload = htmlspecialchars ($_POST['workload']);
+        $stresstimate = htmlspecialchars ($_POST['stresstimate']);
+        $prof = htmlspecialchars ($_POST['profID']);
+        $course = htmlspecialchars ($_POST['courseID']);
+        if(isset($_POST['activityID']))
         {
-            // Check if all are empty?
-            
-            // Check if activity name is valid
-            if (strlen($activityName) > 0 && strlen($activityName) < 125)
-            {
-                // Check that startDate and dueDate are valid
-                $startDateObj = new \DateTime($startDate);
-                $dueDateObj = new \DateTime($dueDate);
-                
-                $interval = $startDateObj->diff($dueDateObj);
-                $dateDiff = $interval->format('%R%a');
-                
-                // dueDate is greater than startDate
-                if ( $dateDiff > 0 )
-                {
-                    // Check that workload is valid
-                    if ($workload > 0 && $workload <= 800)
-                    {
-                        // Check that stresstimate is valid
-                        if ($stresstimate >= 1 && $stresstimate <= 10)
-                        {
-                            //This is setting it to the first prof's section only. FIX
-                            $results = DB::table('ProfessorSection')
-                                    ->where('userID', $prof)
-                                    ->first();
+            $activityID = htmlspecialchars ($_POST['activityID']);
+        }
 
-                            
-                            
-                            // Check that prof is valid????????????????????????????????????????                 FIXME
-                            if (false)
+        
+        // Check that all the fields are set
+        if (isset($activityName) && isset($startDate) && isset($dueDate) 
+                && isset($workload) && isset($stresstimate) && isset($prof) 
+                && isset($course))
+        {
+            // Check if all are empty
+            if (!empty($activityName) && !empty($startDate) && !empty($dueDate) 
+                    && !empty($workload) && !empty($stresstimate) 
+                    && !empty($prof) && !empty($course))
+            {
+                // Check if activity name is valid
+                if (strlen($activityName) > 0 && strlen($activityName) < 125)
+                {
+                    // Check that startDate and dueDate are valid
+                    $startDateObj = new \DateTime($startDate);
+                    $dueDateObj = new \DateTime($dueDate);
+                    $minDateObj = new \DateTime('0000-00-00');
+
+                    $interval = $startDateObj->diff($dueDateObj);
+                    $dateDiff = $interval->format('%R%a');
+                    $minInterval = $startDateObj->diff($minDateObj);
+                    $minDiff = $minInterval->format('%R%a');
+                    
+                    // dueDate is greater than startDate
+                    if ($dateDiff >= 0 && $minDiff < 0)
+                    {
+                        // Check that workload is valid
+                        if ($workload > 0 && $workload <= 800)
+                        {
+                            // Check that stresstimate is valid
+                            if ($stresstimate >= 1 && $stresstimate <= 10)
                             {
-                                // If everything is valid insert into the database
-                                $id = DB::table('Activity')->insertGetId(
-                                        ['sectionID' => $results->sectionID,
-                                            'activityType' => $activityName,
-                                            'assignDate' => $startDate,
-                                            'dueDate' => $dueDate,
-                                            'estTime' => $workload,
-                                            'stresstimate' => $stresstimate]
-                                );
+                                if(isset($activityID) && !empty($activityID))
+                                {
+                                    //This is setting it to the first prof's section only.
+                                    $results = DB::table('ProfessorSection')
+                                        ->where('userID', $prof)
+                                        ->where('sectionID', $course);
+
+                                    // Check that the profID and sectionID exist in the database
+                                    if (!empty($results))
+                                    {
+                                        // If everything is valid insert into the database
+                                        $id = DB::table('Activity')->insertGetId(
+                                                ['activityID' => $activityID,
+                                                    'sectionID' => $course,
+                                                    'activityType' => $activityName,
+                                                    'assignDate' => $startDate,
+                                                    'dueDate' => $dueDate,
+                                                    'estTime' => $workload,
+                                                    'stresstimate' => $stresstimate]
+                                        );
+
+                                        if ( $id != null )
+                                        {
+                                            $result = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    //This is setting it to the first prof's section only.
+                                    $results = DB::table('ProfessorSection')
+                                        ->where('userID', $prof)
+                                        ->where('sectionID', $course);
+
+                                    // Check that the profID and sectionID exist in the database
+                                    if (!empty($results))
+                                    {
+                                        // If everything is valid insert into the database
+                                        $id = DB::table('Activity')->insertGetId(
+                                                ['sectionID' => $course,
+                                                    'activityType' => $activityName,
+                                                    'assignDate' => $startDate,
+                                                    'dueDate' => $dueDate,
+                                                    'estTime' => $workload,
+                                                    'stresstimate' => $stresstimate]
+                                        );
+
+                                        if ( $id != null )
+                                        {
+                                            $result = true;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        
-        return null; // response()->json(['activity' => $results]);
-    }
 
+        return null;
+    }
+    
+    /**
+     * Purpose: Edit an activity from the database, with the values that have been
+     *          specified from the Activity Manager page.
+     * @return null
+     * @author  Anthony Fetsch CST223
+
+     */
     public function editActivity()
     {
-        
+        // Check that all the fields are set
+        if (isset($_POST['activityName']) && isset($_POST['startDate']) && isset($_POST['dueDate']) 
+                && isset($_POST['workload']) && isset($_POST['stresstimate']) && isset($_POST['activityID']))
+        {
+            //Get rid of the html special characters to prevent SQL injections
+            $activityName = htmlspecialchars($_POST['activityName']);
+            $startDate = htmlspecialchars ($_POST['startDate']);
+            $dueDate = htmlspecialchars ($_POST['dueDate']);
+            $workload = htmlspecialchars ($_POST['workload']);
+            $stresstimate = htmlspecialchars ($_POST['stresstimate']);
+            $activityID = htmlspecialchars ($_POST['activityID']);
+            
+            // Check if all are empty
+            if (!empty($activityName) && !empty($startDate) && !empty($dueDate) 
+                    && !empty($workload) && !empty($stresstimate) 
+                    && !empty($activityID))
+            {
+                // Check if activity name is valid
+                if (strlen($activityName) > 0 && strlen($activityName) < 125)
+                {
+                    $dateMaxOk = false;
+                    $dateMinOk = false;
+                    $intervalOk = false;
+                    $dueDateValid = false;
+                    $startDateValid = false;
+                    
+                    // Make datetime objects to validate, and set the max and min values
+                    $minDateObj = new \DateTime('0000-00-00');
+                    $maxDateObj = new \DateTime('2999-12-31');
+                    
+                    //Check if the start date is valid
+                    $d = \DateTime::createFromFormat('Y-m-d', $startDate);
+                    $startDateValid = $d->format('Y-m-d') == $startDate;
+
+                    if($startDateValid)
+                    {
+                        $startDateObj = new \DateTime($startDate);
+                    }
+                    
+                    //Check if the due date is valid
+                    $d = \DateTime::createFromFormat('Y-m-d', $dueDate);
+                    $dueDateValid = $d->format('Y-m-d') == $dueDate; 
+
+                    if($dueDateValid)
+                    {
+                        $dueDateObj = new \DateTime($dueDate);
+                    }
+                    
+                    if($startDateValid && $dueDateValid)
+                    {
+                        //Make sure that the due date is after the start date
+                        $interval = $startDateObj->diff($dueDateObj);
+                        $dateDiff = $interval->format('%R%a');
+
+                        //Due date is greater than the startDate
+                        if($dateDiff  >= 0)
+                        {
+                            $intervalOk = true;
+                        }
+                        //Make sure that the date is not less than the minimum
+                        $minInterval = $startDateObj->diff($minDateObj);
+                        $minDiff = $minInterval->format('%R%a');
+
+                        if($minDiff < 0)
+                        {
+                            $dateMinOk = true;
+                        }
+
+                        //Make sure that the date is not more than the max
+                        $maxInterval = $startDateObj->diff($maxDateObj);
+                        $maxDiff = $maxInterval->format('%R%a');
+
+                        if($maxDiff > 0)
+                        {
+                            $dateMaxOk = true;
+                        }                    
+                    }
+
+                    // Ensure that all of the dates are valid and ok
+                    if($dateMaxOk === true && $dateMinOk === true &&
+                                $intervalOk === true && $dueDateValid === true
+                                && $startDateValid === true)
+                    {
+                        // Check that workload is valid
+                        if ($workload > 0 && $workload <= 800)
+                        {
+                            // Check that stresstimate is valid
+                            if ($stresstimate >= 1 && $stresstimate <= 10)
+                            {
+                                if(isset($activityID) && !empty($activityID))
+                                {
+                                    // If everything is valid, perform the update 
+                                    $id = DB::table('Activity')
+                                        ->where('activityID', $activityID)
+                                        ->update(['activityType' => $activityName,
+                                            'assignDate' => $startDate,
+                                            'dueDate' => $dueDate,
+                                            'estTime' => $workload,
+                                            'stresstimate' => $stresstimate]
+                                        );
+                                }
+                                else
+                                {
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public function deleteActivity()
@@ -112,6 +291,7 @@ class ActivityManagerController extends Controller
      * Purpose: Query the database for courses associated with a Professor's ID
      * @return a json object containing the courses
      */
+
     public function loadSelectedProfsCourses()
     {
         if (isset($_POST['profID']))
@@ -119,11 +299,16 @@ class ActivityManagerController extends Controller
             $prof = $_POST['profID'][0];
             $currentProf = $prof;
 
-            $coursesArray = DB::select('Select courseID, courseName from Course where courseID IN '
-                            . '( Select courseID from Section where sectionID IN '
-                            . '(SELECT sectionID from ProfessorSection WHERE userID = "'
-                            . $prof
-                            . '"))');
+//            $coursesArray = DB::select('Select courseID, courseName from Course where courseID IN '
+//                            . '( Select courseID from Section where sectionID IN '
+//                            . '(SELECT sectionID from ProfessorSection WHERE userID = "'
+//                            . $prof
+//                            . '"))');
+            
+            $coursesArray = DB::select('Select sec.sectionID, cor.courseName from Course as cor '
+                            . 'Join Section as sec on cor.courseID = sec.courseID '
+                            . 'where sec.courseID IN(Select courseID from Section where sectionID IN '
+                            . "(SELECT sectionID from ProfessorSection WHERE userID = '" .$prof ."')); ");
 
             return response()->json(['courses' => $coursesArray]);
         }
@@ -134,6 +319,7 @@ class ActivityManagerController extends Controller
      *          course.
      * @return a json object contating the activities for the selected course
      */
+
     public function loadSelectedCoursesActivities()
     {
         if (isset($_POST['courseID']))
@@ -141,13 +327,16 @@ class ActivityManagerController extends Controller
             $course = $_POST['courseID'][0];
 
             $activityArray = DB::select('SELECT activityID, activityType, assignDate, '
-                            . 'dueDate, estTime, stresstimate FROM Activity where sectionID = '
-                            . '(Select sectionID from Section where courseID = "'
-                            . $course
-                            . '")');
+                            . 'dueDate, estTime, stresstimate FROM Activity where sectionID = "'
+                            . $course . '"');
 
             return response()->json(['activities' => $activityArray]);
         }
+    }
+    
+    public function loadSelectedActivity()
+    {
+        
     }
 
 }

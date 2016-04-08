@@ -1,0 +1,7 @@
+id,userID,fName,lName,educationalInstitution,areaOfStudy,email
+1,Pro001,Mark,Beitel,SIAST,CST,m.b@test.com
+2,Pro002,Tim,Jim,SIAST,CST,timmer.jimmer@timjim.com
+3,Pro010,Scottie,Konecny,SIAST,CST,S.Konecny015@SIAST.com
+4,Pro011,Mila,Lindholm,SIAST,CST,M.Lindholm016@SIAST.com
+5,Pro012,Bonny,Ethridge,UofS,MED,B.Ethridge017@uofs.ca
+6,Pro013,Paul,Spada,UofS,MED,P.Spada018@uofs.ca

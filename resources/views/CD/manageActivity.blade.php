@@ -26,9 +26,14 @@
         background-color: white;
     }
 
-    .purple-select{
+    .blue-select{
+        background-color: #99ccff;
+    }
+    
+    .grey-hover{
         background-color: #cdcdcd;
     }
+    
     .loading {
         position: fixed;
         left: 0px;
@@ -70,7 +75,7 @@
                         <div class="col-md-3">
                             <h2>Professors</h2>
 
-                            <select id='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses()">
+                            <select id='profSelect' name='profSelect' multiple class="form-control" style="height:500px" onchange="loadCourses()">
 
                                 <!--load all of the professors into the select box-->
                                 @if ( isset($listOfProfs) )
@@ -93,17 +98,179 @@
                         <div class="col-md-6">
                             <h2>Assigned Courses</h2>
 
-                            <select id='courseSelect' multiple class="form-control" style="height:232px" onchange='loadActivities()'>
+                            <select id='courseSelect' name='courseSelect' multiple class="form-control" style="height:232px" onchange='loadActivities()'>
                             </select>
 
                             <!--Assignments Select Box-->
                             <h2>Activities</h2>
                             <!--Should enable when selecting a course-->
-                            <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" disabled >Add Activity</button>
+                            <button type="button" id="addActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#myModal" onclick="javascript:clearFields();" disabled >Add Activity</button>
 
+                            <!-- The modal for adding an activity -->
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="color:black">
+                                        <form id="addActivityForm" method="POST">
+                                            <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                                            @foreach ($errors->all() as $error)
+                                            <p class="alert alert-danger">{{ $error }}</p>
+                                            @endforeach
+                                            @if (session('status'))
+                                            <div class="alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                            @endif
+
+                                            <div class="modal-header" style='background: #008040; color: white;'>
+                                                <h3 class="modal-title" style="font-weight: bold;">Add Activity</h3>
+                                            </div>
+                                            <div class="modal-body center-block">
+                                                <label for="activityName">Activity Name</label>
+                                                <br>
+                                                <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" maxlength="125" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Activity Error Message Box -->
+                                                <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="startDate">Start Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be given.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <label for="dueDate">Due Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be due.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Due Date Error Message Box -->
+                                                <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="workload">Workload(hr)</label>
+                                                <br>
+                                                <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" onchange="javascript:validateActivitySubmit();" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!-- Workload Error Message Box -->
+                                                <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                                                </div>
+
+                                                <label for="stresstimate">Stresstimate</label>
+                                                <br>
+                                                <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" onchange="javascript:validateActivitySubmit();" style="width:100%"> 
+                                                </div>
+
+                                                <br>
+                                                <!-- Stesstimate Error Message Box -->
+                                                <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearFields();">Close</button>
+
+                                                    <!--  Add Activity Modal Button -->
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:validateActivitySubmit();" >Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            
                             <!--Should enable when an activity is selected-->
-                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" disabled >Edit Activity</button>
+                            <button type="button" id="editActivityButton" class="btn btn-default" style="width:31%" data-toggle="modal" data-target="#editModal" disabled >Edit Activity</button>
 
+                              <!-- Edit Activity Modal -->
+                            <div id="editModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="color:black">
+                                        <form id="editActivityForm" method="POST">
+                                            <input type="hidden" name='_token' value="{!! csrf_token() !!}">
+                                            @foreach ($errors->all() as $error)
+                                            <p class="alert alert-danger">{{ $error }}</p>
+                                            @endforeach
+                                            @if (session('status'))
+                                            <div class="alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                            @endif
+
+                                            <div class="modal-header" style='background: #008040; color: white;'>
+                                                <h3 class="modal-title" style="font-weight: bold;">Edit Activity</h3>
+                                            </div>
+                                            <div class="modal-body center-block">
+                                                <label for="editActivityName">Activity Name</label>
+                                                <br>
+                                                <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editActivityName" class="form-control" name="editActivityName" type="text" placeholder="Assignment 1" maxlength="125" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Activity Error Message Box-->
+                                                <div id="editModalAlertBoxActivity" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="editStartDate">Start Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be given.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editStartDate" class="form-control" name="editStartDate" type="date" placeholder="Start Date" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <label for="editDueDate">Due Date</label>
+                                                <br>
+                                                <h6>The day and time that the activity will be due.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editDueDate" class="form-control" name="editDueDate" type="date" placeholder="Due Date" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Due Date Error Message Box-->
+                                                <div id="editModalAlertBoxDue" class="alert alert-danger" style="display: none">
+                                                </div>
+                                                <label for="editWorkload">Workload(hr)</label>
+                                                <br>
+                                                <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editWorkload" class="form-control" name="editWorkload" type="number" min="1" max="800" onchange="javascript:validateActivityUpdate(false);" style="width:100%">
+                                                </div>
+                                                <br>
+                                                <!--Workload Error Message Box-->
+                                                <div id="editModalAlertBoxWorkload" class="alert alert-danger" style="display: none">
+                                                </div>
+
+                                                <label for="editStresstimate">Stresstimate</label>
+                                                <br>
+                                                <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
+                                                <div class="input-group" style="width:100%">
+                                                    <input id="editStresstimate" class="form-control" name="editStresstimate" type="number" min="1" max="10" onchange="javascript:validateActivityUpdate(false);" style="width:100%"> 
+                                                </div>
+
+                                                <br>
+                                                <!--Stesstimate Error Message Box-->
+                                                <div id="editModalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:clearEditFields(); ">Close</button>
+
+                                                    <!--Add Activity Modal Button-->
+                                                    <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" onclick="javascript:pressingButton();">Save Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!--Should enable when an activity is selected-->
                             <button type="button" id="deleteActivityButton" class="btn btn-default" style="width:31%" disabled >Delete Activity</button>
 
@@ -124,93 +291,14 @@
         </div>
     </div>
 </div>
-
-<!-- The modal for adding an activity -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="color:black">
-            <form method="POST">
-                <input type="hidden" name='_token' value="{!! csrf_token() !!}">
-                @foreach ($errors->all() as $error)
-                <p class="alert alert-danger">{{ $error }}</p>
-                @endforeach
-                @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-                @endif
-
-                <div class="modal-header" style='background: #008040; color: white;'>
-                    <h3 class="modal-title" style="font-weight: bold;">Add Activity</h3>
-                </div>
-                <div class="modal-body center-block">
-                    <label for="activityName">Activity Name</label>
-                    <br>
-                    <h6>The name of the activity. Ex: Midterm1, Assignment2</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="activityName" class="form-control" name="activityName" type="text" placeholder="Assignment 1" onchange="validateActivitySubmit()" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Activity Error Message Box-->
-                    <div id="modalAlertBoxActivity" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="startDate">Start Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be given.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="startDate" class="form-control" name="startDate" type="date" placeholder="Start Date" onchange="validateActivitySubmit()" style="width:100%">
-                    </div>
-                    <br>
-                    <label for="dueDate">Due Date</label>
-                    <br>
-                    <h6>The day and time that the activity will be due.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="dueDate" class="form-control" name="dueDate" type="date" placeholder="Due Date" onchange="validateActivitySubmit()" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Due Date Error Message Box-->
-                    <div id="modalAlertBoxDue" class="alert alert-danger" style="display: none">
-                    </div>
-                    <label for="workload">Workload(hr)</label>
-                    <br>
-                    <h6>The estimated amount of time needed to finish the activity, in hours.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="workload" class="form-control" name="workload" type="number" min="1" max="800" placeholder="2" onchange="validateActivitySubmit()" style="width:100%">
-                    </div>
-                    <br>
-                    <!--Workload Error Message Box-->
-                    <div id="modalAlertBoxWorkload" class="alert alert-danger" style="display: none">
-                    </div>
-
-                    <label for="stresstimate">Stresstimate</label>
-                    <br>
-                    <h6>Stress Estimate: 1 is the lowest, 10 is the highest.</h6>
-                    <div class="input-group" style="width:100%">
-                        <input id="stresstimate" class="form-control" name="stresstimate" type="number" min="1" max="10" placeholder="1" onchange="validateActivitySubmit()" style="width:100%"> 
-                    </div>
-
-                    <br>
-                    <!--Stesstimate Error Message Box-->
-                    <div id="modalAlertBoxStresstimate" class="alert alert-danger" style="display: none">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                        <!--Add Activity Modal Button-->
-                        <button type="button" id="modalSubmit" name="modalSubmit" class="btn btn-info pull-right" data-dismiss="modal" style='background: #008040;' onclick="submitActivity()" disabled>Submit</button>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div>
-
+    
 <!--This script is for loading each course the professor is teaching-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
 $(document).ready(function ()
 {
+    var selectedActivityID;
     $(".loading").hide();
     // Load the courses for the selected professor, into the select box
     window.loadCourses = function ()
@@ -222,7 +310,7 @@ $(document).ready(function ()
             $('#addActivityButton').prop('disabled', true);
 
             //These buttons should be enabled when an activity is selected not when a course is selected
-            //$('#editActivityButton').prop('disabled', true);
+            $('#editActivityButton').prop('disabled', true);
             //$('#deleteActivityButton').prop('disabled', true);
 
             // Get the professors id
@@ -253,8 +341,8 @@ $(document).ready(function ()
                 // Loop through each course and append it to the select box
                 for (var count in data.courses)
                 {
-                    string += "<option value='" + data.courses[count].courseID
-                            + "'>" + data.courses[count].courseID + " - "
+                    string += "<option value='" + data.courses[count].sectionID
+                            + "'>" + data.courses[count].sectionID + " - "
                             + data.courses[count].courseName + "</option>";
                 }
 
@@ -277,9 +365,9 @@ $(document).ready(function ()
         // enable the activity button
         $('#addActivityButton').prop('disabled', false);
 
-        //            These buttons should be enabled when an activity is selected not when a course is selected
-        //$('#editActivityButton').prop('disabled', false);
-        //$('#deleteActivityButton').prop('disabled', false);
+        // These buttons should be enabled when an activity is selected not when a course is selected
+        $('#editActivityButton').prop('disabled', false);
+        $('#deleteActivityButton').prop('disabled', false);
 
         // Actually make the table appear
         var data = new google.visualization.DataTable();
@@ -289,7 +377,8 @@ $(document).ready(function ()
         data.addColumn('string', 'Start Date');
         data.addColumn('string', 'Due Date');
         data.addColumn('string', 'Estimated Time');
-        data.addColumn('number', 'Stresstimate')
+        data.addColumn('number', 'Stresstimate');
+        data.addColumn('number', 'ActivityID');
 
         // If there are more than 0 activities
         if (ajaxData.activities.length > 0)
@@ -301,10 +390,15 @@ $(document).ready(function ()
                 {
                     // Add each activity to the table
                     data.addRow([ajaxData.activities[count].activityType,
-                        ajaxData.activities[count].assignDate,
-                        ajaxData.activities[count].dueDate,
+                        ajaxData.activities[count].assignDate.substring(5,7) + "-" +
+                        ajaxData.activities[count].assignDate.substring(8,10) + "-" +
+                        ajaxData.activities[count].assignDate.substring(0,4),
+                        ajaxData.activities[count].dueDate.substring(5,7) + "-" +
+                        ajaxData.activities[count].dueDate.substring(8,10) + "-" +
+                        ajaxData.activities[count].dueDate.substring(0,4),
                         ajaxData.activities[count].estTime,
-                        ajaxData.activities[count].stresstimate
+                        ajaxData.activities[count].stresstimate,
+                        ajaxData.activities[count].activityID
                     ]);
                 }
             }
@@ -313,19 +407,71 @@ $(document).ready(function ()
         {
             // If there were no activities
             data.addRows([
-                ['There are no activities for the selected course', null, null, null, null],
+                ['There are no activities for the selected course', null, null, null, null, null],
             ]);
         }
 
+        var formatter = new google.visualization.DateFormat({pattern: "MM dd, ''yyyy"});
+        formatter.format(data, 2);
+        formatter.format(data, 3);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0,1,2,3,4]);
+
         var chart = new google.visualization.Table(document.getElementById('activitySelect'));
+
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) 
+            {   
+                if(data.getValue(selectedItem.row, 0) === "There are no activities for the selected course")
+                {
+                    $('#editActivityButton').prop('disabled', true);
+                    $('#deleteActivityButton').prop('disabled', true);
+                }
+                else
+                {
+                     //Set the Edit Activity Button to enabled
+                    $('#editActivityButton').prop('disabled', false);
+                    $('#deleteActivityButton').prop('disabled', false);
+
+                    //Set the global activityID button for deleting or editing
+                    selectedActivityID = data.getValue(selectedItem.row, 5);
+
+                    //Fill the edit activity modal fields
+                    $("#editActivityName").val(data.getValue(selectedItem.row, 0));
+
+                    //Substring the startDate to the required format yyyy-mm-dd
+                    var startDate = data.getValue(selectedItem.row, 1).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 1).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 1).substring(3,5);
+
+                    $("#editStartDate").val(startDate);
+
+                    var dueDate = data.getValue(selectedItem.row, 2).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 2).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 2).substring(3,5);
+
+                    $("#editDueDate").val(dueDate);
+                    $("#editWorkload").val(data.getValue(selectedItem.row, 3));
+                    $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
+                }
+            }
+            else
+            {
+                $('#editActivityButton').prop('disabled', true);
+                $('#deleteActivityButton').prop('disabled', true);
+            }
+        }
+            
 
         // chart styles
         var cssClassNames = {
             'headerRow': 'bold-font',
             'tableRow': '',
             'oddTableRow': 'white-background',
-            'selectedTableRow': '',
-            'hoverTableRow': 'purple-select',
+            'selectedTableRow': 'blue-select',
+            'hoverTableRow': 'grey-hover',
             'headerCell': '',
             'tableCell': '',
             'rowNumberCell': '',
@@ -334,8 +480,13 @@ $(document).ready(function ()
         // Properties of the table
         var options = {'showRowNumber': false, 'width': '100%', 'height': '150px', 'cssClassNames': cssClassNames};
 
+        //Add the event handler
+        google.visualization.events.addListener(chart, 'select', selectHandler); 
+
+
+        
         // draw the table using the data and options
-        chart.draw(data, options);
+        chart.draw(view, options);
     }
 
 </script>
@@ -368,6 +519,11 @@ $(document).ready(function ()
                 // After the loading is done, draw the table
                 drawTable(data);
                 $(".loading").hide();
+                $('#myModal').hide();
+                $('#editModal').hide();
+                $('.modal-backdrop').hide();
+                clearFields();
+                clearEditFields();
             });
         }
     });
@@ -378,48 +534,70 @@ $(document).ready(function ()
 
     $(document).ready(function ()
     {
+        //Variables that determine if the submit button is enabled or not
+        var activityNameValid = false;
+        var datesValid = false;
+        var workloadValid = false;
+        var stressValid = false;
+        
         // Check if the activity to be added is valid
         window.validateActivitySubmit = function ()
         {
-            // Get all of the values for the Activity to add
+            // Check that all the fields are valid then enable or disable the submit button
+            if (activityNameValid === true && datesValid === true && workloadValid === true && stressValid === true)
+            {
+                $(".loading").show();
+                submitActivity();
+            }
+            else 
+            {
+                if(activityNameValid === false)
+                {
+                    validateActivityName();
+                }
+                if(datesValid === false)
+                {
+                    validateActivityDate();
+                }
+                if(workloadValid === false)
+                {
+                    validateActivityWorkload();
+                }
+                if(stressValid === false)
+                {
+                    validateActivityStresstimate();    
+                }
+            }
+        }
+        
+        window.validateActivityName = function()
+        {
+            activityNameValid = false;
+            
             var activityName = $('#activityName').val();
+            // Check that the activity length is valid
+            if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
+            {
+                activityNameValid = true;
+                $("#modalAlertBoxActivity").hide();
+            }
+            else
+            {
+                $("#modalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
+                $("#modalAlertBoxActivity").show();
+            }
+        }
+        
+        window.validateActivityDate = function()
+        {
+            datesValid = false;
+            
             var startDateString = $('#startDate').val();
             var dueDateString = $('#dueDate').val();
-            var workload = $('#workload').val();
-            var stresstimate = $('#stresstimate').val();
-
+            
             var startDate = new Date(startDateString);
             var dueDate = new Date(dueDateString);
-
-            var activityValid = false;
-            var datesValid = false;
-            var workloadValid = false;
-            var stressValid = false;
-
-            // Check if the stresstimate is valid
-            if (stresstimate >= 1 && stresstimate <= 10)
-            {
-                stressValid = true;
-                $("#modalAlertBoxStresstimate").hide();
-            }
-            else
-            {
-                $("#modalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
-                $("#modalAlertBoxStresstimate").show();
-            }
-
-            // Check that the workload is valid
-            if (workload > 0 && workload <= 800)
-            {
-                workloadValid = true;
-                $("#modalAlertBoxWorkload").hide();
-            }
-            else
-            {
-                $("#modalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
-                $("#modalAlertBoxWorkload").show();
-            }
-
+            
             // Check that the dates are valid going from year, month, to day of month
             if (startDate <= dueDate)
             {
@@ -433,32 +611,66 @@ $(document).ready(function ()
                 $("#modalAlertBoxDue").html("<strong>Due date must be after start date.</strong><br>");
                 $("#modalAlertBoxDue").show();
             }
-
-            // Check that the activity length is valid
-            if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
-            {
-                activityValid = true;
-                $("#modalAlertBoxActivity").hide();
-            }
-            else
-            {
-                $("#modalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
-                $("#modalAlertBoxActivity").show();
-            }
-
-            // Check that all the fields are valid then enable or disable the submit button
-            if (activityValid === true && datesValid === true && workloadValid === true && stressValid === true)
-            {
-                $('#modalSubmit').prop('disabled', false);
-                $('#modalAlertBox').hide();
-            }
-            else
-            {
-                $('#modalSubmit').prop('disabled', true);
-            }
-
         }
-    });
+        
+        window.validateActivityWorkload = function()
+        {
+            workloadValid = false;
+            
+            var workload = $('#workload').val();
+             
+             // Check that the workload is valid
+            if (workload > 0 && workload <= 800)
+            {
+                workloadValid = true;
+                $("#modalAlertBoxWorkload").hide();
+            }
+            else
+            {
+                $("#modalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
+                $("#modalAlertBoxWorkload").show();
+            }
+        }
+        
+        window.validateActivityStresstimate = function()
+        {
+            stressValid = false;
+            
+            var stresstimate = $('#stresstimate').val();
+            
+            // Check if the stresstimate is valid
+            if (stresstimate >= 1 && stresstimate <= 10)
+            {
+                stressValid = true;
+                $("#modalAlertBoxStresstimate").hide();
+            }
+            else
+            {
+                $("#modalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
+                $("#modalAlertBoxStresstimate").show();
+            }
+        }
+        
+        window.clearFields = function ()
+        {
+            $('#activityName').val("");
+            $('#startDate').val("");
+            $('#dueDate').val("");
+            $('#workload').val("");
+            $('#stresstimate').val("");
+            
+            $('#modalAlertBoxActivity').hide();
+            $('#modalAlertBoxDue').hide();
+            $('#modalAlertBoxWorkload').hide();
+            $('#modalAlertBoxStresstimate').hide();
+
+            stressValid = false;
+            activityNameValid = false;
+            datesValid = false;
+            workloadValid = false;
+        }
+    }
+    );
 
 </script>
 
@@ -476,6 +688,7 @@ $(document).ready(function ()
             var workload = $('#workload').val();
             var stresstimate = $('#stresstimate').val();
             var profID = $('#profSelect option:selected').val();
+            var courseID = $('#courseSelect option:selected').val();
 
             var activity = {
                 'activityName': activityName,
@@ -483,7 +696,8 @@ $(document).ready(function ()
                 'dueDate': dueDate,
                 'workload': workload,
                 'stresstimate': stresstimate,
-                'profID': profID
+                'profID': profID,
+                'courseID': courseID
             };
 
             // Specify the token
@@ -493,13 +707,204 @@ $(document).ready(function ()
                 }});
 
             // Ajax call to the Activity Manager Controller to insert the activity into the database
-            $.post('/CD/manageActivity/addActivity', activity, function (data)
+            $.post('/CD/manageActivity/addActivity', activity, function(data)
+            {
+                // Once we insert the new Activity, reload the Activity table
+                
+                loadActivities();
+            });
+        }
+        
+        window.editActivity = function()
+        {
+            // Get all of the values for the Activity to add
+            var activityName = $('#editActivityName').val();
+            var startDate = $('#editStartDate').val();
+            var dueDate = $('#editDueDate').val();
+            var workload = $('#editWorkload').val();
+            var stresstimate = $('#editStresstimate').val();
+            var activityID = selectedActivityID;
+
+            var activity = {
+                'activityName': activityName,
+                'startDate': startDate,
+                'dueDate': dueDate,
+                'workload': workload,
+                'stresstimate': stresstimate,
+                'activityID': activityID
+            };
+
+            // Specify the token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
+
+            // Ajax call to the Activity Manager Controller to insert the activity into the database
+            $.post('/CD/manageActivity/editActivity', activity, function(data)
             {
                 // Once we insert the new Activity, reload the Activity table
                 loadActivities();
             });
         }
     });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function()
+    {
+        //Variables that determine if the submit button is enabled or not
+        var editActivityNameValid = false;
+        var editDatesValid = false;
+        var editWorkloadValid = false;
+        var editStressValid = false;
+        
+        window.validateActivityUpdate = function(updateButtonPressed)
+        {
+            // Check that all the fields are valid          
+            if(editActivityNameValid !== true || editDatesValid !== true || 
+                    editWorkloadValid !== true || editStressValid !== true)
+            {
+
+                    editValidateActivityName();
+
+                    editValidateActivityDate();
+
+                    editValidateActivityWorkload();
+
+                    editValidateActivityStresstimate();    
+
+            }
+            else //If they are all valid
+            {   //And the update button has been pressed
+                if(updateButtonPressed === true)
+                {
+                    //Revalidate all of the fields as a second check.
+                    editValidateActivityStresstimate(); 
+                    editValidateActivityWorkload();
+                    editValidateActivityDate();
+                    editValidateActivityName();
+                    if (editActivityNameValid === true && editDatesValid === true && editWorkloadValid === true && editStressValid === true)
+                    { 
+                        //If everything is valid, then update it.
+                       $(".loading").show();
+                       editActivity();
+                       updateButtonPressed = false;
+                    }      
+                }
+            }
+        }
+        
+        window.editValidateActivityName = function()
+        {
+            editActivityNameValid = false;
+            
+            var activityName = $('#editActivityName').val();
+            // Check that the activity length is valid
+            if (activityName.length > 0 && activityName.length < 125 && activityName !== null && activityName !== "")
+            {
+                editActivityNameValid = true;
+                $("#editModalAlertBoxActivity").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxActivity").html("<strong>Activity must be between 1 and 125 characters.</strong><br>");
+                $("#editModalAlertBoxActivity").show();
+            }
+        }
+        
+        window.editValidateActivityDate = function()
+        {
+            editDatesValid = false;
+            
+            var startDateString = $('#editStartDate').val();
+            var dueDateString = $('#editDueDate').val();
+            
+            var startDate = new Date(startDateString);
+            var dueDate = new Date(dueDateString);
+            
+            // Check that the dates are valid going from year, month, to day of month
+            if (startDate <= dueDate)
+            {
+                editDatesValid = true;
+                $("#editModalAlertBoxDue").hide();
+            }
+
+            // If the dates are invalid, alert the user
+            if (editDatesValid === false)
+            {
+                $("#editModalAlertBoxDue").html("<strong>Due date must be after start date.</strong><br>");
+                $("#editModalAlertBoxDue").show();
+            }
+        }
+        
+        window.editValidateActivityWorkload = function()
+        {
+            editWorkloadValid = false;
+            
+            var workload = $('#editWorkload').val();
+             
+             // Check that the workload is valid
+            if (workload > 0 && workload <= 800)
+            {
+                editWorkloadValid = true;
+                $("#editModalAlertBoxWorkload").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxWorkload").html("<strong>Workload must be between 1 and 800</strong><br>");
+                $("#editModalAlertBoxWorkload").show();
+            }
+        }
+        
+        window.editValidateActivityStresstimate = function()
+        {
+            editStressValid = false;
+            
+            var stresstimate = $('#editStresstimate').val();
+            
+            // Check if the stresstimate is valid
+            if (stresstimate >= 1 && stresstimate <= 10)
+            {
+                editStressValid = true;
+                $("#editModalAlertBoxStresstimate").hide();
+            }
+            else
+            {
+                $("#editModalAlertBoxStresstimate").html("<strong>Stresstimate must be between 1 and 10</strong><br>");
+                $("#editModalAlertBoxStresstimate").show();
+            }
+        }
+        
+        window.clearEditFields = function()
+        {
+            $('#editActivityName').val("");
+            $('#editStartDate').val("");
+            $('#editDueDate').val("");
+            $('#editWorkload').val("");
+            $('#editStresstimate').val("");
+            
+            $('#editModalAlertBoxActivity').hide();
+            $('#editModalAlertBoxDue').hide();
+            $('#editModalAlertBoxWorkload').hide();
+            $('#editModalAlertBoxStresstimate').hide();
+
+            editStressValid = false;
+            editActivityNameValid = false;
+            editDatesValid = false;
+            editWorkloadValid = false;
+            
+            $('#editActivityButton').prop('disabled', true);
+            $('#deleteActivityButton').prop('disabled', true);
+        }
+        
+        window.pressingButton = function()
+        {
+            validateActivityUpdate(true);
+        }
+    });
+
 </script>
 
 @endsection

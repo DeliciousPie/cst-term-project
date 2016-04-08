@@ -106,7 +106,7 @@
 
 
                         <li><a href="{{ url('CD/CourseAssignmentMain') }}">Course Assignment</a></li>
-                        <li><a href="{{ url('CD/CSVImport') }}">CSV Import</a></li>
+                        <li><a href="{{ url('CD/CSVImport') }}">CSV Import / Export</a></li>
                         <li><a href="{{ url('CD/manageActivity') }}"> Activity Manager</a></li>
 
                         @elseif ( Auth::user()->hasrole('Prof'))
