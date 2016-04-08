@@ -92,6 +92,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('CSVImport/getSections','CSVImportController@getCoursesSections'); 
         Route::post('/CSVImport', 'CSVImportController@uploadCSVFiles' );
         
+        Route::get('/CSVDownload', 'CSVImportController@downloadCSVFiles' );
+        
         
         // Course Assignment Grouping 
         Route::get('/CourseAssignmentMain','CourseAssignmentController@LoadView'); 
@@ -105,6 +107,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/manageActivity/loadSelectedProfsCourses', 'ActivityManagerController@loadSelectedProfsCourses');
         Route::post('/manageActivity/loadSelectedCoursesActivities', 'ActivityManagerController@loadSelectedCoursesActivities');
         Route::post('/manageActivity/addActivity', 'ActivityManagerController@addActivity');
+        Route::post('/manageActivity/editActivity', 'ActivityManagerController@editActivity');
+        
+           
         Route::post('/manageActivity/deleteActivity', 'ActivityManagerController@deleteActivity'); 
     });
     

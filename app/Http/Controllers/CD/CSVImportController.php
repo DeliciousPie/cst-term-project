@@ -97,11 +97,81 @@ class CSVImportController extends Controller
         return response()->json([ 'coursesSection' => $coursesSection]);
     }
 
+    //Creates a zip of CSV files containing database information
+    public function downloadCSVFiles()
+    {
+        //List of tables to create CSV of
+        //Any values after a table are fields to not include in the CSV
+        $tables = array( "Student", "StudentActivity", "users", 
+            "Activity", "Professor", "CD", "StudentSection", 
+            "ProfessorSection", "Section", "Course", "CDCourse");
+
+        $fieldsToIgnore = array("password", "remember_token", 
+            "created_at","modified_at", "updated_at");
+
+        //For each table
+        for($curTable = 0; $curTable < count($tables); $curTable++)
+        {
+            //Get the fields for the table
+            $fields = DB::getSchemaBuilder()->getColumnListing($tables[$curTable]);
+
+            //Get a list of fields to check
+            $selectFields = array();
+            for($curField = 0; $curField < count($fields); $curField++)
+            {
+                //Check if the field is allowed
+                if( array_search($fields[$curField], $fieldsToIgnore) === FALSE )
+                {
+                    array_push($selectFields, $fields[$curField]);
+                }
+            }
+
+            //Query the table
+            $queryResult = DB::table($tables[$curTable])->select($selectFields)->get();
+            //This will change $queryResult from an object to an assoative array
+            $queryResult = json_decode(json_encode($queryResult), true);
+
+            //Open file
+            $fileHandle = fopen($tables[$curTable] . '.csv','w');
+
+            //Write the header
+            fputcsv($fileHandle, $selectFields);
+
+            //for each line 
+            for($i = 0; $i < count($queryResult); $i++)
+            {
+                //change from array to string
+                $queryResult[$i] = array_values($queryResult[$i]);
+                //write to file
+                fputcsv($fileHandle, $queryResult[$i]);
+            }
+
+            fclose($fileHandle);
+        }
+
+        //Create a zip with all the CSV Files
+        $zip = new \ZipArchive;
+        $filename = getcwd() . "/CSV_Export_" . time() . ".zip";
+        
+        if ($zip->open($filename, \ZipArchive::CREATE)!==TRUE) {
+            exit("cannot open <$filename>\n");
+        }
+
+        //Add all CSV files to the zip
+        for($curFile = 0; $curFile < count($tables); $curFile++)
+        {
+            //Add the file
+            $zip->addFile(getcwd() . "/" . $tables[$curFile] . ".csv", $tables[$curFile] . ".csv");
+        }
+        $zip->close();
+        
+        return response()->download($filename)->deleteFileAfterSend($filename);
+    }
+    
     /*
      * Upload CSV files will upload any CSV files.
      * It willl
      */
-
     public function uploadCSVFiles()
     {
         // this was used to try to handle page timeout do not know if its working properly
