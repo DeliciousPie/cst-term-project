@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/COSA280/prj1_curr_densitometer/bootstrap/autoload.php</file>
-            <file>file:/G:/COSA280/prj1_curr_densitometer/app/Http/Controllers/Student/StudentInfoController.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/error.txt</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/app/Http/Controllers/Prof/ProfInfoController.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/resources/views/Prof/register.blade.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/app/Http/routes.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/tests/Sum41Test.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/tests/S1Test.php</file>
             <file>file:/G:/COSA280/prj1_curr_densitometer/tests/S42Test.php</file>
+            <file>file:/G:/COSA280/prj1_curr_densitometer/app/Http/Controllers/Student/StudentInfoController.php</file>
         </group>
     </open-files>
 </project-private>
