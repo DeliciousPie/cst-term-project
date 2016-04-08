@@ -13,13 +13,12 @@
 
 //Create a fake user.
 $factory->define(App\User::class, function (Faker\Generator $faker) {
-    return [
-        'id' => $faker->id = 200000,
-        'name' => $faker->name = "Dallen",
-        'email' => $faker->email = "Dallen@mail.com",
-        'userID' => $faker->userID = "696969",
-        'password' => bcrypt(str_random(10)),
-        'confirmed' => $faker->confirmed = true,
+    return [     
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'userID' => "" . $faker->numberBetween(0, 100000),
+        'password' => bcrypt('password'),
+        'confirmed' => 1,
         'remember_token' => str_random(10),
     ];
 });
@@ -29,9 +28,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 //Create a fake course
 $factory->define(App\Course::class, function (Faker\Generator $faker) {
         return[
-                'courseID' => $faker->courseID = 'COMM102',
-                'courseName' => $faker->courseName = 'Intro to Business',
-                'description' => $faker->description = 'Learn about business.',
+                'courseID' => "COSC" . $faker->numberBetween(100, 999),
+                'areaOfStudy' => 'CST',
+                'courseName' => $faker->text(10),
+                'description' => $faker->text(10),
             ];
 });
 
@@ -39,8 +39,10 @@ $factory->define(App\Course::class, function (Faker\Generator $faker) {
 $factory->define(App\Section::class, function (Faker\Generator $faker) {
 
         return [ 
-            'sectionID' => $faker->sectionId = 199000,
-            'courseID' => $faker->courseID = 'COMM102',
+            'sectionID' => $faker->text(5),
+            'courseID' => function(){
+                return factory(App\Course::class)->create()->courseID;
+            },
             'date' => $faker->date = new DateTime,
         ];
 });
@@ -49,12 +51,15 @@ $factory->define(App\Section::class, function (Faker\Generator $faker) {
 $factory->define(App\Activity::class, function (Faker\Generator $faker) {
     
         return [ 
-            'activityID' => $faker->activityID = 199000,
-            'sectionID' => $faker->sectionID = 199000,
-            'activityType' => $faker->activityType = 'AssignmentTest',
+           
+            'sectionID' => function(){
+                return factory(App\Section::class)->create()->sectionID;
+            },
+            'activityType' => 'Assignment',
             'assignDate' => $faker->assignDate = new DateTime,
             'dueDate' => $faker->dueDate = new DateTime,
-            'estTime' => $faker->estTime = 2.0,
+            'estTime' => $faker->numberBetween(0, 40),
+            'stresstimate' => $faker->numberBetween(0, 10),
         ];
     
 });
@@ -62,13 +67,15 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
 //Create a fake Student Activity.
 $factory->define(App\StudentActivity::class, function (Faker\Generator $faker) {
     return [
-        'userID' => $faker->userID = "696969",
-        'activityID' => $faker->activityID = 199000,
-        'timespent' => $faker->timespent = 1,
-        'stressLevel' => $faker->stressLevel = 2,
-        'comments' => $faker->comments = "Test",
-        'timeEstimated' => $faker->timeEstimated = 3,
-        'submitted' => $faker->submitted = 1,
+        'userID' => function() {
+            return factory(App\User::class)->create()->userID;
+        },
+        'activityID' => "3",
+        'timespent' => $faker->numberBetween(0, 40),
+        'stressLevel' => $faker->numberBetween(0, 10),
+        'comments' => $faker->text(30),
+        'timeEstimated' => $faker->numberBetween(0, 40),
+        'submitted' => 1,
     ];
 });
 
@@ -76,12 +83,25 @@ $factory->define(App\StudentActivity::class, function (Faker\Generator $faker) {
 //Create a fake Student.
 $factory->define(App\Student::class, function (Faker\Generator $faker) {    
     return [
-        'id' => $faker->id = 200,
-        'userID' => $faker->userID = "696969",
-        'name' => $faker->name = "Dallen",      
-        'email' => $faker->email = "Dallen@mail.com",
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+       
+        'userID' => function(){
+            return factory(App\User::class)->create()->userID;
+
+        },
+        'age' => $faker->numberBetween(18, 70),
+        'areaOfStudy' => 'CST',
+        'fname' => $faker->firstName,
+        'lname' => $faker->lastName,
+        'educationalInstitution' => $faker->text(10),
+        'email' => $faker->email,
     ];
 });
+
+$factory->define(App\StudentSection::class, function (Faker\Generator $faker) {    
+    return [
+        'userID' => $faker->numberBetween(0, 100000),
+        'sectionID' => "3"
+    ];
+});
+
 

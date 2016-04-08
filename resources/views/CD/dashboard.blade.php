@@ -80,10 +80,10 @@
                                                 <br />
                                                 <br />
                                                 <!--                                    <button hidden type="button" id="undo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
-                                                <button type="button" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                                <button type="button" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                                <button type="button" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                                <button type="button" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                <button type="button" name="courseRightAll" id="undo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                <button type="button" name="courseRight" id="undo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                <button type="button" name="courseLeft" id="undo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                <button type="button" name="courseLeftAll" id="undo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
                                                 <!--                                    <button hidden type="button" id="undo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
                                                 <br />
                                             </div>
@@ -112,10 +112,10 @@
                                                 <br />
                                                 <br />
                                                 <!--                                    <button type="button" id="studentundo_redo_undo" class="btn btn-primary btn-block">undo</button>-->
-                                                <button type="button" id="studentundo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                                <button type="button" id="studentundo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                                <button type="button" id="studentundo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                                <button type="button" id="studentundo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                <button type="button" name="studentRightAll" id="studentundo_redo_rightAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                <button type="button" name="studentRight" id="studentundo_redo_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                <button type="button" name="studentLeft" id="studentundo_redo_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                <button type="button" name="studentLeftAll" id="studentundo_redo_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
                                                 <!--                                    <button type="button" id="studentundo_redo_redo" class="btn btn-warning btn-block">redo</button>-->
                                                 <br />
                                             </div>

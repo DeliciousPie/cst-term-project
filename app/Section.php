@@ -10,9 +10,8 @@ class Section extends Model
     
     public $timestamps = false;
     
-    protected $fillable = ['courseID', 'sectionID','date'];
-    
-    protected $primaryKey = 'sectionID';
+    protected $fillable = ['sectionID', 'courseID', 'sectionID','date'];
+
     
     public function courses()
     {

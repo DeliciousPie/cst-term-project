@@ -1,48 +1,467 @@
  PHPUnit 4.8.23 by Sebastian Bergmann and contributors.
 
+..................F..F.F..F.E...
 
-                                                           
-  [Symfony\Component\Debug\Exception\FatalErrorException]  
-  Class 'CreateStudentInCourseSection' not found           
-                                                           
+Time: 37.81 seconds, Memory: 42.50Mb
+
+There was 1 error:
+
+1) S49Test::testSubmitAllCoursesAndUsers
+ErrorException: Trying to get property of non-object
+
+/home/vagrant/Code/tests/S49Test.php:102
+
+--
+
+There were 4 failures:
+
+1) S29Test::testDataInFormFieldsMatchesTheDatabaseInBothTextAndDataType
+Failed asserting that '<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="csrf-token" content="hmJ4Ntf4hvK2WBIVkShTVFgywmk9z4pMvXmAHoH1" />
+        
+        <!-- Custom Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+        <!-- jQuery -->
+        <script src="/js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/js/bootstrap.min.js"></script>
+
+        <!-- JavaScripts -->
+        
+        <!-- Morris Charts JavaScript -->
+        <script src="/js/plugins/morris/raphael.min.js"></script>
+        <script src="/js/plugins/morris/morris.min.js"></script>
+        <script src="/js/plugins/morris/morris-data.js"></script>
+        
+                <title>Student Activities</title>
+        <!-- Bootstrap Core CSS -->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+
+        <link href="/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/css/sb-admin.css" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="/css/plugins/morris.css" rel="stylesheet">
+        
+                <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
-Fatal error: Class 'CreateStudentInCourseSection' not found in /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php on line 336
+    </head>
 
-Call Stack:
-    0.0008     229568   1. {main}() /home/vagrant/Code/vendor/phpunit/phpunit/phpunit:0
-    0.7461    1073984   2. PHPUnit_TextUI_Command::main() /home/vagrant/Code/vendor/phpunit/phpunit/phpunit:47
-    0.7461    1074608   3. PHPUnit_TextUI_Command->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php:100
-    9.9297    7701776   4. PHPUnit_TextUI_TestRunner->doRun() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/Command.php:149
-    9.9593    7886832   5. PHPUnit_Framework_TestSuite->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/TextUI/TestRunner.php:440
-    9.9716    7902680   6. PHPUnit_Framework_TestSuite->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php:747
-    9.9808    7906776   7. PHPUnit_Framework_TestCase->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestSuite.php:747
-    9.9808    7908416   8. PHPUnit_Framework_TestResult->run() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:724
-   10.0308    7973400   9. PHPUnit_Framework_TestCase->runBare() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestResult.php:612
-   12.0755   14828400  10. PHPUnit_Framework_TestCase->runTest() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:768
-   12.0756   14829160  11. ReflectionMethod->invokeArgs() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:909
-   12.0756   14829344  12. S03Test->testExample() /home/vagrant/Code/vendor/phpunit/phpunit/src/Framework/TestCase.php:909
-   12.0862   14837320  13. Illuminate\Support\Facades\Artisan::call() /home/vagrant/Code/tests/S03Test.php:28
-   12.0862   14837672  14. Illuminate\Support\Facades\Facade::__callStatic() /home/vagrant/Code/tests/S03Test.php:28
-   12.0863   14838008  15. Illuminate\Foundation\Console\Kernel->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:218
-   13.0796   18971488  16. Illuminate\Console\Application->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php:159
-   13.1848   19493248  17. Symfony\Component\Console\Application->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Application.php:64
-   13.1849   19494608  18. Symfony\Component\Console\Application->doRun() /home/vagrant/Code/vendor/symfony/console/Application.php:117
-   13.1851   19495592  19. Symfony\Component\Console\Application->doRunCommand() /home/vagrant/Code/vendor/symfony/console/Application.php:186
-   13.1851   19495736  20. Illuminate\Console\Command->run() /home/vagrant/Code/vendor/symfony/console/Application.php:791
-   13.2239   19711880  21. Symfony\Component\Console\Command\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:155
-   13.2244   19715984  22. Illuminate\Console\Command->execute() /home/vagrant/Code/vendor/symfony/console/Command/Command.php:256
-   13.2244   19716424  23. Illuminate\Container\Container->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:169
-   13.2245   19716792  24. call_user_func_array:{/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507}() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
-   13.2245   19717152  25. Illuminate\Database\Console\Migrations\RefreshCommand->fire() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
-   13.2247   19718280  26. Illuminate\Console\Command->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/RefreshCommand.php:46
-   13.2248   19719752  27. Illuminate\Console\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:185
-   13.2291   19735808  28. Symfony\Component\Console\Command\Command->run() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:155
-   13.2296   19739008  29. Illuminate\Console\Command->execute() /home/vagrant/Code/vendor/symfony/console/Command/Command.php:256
-   13.2296   19739448  30. Illuminate\Container\Container->call() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Console/Command.php:169
-   13.2296   19739816  31. call_user_func_array:{/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507}() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
-   13.2296   19740272  32. Illuminate\Database\Console\Migrations\ResetCommand->fire() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Container/Container.php:507
-   13.3016   20027424  33. Illuminate\Database\Migrations\Migrator->reset() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/ResetCommand.php:69
-   13.3174   20411680  34. Illuminate\Database\Migrations\Migrator->runDown() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php:206
-   13.3174   20411736  35. Illuminate\Database\Migrations\Migrator->resolve() /home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php:227
 
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                            <a class="navbar-brand" href="http://phpserver">Student Activities</a>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- user Information drop down  -->
+                    <ul class="nav navbar-right top-nav">
+                        <!-- Authentication Links -->
+
+                                                <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Miss Graciela Dicki <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="http://phpserver/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>
+                        </li>
+
+                                            </ul>
+                </div>
+
+
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav side-nav">
+                        <li><a href="http://phpserver/home">Home</a></li>
+
+
+                        <li><a href="http://phpserver/about">About</a></li>
+
+
+                        
+                        
+                        <li><a href="http://phpserver/Student/dashboard">Student Dashboard</a></li>
+                        <li><a href="http://phpserver/Student/activities">Student Activities</a></li>
+                                                                    </ul>
+                </div>
+            </nav>
+
+            <div id="page-wrapper" style="min-height: 50em">
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row" >
+                        <div class="col-sm-4">
+                            <!-- this will call the body header for each page -->
+                            
+                        </div>
+
+
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this will render each pages body information-->
+                    <div class="row">
+  <div class="col-md-8 col-md-offset-2">
+      
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-bar-chart-o fa-fw"></i><h2>Student Activities</h2>
+                </h3>
+            </div>
+                   
+                
+        <p>No activities</p>
+             
+          
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var rangeValues =
+    {
+        "0": "0/10 - Not stressed",
+        "1": "1/10 - Not stressed",
+        "2": "2/10 - Somewhat Stressed",
+        "3": "3/10 - Somewhat Stressed",
+        "4": "4/10 - Stressed",
+        "5": "5/10 - Stressed",
+        "6": "6/10 - Stressed",
+        "7": "7/10 - Very Stressed",
+        "8": "8/10 - Very Stressed",
+        "9": "9/10 - Extremely Stressed",
+        "10": "10/10 - Extremely Stressed"
+    };
+
+    $('#rangeText').text(rangeValues[$('#rangeInput').val()]);
+
+    // setup an event handler to set the text when the range value is 
+    // dragged (see event for input) or changed (see event for change)
+    $('.stressSliders').on('input change', function () 
+    {
+        //Get the ID of the class moved, and change the text
+        $('#' + $(this).attr('id') + "Label").text(rangeValues[$(this).val()]);
+    });
+    
+    //For each slider
+    //On page load, set the label to what the current value is
+    $('.stressSliders').each(function () 
+    {
+        $('#' + $(this).attr('id') + "Label").text(rangeValues[$(this).val()]);
+    });
+</script>
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 text-center">
+                        <h4><strong>CDP Development</strong>
+                        </h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-phone fa-fw"></i></li>
+                            <li><i class="fa fa-envelope-o fa-fw"></i> 
+
+                                <a href="">CST.project1@saskpolytech.ca</a>
+                            </li>
+                        </ul>
+                        <hr class="small">
+                        <p class="text-muted">Copyright &copy; CDP - 2016</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+<!-- /#wrapper -->
+
+</html>
+' matches PCRE pattern "/AssignmentTest/i".
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:190
+/home/vagrant/Code/tests/S29Test.php:89
+
+2) S32Test::testShowAllActivities
+Failed asserting that '<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="csrf-token" content="462gxDKVp2yPtMYM7VQTrhtepcVjnayIcxN29pwo" />
+        
+        <!-- Custom Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+        <!-- jQuery -->
+        <script src="/js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/js/bootstrap.min.js"></script>
+
+        <!-- JavaScripts -->
+        
+        <!-- Morris Charts JavaScript -->
+        <script src="/js/plugins/morris/raphael.min.js"></script>
+        <script src="/js/plugins/morris/morris.min.js"></script>
+        <script src="/js/plugins/morris/morris-data.js"></script>
+        
+                <title>Student Activities</title>
+        <!-- Bootstrap Core CSS -->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+
+        <link href="/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/css/sb-admin.css" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="/css/plugins/morris.css" rel="stylesheet">
+        
+                <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+    </head>
+
+
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                            <a class="navbar-brand" href="http://phpserver">Student Activities</a>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- user Information drop down  -->
+                    <ul class="nav navbar-right top-nav">
+                        <!-- Authentication Links -->
+
+                                                <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Dr. Johann Smith I <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="http://phpserver/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>
+                        </li>
+
+                                            </ul>
+                </div>
+
+
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav side-nav">
+                        <li><a href="http://phpserver/home">Home</a></li>
+
+
+                        <li><a href="http://phpserver/about">About</a></li>
+
+
+                        
+                        
+                        <li><a href="http://phpserver/Student/dashboard">Student Dashboard</a></li>
+                        <li><a href="http://phpserver/Student/activities">Student Activities</a></li>
+                                                                    </ul>
+                </div>
+            </nav>
+
+            <div id="page-wrapper" style="min-height: 50em">
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="row" >
+                        <div class="col-sm-4">
+                            <!-- this will call the body header for each page -->
+                            
+                        </div>
+
+
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this will render each pages body information-->
+                    <div class="row">
+  <div class="col-md-8 col-md-offset-2">
+      
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-bar-chart-o fa-fw"></i><h2>Student Activities</h2>
+                </h3>
+            </div>
+                   
+                
+        <p>No activities</p>
+             
+          
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var rangeValues =
+    {
+        "0": "0/10 - Not stressed",
+        "1": "1/10 - Not stressed",
+        "2": "2/10 - Somewhat Stressed",
+        "3": "3/10 - Somewhat Stressed",
+        "4": "4/10 - Stressed",
+        "5": "5/10 - Stressed",
+        "6": "6/10 - Stressed",
+        "7": "7/10 - Very Stressed",
+        "8": "8/10 - Very Stressed",
+        "9": "9/10 - Extremely Stressed",
+        "10": "10/10 - Extremely Stressed"
+    };
+
+    $('#rangeText').text(rangeValues[$('#rangeInput').val()]);
+
+    // setup an event handler to set the text when the range value is 
+    // dragged (see event for input) or changed (see event for change)
+    $('.stressSliders').on('input change', function () 
+    {
+        //Get the ID of the class moved, and change the text
+        $('#' + $(this).attr('id') + "Label").text(rangeValues[$(this).val()]);
+    });
+    
+    //For each slider
+    //On page load, set the label to what the current value is
+    $('.stressSliders').each(function () 
+    {
+        $('#' + $(this).attr('id') + "Label").text(rangeValues[$(this).val()]);
+    });
+</script>
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 text-center">
+                        <h4><strong>CDP Development</strong>
+                        </h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-phone fa-fw"></i></li>
+                            <li><i class="fa fa-envelope-o fa-fw"></i> 
+
+                                <a href="">CST.project1@saskpolytech.ca</a>
+                            </li>
+                        </ul>
+                        <hr class="small">
+                        <p class="text-muted">Copyright &copy; CDP - 2016</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+<!-- /#wrapper -->
+
+</html>
+' matches PCRE pattern "/AssignmentTest/i".
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:190
+/home/vagrant/Code/tests/S32Test.php:94
+
+3) S40PasswordSecurityTest::testLoginSuccess
+Did not land on expected page [http://phpserver/home].
+
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'http://phpserver/home'
++'http://phpserver/CD/dashboard'
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:142
+/home/vagrant/Code/tests/S40PasswordSecurityTest.php:35
+
+4) S40PasswordSecurityTest::testRegisterPage
+Did not land on expected page [http://phpserver/home].
+
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'http://phpserver/home'
++'http://phpserver/Student/dashboard'
+
+/home/vagrant/Code/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:142
+/home/vagrant/Code/tests/S40PasswordSecurityTest.php:94
+
+FAILURES!
+Tests: 32, Assertions: 270, Errors: 1, Failures: 4.

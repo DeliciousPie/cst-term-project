@@ -11,7 +11,9 @@ class ActivitySeeder extends Seeder
      */
     public function run()
     {
-       
+
+
+        
         DB::table('Course')->insert([
                 
                 'courseID' => 'COMM101',
@@ -124,5 +126,34 @@ class ActivitySeeder extends Seeder
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);
+        
+        
+        DB::table('Section')->insert([
+    
+        return [ 
+            'activityID' => $faker->activityID = 199000,
+            'sectionID' => $faker->sectionID = 199000,
+            'activityType' => $faker->activityType = 'AssignmentTest',
+            'assignDate' => $faker->assignDate = new DateTime,
+            'dueDate' => $faker->dueDate = new DateTime,
+            'estTime' => $faker->estTime = 2.0,
+        ];
+    
+});
+
+        DB::table('Section')->insert([
+    
+        return [ 
+            'activityID' => $faker->activityID = 199000,
+            'sectionID' => $faker->sectionID = 199000,
+            'activityType' => $faker->activityType = 'AssignmentTest',
+            'assignDate' => $faker->assignDate = new DateTime,
+            'dueDate' => $faker->dueDate = new DateTime,
+            'estTime' => $faker->estTime = 2.0,
+        ];
+
+       
+        
+        
     }
 }

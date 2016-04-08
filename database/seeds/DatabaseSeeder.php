@@ -21,10 +21,9 @@ class DatabaseSeeder extends Seeder
            $this->call('ProfessorTableSeeder');
            $this->call('StudentTableSeeder');
            $this->call('ActivitySeeder');
+           $this->call('studentSectionSeeder');
           
-//           $this->call('SectionTableSeeder');  
-//            $this->call('ProfSectionTableSeeder');
-//           $this->call('ActivityTableSeeder');
+
            
            Model::reguard();
     }

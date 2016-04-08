@@ -14,10 +14,10 @@ class Activity extends Model
      */
     protected $fillable = [
        'activityID', 'sectionID', 'activityType', 'assignDate', 
-       'dueDate', 'estTime', 'stresstimate',
+       'dueDate', 'estTime', 'stresstimate','sectionID'
     ];
     
-    protected $guarded = ['sectionID', 'activityID']; 
+    protected $guarded = ['activityID']; 
     
     /*
      * Table associated with model.

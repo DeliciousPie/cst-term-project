@@ -189,6 +189,7 @@ class CDDashboardController extends Controller
                 break;
             case '4':
                 //Bubble Chart
+               
                 $this->chart = new BubbleChartController($chartParameters);
                
                 $result = $this->chart->determineChartToBeMade();

@@ -36,6 +36,18 @@ class StudentTableSeeder extends Seeder
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ], 
+            [
+                'id' => '3',
+                'userID' => '12347',
+                'age' => 22,
+                'areaOfStudy' => 'CST',
+                'fName' => 'David',
+                'lName' => 'Dave',
+                'educationalInstitution' => 'SIAST',
+                'email' => 'DaringWithDave@david.com',
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
+            ], 
             ]);
     }
 }
