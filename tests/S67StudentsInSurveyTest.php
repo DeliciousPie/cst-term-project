@@ -41,6 +41,7 @@ class S67StudentsInSurveyTest extends TestCase
             'sectionID' => "BUS182.1"
         ]); 
         
+        //Insert an entry for that professor in the ProfessorSection table.
         DB::table('ProfessorSection')->insert([
                 'sectionID' => 'BUS182.1',
                 'userID' => 'Pro002',
