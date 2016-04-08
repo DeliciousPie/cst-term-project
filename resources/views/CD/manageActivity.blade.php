@@ -25,6 +25,10 @@
     .white-background{
         background-color: white;
     }
+    
+    .blue-select{
+        background-color: #99ccff;
+    }
 
     .purple-select{
         background-color: #cdcdcd;
@@ -219,10 +223,10 @@
         <h4 class="modal-title">Confirm Delete</h4>
       </div>
       <div id="deleteModalBody" class="modal-body">
-        <p>Are you sure you want to delete the selected activity? </p>
+        <p>Are you sure you want to delete the selected activity(s)? </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:deleteActivity();">Confirm</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:deleteActivities();">Confirm</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -235,7 +239,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" >
 
-var selectedActivityID;
+var globalChart;
+var globalChartData;
     
 $(document).ready(function ()
 {
@@ -345,7 +350,7 @@ $(document).ready(function ()
         {
             // If there were no activities
             data.addRows([
-                ['There are no activities for the selected course', null, null, null, null],
+                ['There are no activities for the selected course', null, null, null, null, null],
             ]);
         }
 
@@ -358,33 +363,59 @@ $(document).ready(function ()
 
         var chart = new google.visualization.Table(document.getElementById('activitySelect'));
 
+
         function selectHandler() {
             var selectedItem = chart.getSelection()[0];
-            console.log(selectedItem);
             if (selectedItem) 
+            {   
+                if(data.getValue(selectedItem.row, 0) === "There are no activities for the selected course")
+                {
+                    $('#editActivityButton').prop('disabled', true);
+                    $('#deleteActivityButton').prop('disabled', true);
+                }
+                else
+                {
+                     //Set the Edit Activity Button to enabled
+                    $('#editActivityButton').prop('disabled', false);
+                    $('#deleteActivityButton').prop('disabled', false);
+
+                    //Set the global activityID button for deleting or editing
+                    selectedActivityID = data.getValue(selectedItem.row, 5);
+
+                    //Fill the edit activity modal fields
+                    $("#editActivityName").val(data.getValue(selectedItem.row, 0));
+
+                    //Substring the startDate to the required format yyyy-mm-dd
+                    var startDate = data.getValue(selectedItem.row, 1).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 1).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 1).substring(3,5);
+
+                    $("#editStartDate").val(startDate);
+
+                    var dueDate = data.getValue(selectedItem.row, 2).substring(6,10) + "-" +
+                    data.getValue(selectedItem.row, 2).substring(0,2) + "-" + 
+                    data.getValue(selectedItem.row, 2).substring(3,5);
+
+                    $("#editDueDate").val(dueDate);
+                    $("#editWorkload").val(data.getValue(selectedItem.row, 3));
+                    $("#editStresstimate").val(data.getValue(selectedItem.row, 4));
+                }
+            }
+            else
             {
-                var topping = data.getValue(selectedItem.row, 5);
-                var currentSelectedActivityName = data.getValue(selectedItem.row, 0);
-                
-                $('#editActivityButton').prop('disabled', false);
-                $('#deleteActivityButton').prop('disabled', false);
-                
-                window.selectedActivityID = topping;
-                
-                var deleteModalbodyText = '<p><strong>Are you sure you want to delete  ' 
-                        + currentSelectedActivityName + '? </strong></p>'
-                
-                $('#deleteModalBody').html(deleteModalbodyText);
+                $('#editActivityButton').prop('disabled', true);
+                $('#deleteActivityButton').prop('disabled', true);
             }
         }
+        
             
         // chart styles
         var cssClassNames = {
             'headerRow': 'bold-font',
             'tableRow': '',
             'oddTableRow': 'white-background',
-            'selectedTableRow': '',
-            'hoverTableRow': 'purple-select',
+            'selectedTableRow': 'blue-select',
+            'hoverTableRow': 'grey-hover',
             'headerCell': '',
             'tableCell': '',
             'rowNumberCell': '',
@@ -396,7 +427,8 @@ $(document).ready(function ()
         //Add the event handler
         google.visualization.events.addListener(chart, 'select', selectHandler); 
 
-
+        globalChart = chart;
+        globalChartData = data;
         
         // draw the table using the data and options
         chart.draw(view, options);
@@ -631,39 +663,68 @@ $(document).ready(function ()
     });
 </script>
 
+<!--Get all selected activities-->
+<script type="text/javascript" >
+
+    $(document).ready(function () {
+
+        window.getSelectedActivities = function ()
+        {   
+            var chart = globalChart;
+            var data = globalChartData;
+            var selectedActivitiesArray = [];
+            
+            // Get the selected items
+            var selectedItem = chart.getSelection();
+            
+            // loop through each selected it
+            for (var i = 0; i < selectedItem.length; i++) 
+            {
+                var item = selectedItem[i];
+                
+                // Get the activity id of the row
+                var selectedID = data.getValue(item.row, 5);
+
+                // add that id onto the activities array
+                selectedActivitiesArray.push(selectedID);
+            }
+
+            return selectedActivitiesArray;
+        }
+    });
+</script>
+
 <!--Delete Activity Script-->
 <script type="text/javascript" >
 
     $(document).ready(function () {
 
-        window.deleteActivity = function ()
+        window.deleteActivities = function ()
         {   
             // Get the global selectedActivityID 
-            var activityID = window.selectedActivityID;
+            var arrayOfSelectedActivityIDs = getSelectedActivities();
             
-            // Check if activityID is not null or not undefined
-            if ( activityID !== null && typeof activityID !== 'undefined' )
-            {    
-                var activity = {
-                    // set the activityID to the local variable
-                    'activityID': activityID
-                };
+            var activity = {
+                // set the activityID to the local variable
+                'activityIDs': arrayOfSelectedActivityIDs
+            };
 
-                // Specify the token
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }});
+            // Specify the token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }});
 
-                // Ajax call to the Activity Manager Controller to delete the activity from the database
-                $.post('/CD/manageActivity/deleteActivity', activity, function(data)
-                {
-                    // Once we delete the activity, reload the Activity table
-                    loadActivities();
-                });
-            }
+            // Ajax call to the Activity Manager Controller to delete the activity from the database
+            $.post('/CD/manageActivity/deleteActivity', activity, function(data)
+            {
+                // Once we delete the activity, reload the Activity table
+                loadActivities();
+            });     
         }
     });
 </script>
+
+
 
 @endsection

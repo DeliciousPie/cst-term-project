@@ -112,15 +112,41 @@ class ActivityManagerController extends Controller
      */
     public function deleteActivity()
     {
-        // sanitize the activityID we got from the post
-        $activityID = htmlspecialchars($_POST['activityID']);
-        
-        // check if activityID is set and it is numeric
-        if ( isset($activityID) && is_numeric($activityID) )
-        {   
-            // delete the currenlty selected activity from the Activity table 
-            DB::table('Activity')->where('activityID', '=', $activityID)->delete();
+        // get the array of activities
+        $activitiesArray = $_POST['activityIDs'];
+
+        if ( is_array($activitiesArray) )
+        {
+            // loop through each passed in activity
+            foreach($activitiesArray as $activityID)
+            {
+                // sanitize the activityID
+                htmlspecialchars($activityID);
+
+                // check if activityID is set and it is numeric
+                if ( isset($activityID) && is_numeric($activityID) )
+                {   
+                    // delete the activity from the Activity table 
+                    DB::table('Activity')->where('activityID', '=', $activityID)->delete();
+                }
+            }
         }
+        else
+        {
+            $activityID = $activitiesArray;
+                    
+            // sanitize the activityID
+            htmlspecialchars($activityID);
+            
+            // check if activityID is set and it is numeric
+            if ( isset($activityID) && is_numeric($activityID) )
+            {   
+                // delete the activity from the Activity table 
+                DB::table('Activity')->where('activityID', '=', $activityID)->delete();
+            }
+        }
+        
+
     }
 
     /**
