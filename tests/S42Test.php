@@ -17,10 +17,10 @@ class S42Test extends TestCase
     public function testValidEmails()
     {
         //Make an array of valid emails
-        $validEmails = array("example@example.com", "totallyreal123@example.com",
-            "123realemail@example.com", "valid_girl_222@example.com",
-            "phpunitsucks@example.com", "I_have_resorted_to_this@example.com",
-            "aaayyyyyyy_lmao@example.com"
+        $validEmails = array("example@example.com", "totallyreal123@example.ca",
+            "123realemail@example.co.uk", "valid_girl_222@example.sk.ca",
+            "phpunitsucks@example.gov", "I_have_resorted_to_this@example.us",
+            "aaayyyyyyy_lmao@example.jp"
             );
         //Loop through all the emails. filter_var returns the filtered text if
         // it is valid (e.g. a valid email) or false if it fails. As long as
