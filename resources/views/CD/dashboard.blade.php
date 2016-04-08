@@ -159,7 +159,7 @@
                                 <option value="timeEstimated" >Time Estimate</option>
                             </select> 
                             <br />
-                            <button for="customChartForm" type="submit" value="Submit">Submit</button> 
+                            <button id="submitBtn" for="customChartForm" type="submit" value="Submit">Submit</button> 
                     </form> 
 
                 </div>
@@ -172,7 +172,7 @@
 
                 @elseif(isset($bubbleChart))
 
-                @bubblechart('StudentParam', 'timeChart')
+                    @bubblechart('StudentParam', 'timeChart')
 
                 @endif
 
@@ -270,7 +270,7 @@ function determineChartType(chartSelectedValue)
 function loadColumnChartForm()
 {
     hideBubbleChartSelections();
-        $("#classSelectedLabel").show();
+    $("#classSelectedLabel").show();
     $("#classSelected").show();
 }
 

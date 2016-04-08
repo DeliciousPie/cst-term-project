@@ -150,14 +150,6 @@ class BubbleChartQueryController extends CDQueryController {
 
 
 
-        //for each course create one bubble of the average of all students 
-        // the query 
-//        foreach ($courses as $indCourse) {
-        // based on the students and the course get the peramiters for each 
-        // student 
-//            if ($indCourse == key($studentAndCourse)) 
-//            {
-
         foreach ($studentAndCourse as $indCourse => $studentCourse) {
             $totalComparison1 = 0;
             $totalComparison2 = 0;
@@ -215,7 +207,6 @@ class BubbleChartQueryController extends CDQueryController {
         }
         //}
         //}
-
         return $allAverages;
     }
 
