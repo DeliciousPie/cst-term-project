@@ -3,7 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$("#submitBtn").click(function (event)
+{
+    // prevent the page from posting before the loading wheel shows 
+    event.preventDefault();
 
+    $("#studentundo_redo_to").find('optgroup').each(function ()
+    {
+        $(this).find('option').each(function ()
+        {
+            $(this).prop('selected', true);
+        });
+    });
+    $("#customChartForm").submit();
+});
 
 function loadBubbleChartForm()
 {

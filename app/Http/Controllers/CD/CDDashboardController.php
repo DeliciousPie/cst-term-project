@@ -223,6 +223,7 @@ class CDDashboardController extends Controller
                 $this->chart = new ColumnChartController($chartParameters);
                 $result = $this->chart->determineChartToBeMade();
         }
+       
         return $result;
     }
     

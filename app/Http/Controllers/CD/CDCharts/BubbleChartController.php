@@ -56,31 +56,31 @@ class BubbleChartController extends ChartController
         //Bubble radius
         $comparison3 = $this->chartParameters->comparison3;
         
-        //If the classSelected is all classes represented by a numeric or text
-        //value create the default chart.
-        if( $this->chartParameters->classSelected === 1 
-                || $this->chartParameters->classSelected === "1" )
-        {
-            //Here we will determine the queries that will pertain to all 
-            //classes.
-            
-            $dataArray = $this->bubbleChartQueryController->
-                    allCoursesComparison($comparison1, 
-                    $comparison2);
-            
-                        //Generate Strings for dynamic labels
-            $comp1String = $this->createChartTitles($comparison1);
-            
-            $comp2String = $this->createChartTitles($comparison2);
-            
-            $comp3String = $this->createChartTitles($comparison3);
-            //Create a dynamic chart, based off of standard information passed 
-            //from the CDDashboard controller.
-            $chart = $this->createDynamicBubbleChart($dataArray, 
-                    $comp1String, $comp2String);
-        }
-        else
-        {
+//        //If the classSelected is all classes represented by a numeric or text
+//        //value create the default chart.
+//        if( $this->chartParameters->classSelected === 1 
+//                || $this->chartParameters->classSelected === "1" )
+//        {
+//            //Here we will determine the queries that will pertain to all 
+//            //classes.
+//            
+//            $dataArray = $this->bubbleChartQueryController->
+//                    allCoursesComparison($comparison1, 
+//                    $comparison2);
+//            
+//                        //Generate Strings for dynamic labels
+//            $comp1String = $this->createChartTitles($comparison1);
+//            
+//            $comp2String = $this->createChartTitles($comparison2);
+//            
+//            $comp3String = $this->createChartTitles($comparison3);
+//            //Create a dynamic chart, based off of standard information passed 
+//            //from the CDDashboard controller.
+//            $chart = $this->createDynamicBubbleChart($dataArray, 
+//                    $comp1String, $comp2String);
+//        }
+//        else
+//        {
             $comp1String = $this->createChartTitles($comparison1);
             
             $comp2String = $this->createChartTitles($comparison2);
@@ -131,8 +131,8 @@ class BubbleChartController extends ChartController
             $chart = $this->createDynamicBubbleChart($dataArray, 
                     $comp1String, $comp2String, $comp3String);
             
-        }
-
+            
+//        }
         return $chart;
     }
     
