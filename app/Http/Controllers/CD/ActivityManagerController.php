@@ -83,7 +83,7 @@ class ActivityManagerController extends Controller
                                     if (!empty($results))
                                     {
                                         // If everything is valid insert into the database
-                                        $id = DB::table('Activity')->insertGetId(
+                                        $newActivityId = DB::table('Activity')->insertGetId(
                                                 ['activityID' => $activityID,
                                                     'sectionID' => $course,
                                                     'activityType' => $activityName,
@@ -93,9 +93,32 @@ class ActivityManagerController extends Controller
                                                     'stresstimate' => $stresstimate]
                                         );
 
-                                        if ( $id != null )
+                                        if ( $newActivityId != null )
                                         {
-                                            $result = true;
+                                            //Query the database for a list of students that are in the selected section
+                                            $studentsResults = DB::table('StudentSection')
+                                                ->where('sectionID', $course)->get();
+
+                                            //Check if there are any students in the specified section
+                                            if(!empty($studentsResults))
+                                            {
+                                                //Loop through each of the students
+                                                foreach ($studentsResults as $eachStudent) 
+                                                {    
+                                                    //Insert the entry into the StudentActivity table
+                                                    $id = DB::table('StudentActivity')->insertGetId(
+                                                    ['activityID' => $newActivityId,
+                                                        'userID' => $eachStudent->userID,
+                                                        'timeSpent' => 0,
+                                                        'stressLevel' => 0,
+                                                        'comments' => " ",
+                                                        'timeEstimated' => 0,
+                                                        'submitted' => 0
+                                                    ]); 
+                                                }
+
+                                                $result = true;
+                                            }
                                         }
                                     }
                                 }
@@ -110,7 +133,7 @@ class ActivityManagerController extends Controller
                                     if (!empty($results))
                                     {
                                         // If everything is valid insert into the database
-                                        $id = DB::table('Activity')->insertGetId(
+                                        $newActivityId = DB::table('Activity')->insertGetId(
                                                 ['sectionID' => $course,
                                                     'activityType' => $activityName,
                                                     'assignDate' => $startDate,
@@ -119,9 +142,33 @@ class ActivityManagerController extends Controller
                                                     'stresstimate' => $stresstimate]
                                         );
 
-                                        if ( $id != null )
+                                        //Check if the insert into the activity worked or not
+                                        if ( $newActivityId != null )
                                         {
-                                            $result = true;
+                                            //Query the database for a list of students that are in the selected section
+                                            $studentsResults = DB::table('StudentSection')
+                                                ->where('sectionID', $course)->get();
+
+                                            //Check if there are any students in the specified section
+                                            if(!empty($studentsResults))
+                                            {
+                                                //Loop through each of the students
+                                                foreach ($studentsResults as $eachStudent) 
+                                                {    
+                                                    //Insert the entry into the StudentActivity table
+                                                    $id = DB::table('StudentActivity')->insertGetId(
+                                                    ['activityID' => $newActivityId,
+                                                        'userID' => $eachStudent->userID,
+                                                        'timeSpent' => 0,
+                                                        'stressLevel' => 0,
+                                                        'comments' => " ",
+                                                        'timeEstimated' => 0,
+                                                        'submitted' => 0
+                                                    ]); 
+                                                }
+
+                                                $result = true;
+                                            }
                                         }
                                     }
                                 }
