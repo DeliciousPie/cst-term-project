@@ -47,12 +47,14 @@ class StudentInfoController extends Controller
 
         //Check if the student number is set.
             //Validate the user email, checking for . and @ using a php function
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            if(isset($_POST['email']))
             {
-                $_SESSION['isValidEmail'] = false;
-                return view('Student/register');
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+                {
+                    $_SESSION['isValidEmail'] = false;
+                    return view('Student/register');
+                }
             }
-
             //Validates the age being sent from the form.
             if (isset($_POST['age']))
             {

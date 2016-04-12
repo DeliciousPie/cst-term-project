@@ -52,11 +52,15 @@ class ProfInfoController extends Controller
         }
         
             //Validate the user email, checking for . and @ using a php function
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            if(isset($_POST['email']))
             {
-                $_SESSION['isValidEmail'] = false;
-                return view('Prof/register');
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+                {
+                    $_SESSION['isValidEmail'] = false;
+                    return view('Prof/register');
+                 }
             }
+
         //if the passwords do not match
         if (Input::get('password') !== Input::get('confirmPassword'))
         {

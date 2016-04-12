@@ -49,13 +49,15 @@ class CDInfoController extends Controller
         //  Send them to the dashboard
             return redirect('CD/dashboard');
         }
-                
+        if(isset($_POST['email']))
+        {  
             //Validate the user email, checking for . and @ using a php function
             if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
             {
                 $_SESSION['isValidEmail'] = false;
                 return view('CD/register');
             }
+        }
         //if the passwords do not match
         if (Input::get('password') !== Input::get('confirmPassword'))
         {
