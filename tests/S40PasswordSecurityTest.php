@@ -13,6 +13,9 @@ class S40PasswordSecurityTest extends TestCase
      */
     public function testLoginSuccess()
     {
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
+        
         //Log in as a Student
         $this->visit('/login')
             ->type('Stu001', 'userID')
@@ -32,7 +35,7 @@ class S40PasswordSecurityTest extends TestCase
             ->type('54321', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/home');
+            ->seePageIs('http://phpserver/CD/dashboard');
     }
     
     /**
@@ -91,23 +94,23 @@ class S40PasswordSecurityTest extends TestCase
             ->type('12348', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/home')
-            ->see("Welcome");
+            ->seePageIs('http://phpserver/Student/dashboard')
+            ->see("Register");
         
         //Log in as a Professor
         $this->visit('/login')
             ->type('12346', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/home')
-            ->see("Welcome");
+            ->seePageIs('http://phpserver/Prof/dashboard')
+            ->see("Professor Dash Board");
                 
         //Log in as a CD
         $this->visit('/login')
             ->type('12345', 'userID')
             ->type('password', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver/home')
-            ->see("Welcome");
+            ->seePageIs('http://phpserver/CD/register')
+            ->see("CD Dash Board");
     }
 }

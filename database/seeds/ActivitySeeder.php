@@ -11,9 +11,7 @@ class ActivitySeeder extends Seeder
      */
     public function run()
     {
-
-
-        
+       
         DB::table('Course')->insert([
                 
                 'courseID' => 'COMM101',
@@ -120,37 +118,79 @@ class ActivitySeeder extends Seeder
             'stresstimate' => 4,
         ]);
         
+        DB::table('Activity')->insert([
+            'activityID' => 16,
+            'sectionID' => 'COSA110.5',
+            'activityType' => 'Midterm 1',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 3.0,
+            'stresstimate' => 9,
+        ]);
+                
+        DB::table('Activity')->insert([
+            'activityID' => 17,
+            'sectionID' => 'COSA110.5',
+            'activityType' => 'Assignment 2',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 55,
+            'stresstimate' => 6,
+        ]);
+        
         DB::table('ProfessorSection')->insert([
             'sectionID' => 'COSA110.5',
             'userID' => 'Pro002',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);
-        
-        
-        DB::table('Section')->insert([
-    
-        return [ 
-            'activityID' => $faker->activityID = 199000,
-            'sectionID' => $faker->sectionID = 199000,
-            'activityType' => $faker->activityType = 'AssignmentTest',
-            'assignDate' => $faker->assignDate = new DateTime,
-            'dueDate' => $faker->dueDate = new DateTime,
-            'estTime' => $faker->estTime = 2.0,
-        ];
-    
-});
 
+        DB::table('users')->insert([
+            
+            'id' => 200,
+            'name' => "Dallen",
+            'email' => "Dallen@mail.com",
+            'userID' => "696969",
+            'password' => bcrypt(str_random(10)),
+            'confirmed' => true,
+            'remember_token' => str_random(10),
+        ]);
+        
+        DB::table('Course')->insert([
+                
+                'courseID' => 'COMM102',
+                'courseName' => 'Intro to Business',
+                'description' => 'Learn about business',
+            ]);
+        
         DB::table('Section')->insert([
-    
-        return [ 
-            'activityID' => $faker->activityID = 199000,
-            'sectionID' => $faker->sectionID = 199000,
-            'activityType' => $faker->activityType = 'AssignmentTest',
-            'assignDate' => $faker->assignDate = new DateTime,
-            'dueDate' => $faker->dueDate = new DateTime,
-            'estTime' => $faker->estTime = 2.0,
-        ];
+            'sectionID' => 199000,
+            'courseID' => 'COMM102',
+            'date' => new DateTime,
+        ]);
+        
+        DB::table('Activity')->insert([
+            
+            'activityID' => 199000,
+            'sectionID' => 199000,
+            'activityType' => 'AssignmentTest',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 2.0,
+        ]);
+        
+
+        
+        DB::table('StudentActivity')->insert([
+            
+            'userID' => "696969",
+            'activityID' => 199000,
+            'timespent' => 1,
+            'stressLevel' => 2,
+            'comments' => "Test",
+            'timeEstimated' => 3,
+            'submitted' => 1,
+        ]);
 
        
         

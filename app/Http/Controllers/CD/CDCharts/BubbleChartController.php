@@ -155,7 +155,7 @@ class BubbleChartController extends ChartController
      * 
      */
     private function createBubbleChart( $dataTable, $chartID, $chartTitle, 
-             $comp1Parameter, $comp2Parameter, $chartLimit = 0 )
+             $comp1Parameter, $comp2Parameter, $chartLimit = 50 )
     {
         //This is where we create the chart and add the data to it.
         $chart = Lava::BubbleChart($chartID, $dataTable, [

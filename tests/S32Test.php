@@ -42,7 +42,15 @@ class S32Test extends TestCase {
         $Student = Role::find(3);
         
         //Log in as user
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'id' => 200000,
+            'name' => "Dallen",
+            'email' => "Dallen@mail.com",
+            'userID' => "696969",
+            'password' => bcrypt(str_random(10)),
+            'confirmed' => true,
+            'remember_token' => str_random(10),
+        ]);;
 
         //Attach the role to the fake student.
         $user->attachRole($Student);
@@ -68,7 +76,15 @@ class S32Test extends TestCase {
         $Student = Role::find(3);
         
         //Log in as user
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'id' => 200000,
+            'name' => "Dallen",
+            'email' => "Dallen@mail.com",
+            'userID' => "696969",
+            'password' => bcrypt(str_random(10)),
+            'confirmed' => true,
+            'remember_token' => str_random(10),
+        ]);
 
         $user->attachRole($Student);
         
@@ -83,7 +99,15 @@ class S32Test extends TestCase {
             $studentActivity->delete();
         }
         
-      $studentActivity = factory(StudentActivity::class)->create();
+        $studentActivity = factory(StudentActivity::class)->create([
+                        'userID' => "696969",
+            'activityID' => 199000,
+            'timespent' => 1,
+            'stressLevel' => 2,
+            'comments' => "Test",
+            'timeEstimated' => 3,
+            'submitted' => 1,
+        ]);
         
         //Should see the student activity page with all of the 
         //activity forms

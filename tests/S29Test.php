@@ -70,16 +70,48 @@ class S29Test extends TestCase
         $Student = Role::find(3);
         
         //Log in as user
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'id' => 200000,
+            'name' => "Dallen",
+            'email' => "Dallen@mail.com",
+            'userID' => "696969",
+            'password' => bcrypt(str_random(10)),
+            'confirmed' => true,
+            'remember_token' => str_random(10),
+        ]);
         
         //Attach the student role to the user.
         $user->attachRole($Student);
         
         //Create the needed fake data.
-        $course = factory(Course::class)->create();
-        $section = factory(Section::class)->create();
-        $activity = factory(Activity::class)->create();
-        $studentActivity = factory(StudentActivity::class)->create();
+        $course = factory(Course::class)->create([
+                'courseID' => 'COMM102',
+                'courseName' => 'Intro to Business',
+                'description' => 'Learn about business',
+        ]);
+        $section = factory(Section::class)->create([
+                        'sectionID' => 199000,
+            'courseID' => 'COMM102',
+            'date' => new DateTime,
+        ]);
+        $activity = factory(Activity::class)->create([
+                        'activityID' => 199000,
+            'sectionID' => 199000,
+            'activityType' => 'AssignmentTest',
+            'assignDate' => new DateTime,
+            'dueDate' => new DateTime,
+            'estTime' => 2.0,
+        ]);
+        
+        $studentActivity = factory(StudentActivity::class)->create([
+                        'userID' => "696969",
+            'activityID' => 199000,
+            'timespent' => 1,
+            'stressLevel' => 2,
+            'comments' => "Test",
+            'timeEstimated' => 3,
+            'submitted' => 1,
+        ]);
         
         //Look on the page too see if we can find the fake student activity.
         $this->actingAs($user)
