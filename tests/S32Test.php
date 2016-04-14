@@ -13,7 +13,11 @@ use App\StudentActivity;
 
 class S32Test extends TestCase {
 
-  
+    public function resetDB()
+    {          
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
+    }
     
     /**
      * Purpose: Will test the page to confirm that the user can see the sutdent

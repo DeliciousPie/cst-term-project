@@ -16,61 +16,65 @@ class S07Test extends TestCase
     const comm101Stress = 6;
     const comm101Actual = 13;
     const comm101Estimated = 10.5;
-//    /**
-//     * Purpose: This will test to see if we can view the chart in the CD 
-//     * dashboard controller. This is for the default chart.
-//     * 
-//     * @author Justin Lutzko
-//     * 
-//     * @date Feb 21 2016
-//     * 
-//     */
-//    public function testViewColumnChart()
-//    {
-//        
-//        $this->baseUrl = 'http://phpserver/CD';
-//         //Find user with id 200000
-//        $user = User::find(200000);
-//        
-//        //If the user exists, delete it
-//        if( $user != null )
-//        {
-//           $user->delete(); 
-//        }
-//        
-//        //Get student roles from db
-//        $CD = Role::find(1);
-//        $user = factory(User::class)->create();
-//
-//        
-//        //Attach the student role to the user.
-//        $user->attachRole($CD);
-//        
-//        //Look on the page too see if we can find the fake student activity.
-//        $this->actingAs($user)
-//             ->withSession(['foo' => 'bar'])
-//             ->visit('/dashboard')
-//             ->see('Welcome Dallen!')
-//             ->see('Average Student Time Estimated Vs Time Actual For All '
-//                     . 'Courses')
-//             ->see('Time Estimated vs Time Actual')
-//             ->see('Select Chart')
-//             ->see('Select Class')
-//             ->see('Select Parameter')
-//             ->see('Submit')
-//             ->see(self::timeEstimatedData)
-//             ->see(self::timeActualData)
-//             //this should not be on the page
-//             ->dontSee('Awesome')      
-//             ->select("5", 'chartSelected')
-//             ->select("COMM101", 'classSelected')
-//             ->select("stressLevel", 'comparison1')
-//             ->select("timeSpent", 'comparison2')
-//             ->press('Submit')
-//             ->seePageIs('/dashboard');
-//
-//        
-//    }
+    
+    
+    
+    /**
+     * Purpose: This will test to see if we can view the chart in the CD 
+     * dashboard controller. This is for the default chart.
+     * 
+     * @author Justin Lutzko
+     * 
+     * @date Feb 21 2016
+     * 
+     */
+    public function testViewColumnChart()
+    {
+        
+        $this->baseUrl = 'http://phpserver/CD';
+         //Find user with id 200000
+        $user = User::find(200000);
+        
+        //If the user exists, delete it
+        if( $user != null )
+        {
+           $user->delete(); 
+        }
+        
+        //Get student roles from db
+        $CD = Role::find(1);
+               //Log in as user
+        $user = factory(User::class)->create([
+            'id' => 200000,
+            'name' => "Dallen",
+            'email' => "Dallen@mail.com",
+            'userID' => "696969",
+            'password' => bcrypt(str_random(10)),
+            'confirmed' => true,
+            'remember_token' => str_random(10),
+        ]);;
+
+        
+        //Attach the student role to the user.
+        $user->attachRole($CD);
+        
+        //Look on the page too see if we can find the fake student activity.
+        $this->actingAs($user)
+             ->withSession(['foo' => 'bar'])
+             ->visit('/dashboard')
+             ->see('Welcome Dallen!')
+             ->see('Average Student Time Estimated Vs Time Actual For All '
+                     . 'Courses')
+             ->see('Time Estimated vs Time Actual')
+             ->see('Submit')
+             ->see(self::timeEstimatedData)
+             ->see(self::timeActualData)
+             //this should not be on the page
+             ->dontSee('Awesome')      
+             ->seePageIs('/dashboard');
+
+        
+    }
     
     /**
      * Purpose: This will test the queries if all courses are submitted.
