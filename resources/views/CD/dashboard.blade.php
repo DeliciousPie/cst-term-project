@@ -168,7 +168,7 @@
 
                 @if( isset($columnChart) ) 
 
-                @columnchart('StudentParam', 'timeChart')
+                    @columnchart('StudentParam', 'timeChart')
 
                 @elseif(isset($bubbleChart))
 

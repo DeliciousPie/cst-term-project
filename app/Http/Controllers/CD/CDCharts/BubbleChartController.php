@@ -20,16 +20,15 @@ use App\Http\Controllers\CD\ChartController;
  * @date March 9, 2016
  * 
  */
-class BubbleChartController extends ChartController
-{
+class BubbleChartController extends ChartController {
+
     private $bubbleChartQueryController;
-    
-    public function __construct($chartParameters)
-    {
+
+    public function __construct($chartParameters) {
         parent::__construct($chartParameters);
         $this->bubbleChartQueryController = new BubbleChartQueryController();
     }
-    
+
     /**
      * Purpose: This is called from the CDDashboard controller and is used to 
      * determine the type of bubble chart to be created. This
@@ -43,11 +42,10 @@ class BubbleChartController extends ChartController
      * 
      * @date March 10, 2016
      */
-    public function determineChartToBeMade()
-    {
-        
+    public function determineChartToBeMade() {
+
         $chart = null;
-        
+
         //Get the comparisons passed in from the chart form on the db controller
         //x-axis
         $comparison1 = $this->chartParameters->comparison1;
@@ -55,87 +53,49 @@ class BubbleChartController extends ChartController
         $comparison2 = $this->chartParameters->comparison2;
         //Bubble radius
         $comparison3 = $this->chartParameters->comparison3;
-        
-//        //If the classSelected is all classes represented by a numeric or text
-//        //value create the default chart.
-//        if( $this->chartParameters->classSelected === 1 
-//                || $this->chartParameters->classSelected === "1" )
-//        {
-//            //Here we will determine the queries that will pertain to all 
-//            //classes.
-//            
-//            $dataArray = $this->bubbleChartQueryController->
-//                    allCoursesComparison($comparison1, 
-//                    $comparison2);
-//            
-//                        //Generate Strings for dynamic labels
-//            $comp1String = $this->createChartTitles($comparison1);
-//            
-//            $comp2String = $this->createChartTitles($comparison2);
-//            
-//            $comp3String = $this->createChartTitles($comparison3);
-//            //Create a dynamic chart, based off of standard information passed 
-//            //from the CDDashboard controller.
-//            $chart = $this->createDynamicBubbleChart($dataArray, 
-//                    $comp1String, $comp2String);
-//        }
-//        else
-//        {
-            $comp1String = $this->createChartTitles($comparison1);
-            
-            $comp2String = $this->createChartTitles($comparison2);
-            
-            $comp3String = $this->createChartTitles($comparison3);
-            
-            $courseList = $this->chartParameters->courseList;
-            
-            $studentList = $this->chartParameters->studentList;
-           
-            $studentAndCourse = array();
-            
-            //Loop through the student list that was passed in from the
-            // CDDashbaord request object. AKA in chart parameters
-            for( $i = 0; $i < count($studentList); $i++ )
-            {
-                //split the value in the student list to an array.
-                //The firstvalue in the array is the course code and it is 
-                //a string. The second value is teh student id and it is a 
-                //string.
-               $studentAndCourseTemp = explode(", ", $studentList[$i]);
-               
-               //Create a 2-d array. The key to the second array is the course 
-               //and in the seocnd array there are student id's
-               if( isset($studentAndCourse[$studentAndCourseTemp[0]]))
-               {
-                   //push each value onto array two
-                   array_push($studentAndCourse[$studentAndCourseTemp[0]], 
-                           $studentAndCourseTemp[1]);
-               }
-               else
-               {
-                   //create the second id for the course if it does not exist.
-                    $studentAndCourse[$studentAndCourseTemp[0]] = 
-                       array($studentAndCourseTemp[1]);
-               }
+
+
+        $comp1String = $this->createChartTitles($comparison1);
+
+        $comp2String = $this->createChartTitles($comparison2);
+
+        $comp3String = $this->createChartTitles($comparison3);
+
+        $courseList = $this->chartParameters->courseList;
+
+        $studentList = $this->chartParameters->studentList;
+
+        $studentAndCourse = array();
+
+        //Loop through the student list that was passed in from the
+        // CDDashbaord request object. AKA in chart parameters
+        for ($i = 0; $i < count($studentList); $i++) {
+            //split the value in the student list to an array.
+            //The firstvalue in the array is the course code and it is 
+            //a string. The second value is teh student id and it is a 
+            //string.
+            $studentAndCourseTemp = explode(", ", $studentList[$i]);
+
+            //Create a 2-d array. The key to the second array is the course 
+            //and in the seocnd array there are student id's
+            if (isset($studentAndCourse[$studentAndCourseTemp[0]])) {
+                //push each value onto array two
+                array_push($studentAndCourse[$studentAndCourseTemp[0]], $studentAndCourseTemp[1]);
+            } else {
+                //create the second id for the course if it does not exist.
+                $studentAndCourse[$studentAndCourseTemp[0]] = array($studentAndCourseTemp[1]);
             }
-               
-               
-//            }
-            
-            
-            //Here we perform queries for individual classes selected.
-            $dataArray = $this->bubbleChartQueryController->
-                    findTotalsBasedStudentsInCourse($comparison1, $comparison2,
-                            $comparison3, $courseList, $studentAndCourse);
-           
-            $chart = $this->createDynamicBubbleChart($dataArray, 
-                    $comp1String, $comp2String, $comp3String);
-            
-            
-//        }
+        }
+
+        //Here we perform queries for individual classes selected.
+        $dataArray = $this->bubbleChartQueryController->
+                findTotalsBasedStudentsInCourse($comparison1, $comparison2, $comparison3, $courseList, $studentAndCourse);
+
+        $chart = $this->createDynamicBubbleChart($dataArray, $comp1String, $comp2String, $comp3String);
+
         return $chart;
     }
-    
+
     /**
      * Purpose: This function will create a standardized bubble chart.
      * 

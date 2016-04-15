@@ -95,6 +95,15 @@ class ActivitySeeder extends Seeder
             'timeEstimated' => 14,
         ]);
         
+        DB::table('StudentActivity')->insert([
+            'userID' => 'Stu002',
+            'activityID' => 3,
+            'timeSpent' => 17,
+            'stressLevel' => 1,
+            'comments' => '',
+            'timeEstimated' => 20,
+        ]);
+        
          DB::table('Course')->insert([
                 
                 'courseID' => 'COSA110',

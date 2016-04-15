@@ -23,6 +23,11 @@ class studentSectionSeeder extends Seeder
                 
                 'userID' => '12347',
                 'sectionID' => '3',  
+            ],
+            [
+                
+                'userID' => 'Stu002',
+                'sectionID' => '3',  
             ]
             
             ]); 
