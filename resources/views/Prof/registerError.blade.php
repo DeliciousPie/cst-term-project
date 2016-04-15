@@ -148,7 +148,17 @@
 <?= Former::close() ?>              
                 
                 
-                
+               <?php
+               
+                               // Check if the email is not valid, then display an error
+                if ( isset($_SESSION['isValidEmail']) ) 
+                {
+                    if ( $_SESSION['isValidEmail'] === false)
+                    {
+                        echo '<div class="alert alert-danger">The entered email is invalid.</div>';
+                    }
+                }
+               ?>
                 
                 </div>
             </div>

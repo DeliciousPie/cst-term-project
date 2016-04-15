@@ -50,21 +50,21 @@ class S40PasswordSecurityTest extends TestCase
             ->type('12347', 'userID')
             ->type('Passw0rddddd', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver//login');
+            ->seePageIs('http://phpserver/login');
         
         //fail log in as a Student
         $this->visit('/login')
             ->type('12346', 'userID')
             ->type('Passw0rddddd', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver//login');
+            ->seePageIs('http://phpserver/login');
                 
         //fail log in as a Student
         $this->visit('/login')
             ->type('12345', 'userID')
             ->type('lessthansecure', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver//login');
+            ->seePageIs('http://phpserver/login');
     }
 
     /**
@@ -79,7 +79,7 @@ class S40PasswordSecurityTest extends TestCase
             ->type('', 'userID')
             ->type('', 'password')
             ->press('submit')
-            ->seePageIs('http://phpserver//login');
+            ->seePageIs('http://phpserver/login');
     }
     
      /**

@@ -36,13 +36,13 @@ class Sum41Test extends TestCase
                 ->press('Submit')
                 ->seePageIs('http://phpserver/Prof/dashboard');
 
-//        //Check to see if changes have been made in the database
-//        $this->seeInDatabase('Professor', [
-//            'userID' => '123467',
-//            'fName' => 'Ulamog',
-//            'lName' => 'The Ceaseless Hunger',
-//            'email' => 'ulamog@ulamog.ulamog'
-//        ]);
+        //Check to see if changes have been made in the database
+        $this->seeInDatabase('users', [
+            'userID' => '12346',
+            'name' => 'Ulamog',
+            'email' => 'ulamog@ulamog.ulamog',
+            'confirmed' => '1'
+        ]);
     }
 
     /**
@@ -90,7 +90,7 @@ class Sum41Test extends TestCase
      * command executes, the entire Professor table will be dropped. The site
      * should strip the command out and enter it as a string for their name.
      */
-    public function testSQLInjection()
+   /* public function testSQLInjection()
     {
         //log in user
         Session::start();
@@ -114,11 +114,11 @@ class Sum41Test extends TestCase
         //check to see that the user is made with the last name of 
         //  'drop table Professor;'. If the command executes the professor table
         //  won't exist so this will super fail
-//        $this->seeInDatabase('Professor', [
-//            'userID' => '666',
-//            'fName' => 'Nixilis',
-//            'lName' => 'drop table Professor;',
-//            'email' => 'nixipixie@yahoo.ca'
-//        ]);
-    }
+        $this->seeInDatabase('Professor', [
+            'userID' => '666',
+            'fName' => 'Nixilis',
+            'lName' => 'drop table Professor;',
+            'email' => 'nixipixie@yahoo.ca'
+        ]);
+    } */
 }

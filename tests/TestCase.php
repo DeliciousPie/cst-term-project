@@ -9,7 +9,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://phpserver/';
+    protected $baseUrl = 'http://phpserver';
 
     /**
      * Creates the application.

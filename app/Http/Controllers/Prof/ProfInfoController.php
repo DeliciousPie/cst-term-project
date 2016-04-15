@@ -50,6 +50,16 @@ class ProfInfoController extends Controller
         //  Send them to the dashboard
             return view('Prof/dashboard');
         }
+        
+            //Validate the user email, checking for . and @ using a php function
+            if(isset($_POST['email']))
+            {
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+                {
+                    $_SESSION['isValidEmail'] = false;
+                    return view('Prof/register');
+                 }
+            }
 
         //if the passwords do not match
         if (Input::get('password') !== Input::get('confirmPassword'))

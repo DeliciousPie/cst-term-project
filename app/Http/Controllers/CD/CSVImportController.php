@@ -495,7 +495,7 @@ class CSVImportController extends Controller
                         $generatedPassword = 'password';
 
                         // uses Modles to add new user to DB 
-                        User::create([
+                      User::create([
                             'userID' => $currentStudent['userID'],
                             'name' => $currentStudent['fName'],
                             'password' => bcrypt($generatedPassword),

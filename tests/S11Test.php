@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\CD\CSVImportController;
+use App\User;
 
 class S11Test extends TestCase
 {
@@ -18,7 +19,13 @@ class S11Test extends TestCase
     {
         Artisan::call('migrate:refresh');
         Artisan::call('db:seed');
-
+        
+        $user = User::find(200000);
+        
+        if( $user != null )
+        {
+            $user->delete();
+        }
         // runs first example for adding to a clean database 
         $this->TestThreeNewStudents();
         // runs for a database that has duplicate entries of what is 
@@ -115,6 +122,7 @@ class S11Test extends TestCase
             $this->seeInDatabase('StudentInCourseSection', ['userID' => 'Stu0' . $i, 'sectionID' => 'CDBM190 sec J03']);
         }
         $this->notSeeInDatabase('StudentInCourseSection', ['userID' => 'Stu081', 'sectionID' => 'CDBM190 sec J03']);
+
     }
 
 }
